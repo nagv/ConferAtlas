@@ -200,3 +200,11 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
     > Make sure not one of existing functionality is missing/broken in the proposal
 
     *Result: Claude asked three questions (deployment: Docker Compose plus local scripts; auth: sign-in stays in the frontend plus an API token; API: one endpoint per page) and the plan was approved. Before changing code, Claude recorded 87 page snapshots from the original app as a parity gate. The app is now two applications: `backend/` (FastAPI: in-memory datasets, one endpoint per page, AI endpoints that return their usage records, and the `X-API-Token` check) and `frontend/` (Streamlit, presentation only, through `frontend/client.py`), with contracts in `shared/`. `core/` is unchanged apart from moving small pure pieces into `shared/`. Added Dockerfiles, `compose.yaml`, `run_local.py`, `start-*.ps1`, per-app `.env.example` files and requirements, and README updates. All existing tests were ported, and new API, client, serialization, shared and architecture tests were added. All 87 page snapshots match the original exactly. Live checks with OpenRouter passed for chat, the sponsor report and feedback analysis. Docker was not installed on this machine, so the Compose build was not run.*
+
+39. > where is the frontend and backend running in local
+
+    *Answer: both run from one terminal via `run_local.py`: the Streamlit frontend at http://localhost:8501 and the FastAPI backend at http://localhost:8000 (API docs at http://localhost:8000/docs). Both were checked and responding.*
+
+40. > push the changes to git
+
+    *Result: committed the prompt-log entries and pushed the `refactor/frontend-backend` branch to GitHub. `main` was not changed.*
