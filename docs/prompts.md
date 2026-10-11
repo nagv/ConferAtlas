@@ -190,3 +190,7 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
 36. > push the updates to git
 
     *Result: nothing was pending; `main` already matched origin/main (the screenshots were pushed with commit f9b6c54). Only this log entry was committed and pushed.*
+
+37. > how about the docs/screenshots/README.md you updated
+
+    *Answer: it was already committed and pushed in f9b6c54 together with the screenshots. GitHub's copy includes the new "Recapturing" section, and there are no local differences.*
