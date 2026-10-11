@@ -17,16 +17,15 @@ from __future__ import annotations
 import random
 import time
 from collections.abc import Callable
-from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
 
 from core.config import Settings, get_settings
+from shared.usage import MAX_STORED_CALLS, CallRecord, UsageRecorder  # noqa: F401
 
 RETRYABLE = {"timeout", "rate_limit", "overloaded", "network"}
 BACKOFF_BASE_S = 1.0
 BACKOFF_CAP_S = 8.0
-MAX_STORED_CALLS = 200
 
 
 class LLMNotConfiguredError(RuntimeError):
@@ -44,51 +43,6 @@ def resolve_settings(settings: Settings | None, injected_model) -> Settings:
 
 
 # --- usage tracking ---------------------------------------------------------------
-
-@dataclass
-class CallRecord:
-    started: datetime
-    purpose: str
-    model: str
-    input_tokens: int | None
-    output_tokens: int | None
-    cost_usd: float | None
-    latency_s: float
-    status: str               # "ok" or "error"
-    error: str = ""
-
-
-@dataclass
-class UsageRecorder:
-    """Every LLM call in one session, plus running totals (kept even when old rows roll off)."""
-
-    calls: list[CallRecord] = field(default_factory=list)
-    total_calls: int = 0
-    total_errors: int = 0
-    total_input_tokens: int = 0
-    total_output_tokens: int = 0
-    total_cost_usd: float = 0.0
-    cost_known: bool = True    # False once any call's cost could not be estimated
-    total_latency_s: float = 0.0
-
-    def add(self, record: CallRecord) -> None:
-        self.calls.append(record)
-        del self.calls[:-MAX_STORED_CALLS]
-        self.total_calls += 1
-        self.total_errors += record.status != "ok"
-        self.total_input_tokens += record.input_tokens or 0
-        self.total_output_tokens += record.output_tokens or 0
-        self.total_latency_s += record.latency_s
-        if record.status == "ok":
-            if record.cost_usd is None:
-                self.cost_known = False
-            else:
-                self.total_cost_usd += record.cost_usd
-
-    @property
-    def avg_latency_s(self) -> float | None:
-        return self.total_latency_s / self.total_calls if self.total_calls else None
-
 
 def estimate_cost(input_tokens: int | None, output_tokens: int | None, settings: Settings) -> float | None:
     """USD from the per-million-token prices in settings; None when prices or counts are unknown."""

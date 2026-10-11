@@ -19,9 +19,9 @@ PAGES = ["overview", "event_drilldown", "sponsor_performance", "sponsor_report",
 SCRIPT = """
 import sys
 sys.path.insert(0, {root!r})
-from app.components.data_source import render_data_source_sidebar
-from app.components.filters import render_filter_sidebar
-from app.views import {page}
+from frontend.components.data_source import render_data_source_sidebar
+from frontend.components.filters import render_filter_sidebar
+from frontend.views import {page}
 render_filter_sidebar()
 render_data_source_sidebar()
 {page}.render()

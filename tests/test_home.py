@@ -6,7 +6,7 @@ from streamlit.testing.v1 import AppTest
 
 def test_welcome_is_the_default_page_with_workflow_links():
     root = Path(__file__).resolve().parent.parent
-    at = AppTest.from_file(str(root / "app" / "main.py"), default_timeout=60).run()
+    at = AppTest.from_file(str(root / "frontend" / "app.py"), default_timeout=60).run()
     assert not at.exception
     text = " ".join(element.value for element in at.get("html"))
     assert "Turn conference data into" in text

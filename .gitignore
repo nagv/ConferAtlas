@@ -9,3 +9,7 @@ __pycache__/
 # Scratch output from test runs
 .pytest-*/
 .pytest-*.txt
+
+# Per-app settings and local Docker overrides
+frontend/.streamlit/secrets.toml
+compose.override.yaml

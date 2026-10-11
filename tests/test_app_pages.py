@@ -8,18 +8,19 @@ from streamlit.testing.v1 import AppTest
 from core.config import DEFAULT_DATA_DIR
 from core.filters import CUSTOM, FilterState
 from core.schema import load_dataset
+from tests.conftest import refresh, seed_upload
 
 ROOT = Path(__file__).resolve().parent.parent
 PAGES = ["overview", "event_drilldown", "sponsor_performance", "sponsor_report", "audience", "feedback",
          "ask", "ai_insights", "about"]
 
-# Same setup as app/main.py, but renders a single page instead of the navigation.
+# Same setup as frontend/app.py, but renders a single page instead of the navigation.
 SCRIPT = """
 import sys
 sys.path.insert(0, {root!r})
-from app.components.data_source import render_data_source_sidebar
-from app.components.filters import render_filter_sidebar
-from app.views import {page}
+from frontend.components.data_source import render_data_source_sidebar
+from frontend.components.filters import render_filter_sidebar
+from frontend.views import {page}
 render_data_source_sidebar()
 render_filter_sidebar()
 {page}.render()
@@ -56,7 +57,7 @@ def test_page_renders_without_errors(page):
 
 
 def test_main_entry_point_runs():
-    at = AppTest.from_file(str(ROOT / "app" / "main.py"), default_timeout=60).run()
+    at = AppTest.from_file(str(ROOT / "frontend" / "app.py"), default_timeout=60).run()
     _ok(at)
 
 
@@ -224,7 +225,7 @@ def _fake_analysis():
 
 
 def test_feedback_analyzer_button_shows_results(monkeypatch):
-    import app.views.feedback as page
+    import backend.services.feedback as page
     monkeypatch.setenv("OPENROUTER_API_KEY", "sk-or-test")
     calls = []
     monkeypatch.setattr(page, "analyze_feedback", lambda fb, settings, **kw: calls.append(len(fb)) or _fake_analysis())
@@ -239,7 +240,7 @@ def test_feedback_analyzer_button_shows_results(monkeypatch):
 
 
 def test_feedback_analyzer_reports_timeouts(monkeypatch):
-    import app.views.feedback as page
+    import backend.services.feedback as page
     from core.ai.feedback import FeedbackAnalysisError
     monkeypatch.setenv("OPENROUTER_API_KEY", "sk-or-test")
 
@@ -271,7 +272,7 @@ def _fake_answer(question, toolkit, history):
 
 
 def test_ask_page_shows_answer_calculations_and_chart(monkeypatch):
-    import app.views.ask as page
+    import backend.services.chat as page
     monkeypatch.setenv("OPENROUTER_API_KEY", "sk-or-test")
     seen = {}
 
@@ -297,7 +298,7 @@ def test_ask_page_shows_answer_calculations_and_chart(monkeypatch):
 
 
 def test_ask_page_reports_agent_errors(monkeypatch):
-    import app.views.ask as page
+    import backend.services.chat as page
     from core.ai.portfolio_agent import AgentError
     monkeypatch.setenv("OPENROUTER_API_KEY", "sk-or-test")
 
@@ -342,7 +343,7 @@ def test_ai_usage_panel_shows_calls_and_totals(monkeypatch):
     monkeypatch.setenv("LLM_INPUT_PRICE_PER_MTOK", "5")
     monkeypatch.setenv("LLM_OUTPUT_PRICE_PER_MTOK", "25")
     script = SCRIPT.format(root=str(ROOT), page="overview") + (
-        "\nfrom app.components.ai_usage import render_ai_usage_panel\n"
+        "\nfrom frontend.components.ai_usage import render_ai_usage_panel\n"
         "import streamlit as st\nrender_ai_usage_panel(st.sidebar.container())\n")
     at = AppTest.from_string(script, default_timeout=60)
     recorder = UsageRecorder()
@@ -402,7 +403,7 @@ def test_about_page_says_the_data_is_synthetic():
 
 
 def test_navigation_is_grouped_and_includes_about():
-    at = AppTest.from_file(str(ROOT / "app" / "main.py"), default_timeout=60).run()
+    at = AppTest.from_file(str(ROOT / "frontend" / "app.py"), default_timeout=60).run()
     _ok(at)
     assert any("What does that mean?" in str(getattr(el, "proto", "")) for el in at.sidebar)
 
@@ -410,15 +411,14 @@ def test_navigation_is_grouped_and_includes_about():
 
 @pytest.mark.parametrize("change", ["tone", "dataset", "model", "source", "filters"])
 def test_ai_insights_hides_draft_after_inputs_change(monkeypatch, tiny_tables, change):
-    import app.views.ai_insights as page
+    import backend.services.insights as page
     from core.analysis import filter_dataset
     monkeypatch.setenv("OPENROUTER_API_KEY", "sk-or-test")
     selected = filter_dataset(tiny_tables)
-    source = ["original-dataset"]
-    monkeypatch.setattr(page, "data_source_key", lambda: source[0])
-    monkeypatch.setattr(page, "get_filtered_data", lambda: selected)
     monkeypatch.setattr(page, "generate_pitch", lambda *args, **kw: "Previous generated draft")
-    at = _page("ai_insights").run()
+    at = _page("ai_insights")
+    stored = seed_upload(at, selected, digest="original-dataset")
+    at.run()
     next(b for b in at.button if b.label == "Generate").click().run()
     assert "Previous generated draft" in _text(at)
     if change == "tone":
@@ -427,27 +427,28 @@ def test_ai_insights_hides_draft_after_inputs_change(monkeypatch, tiny_tables, c
         monkeypatch.setenv("LLM_MODEL", "different-model")
         at.run()
     elif change == "source":
-        source[0] = "replacement-dataset"
+        seed_upload(at, selected, digest="replacement-dataset")
         at.run()
     elif change == "filters":
         at.multiselect(key="f_formats").select("virtual").run()
         at.button(key="apply_filters").click().run()
     else:
         selected["events.csv"].loc[:, "name"] = "Replacement event"
+        refresh(stored)
         at.run()
     assert "Previous generated draft" not in _text(at)
 
 
 
 def test_real_feedback_requires_review_for_current_comments(monkeypatch, tiny_tables):
-    import app.views.feedback as page
     monkeypatch.setenv("OPENROUTER_API_KEY", "sk-or-test")
-    monkeypatch.setattr(page, "using_uploaded_data", lambda: True)
-    monkeypatch.setattr(page, "get_filtered_data", lambda: tiny_tables)
-    at = _page("feedback").run()
+    at = _page("feedback")
+    stored = seed_upload(at, tiny_tables)
+    at.run()
     assert at.button(key="fb_analyse").disabled
     next(c for c in at.checkbox if c.label.startswith("I have reviewed")).check().run()
     assert not at.button(key="fb_analyse").disabled
     tiny_tables["feedback.csv"].loc[0, "rating"] = 1
+    refresh(stored)
     at.run()
     assert at.button(key="fb_analyse").disabled

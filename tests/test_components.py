@@ -1,7 +1,7 @@
-"""Tests for presentation helpers in app/components (formatting and chart data prep)."""
+"""Tests for presentation helpers in frontend/components (formatting and chart data prep)."""
 import pytest
 
-from app.components.kpi_cards import change_delta, delta_color, vs_target
+from frontend.components.kpi_cards import change_delta, delta_color, vs_target
 from core.analysis import MetricChange
 
 
@@ -41,14 +41,14 @@ def test_vs_target():
     (950, "$950"), (0, "$0"), (None, "n/a"), (float("nan"), "n/a"), (125_000_000, "$125.0M"),
 ])
 def test_money_compact(value, expected):
-    from app.components.kpi_cards import money_compact
+    from frontend.components.kpi_cards import money_compact
     assert money_compact(value) == expected
 
 
 def test_country_map_uses_iso_codes_and_reports_unknown_names():
     import pandas as pd
 
-    from app.components.charts import country_map
+    from frontend.components.charts import country_map
     df = pd.DataFrame({"country": ["Canada", "Atlantis", "United States"], "attended": [5, 1, 9],
                        "registrations": [6, 1, 10]})
     fig, unmapped = country_map(df)
@@ -60,14 +60,14 @@ def test_country_map_uses_iso_codes_and_reports_unknown_names():
     (9876, "9,876"), (13361, "13.4K"), (1_250_000, "1.25M"), (0, "0"), (None, "n/a"), (float("nan"), "n/a"),
 ])
 def test_count_formatting(value, expected):
-    from app.components.kpi_cards import count
+    from frontend.components.kpi_cards import count
     assert count(value) == expected
 
 
 def test_short_labels_keep_the_year_and_stay_unique():
     import pandas as pd
 
-    from app.components.charts import short_labels
+    from frontend.components.charts import short_labels
     names = pd.Series(["Chicago DevSecOps Forum 2024", "San Francisco Teaching & Learning Forum 2025",
                        "Toronto Clinical Innovation Congress 2024"])
     assert short_labels(names).tolist() == ["Chicago DevSecOps Forum 2024", "San Francisco Teaching\u2026 2025",
