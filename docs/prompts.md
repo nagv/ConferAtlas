@@ -174,3 +174,7 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
 32. > commit all the changes to git
 
     *Result: there was no git repository, so Claude created one (`main` branch) and made the first commit (78 files) with all the work, including the other session's auth, access and home-page files. Before committing it checked that `.env` (with the real OpenRouter key) and the virtual environment are ignored, that test files hold only dummy keys and `secrets.toml.example` only placeholders, and added the scratch test-run folders (`.pytest-*`) to `.gitignore`. Not pushed: no remote is configured.*
+
+33. > git name to should be Nagaraju Voruganti
+
+    *Result: set `user.name = Nagaraju Voruganti` for this repository (email unchanged) and rewrote the unpushed commits so they show that author. The global git name was left as it was.*
