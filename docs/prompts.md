@@ -182,3 +182,7 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
 34. > done..commit and pus the changes to main
 
     *Result: there was no remote, so Claude asked about visibility; the user chose public. Claude re-scanned the tracked files for secrets (none; `.env` is not tracked), committed this log entry, created the public repository nagv/ConferAtlas with `gh`, and pushed `main`.*
+
+35. > I dont see all screenshots got added. can you add the missing screenshots
+
+    *Result: 7 of the 8 screenshots the README references were missing (only `welcome.jpg` existed). Claude captured overview, event drill-down, sponsor performance, audience, feedback, ask and mobile from the running app with headless Microsoft Edge (already installed, so nothing was downloaded), checked each image, and re-captured three: audience in a taller window so the map shows, ask with more render time so all starter questions appear, and mobile at 480 px because 390 px clipped. Recapture instructions were added to `docs/screenshots/README.md`. Committed and pushed to main.*
