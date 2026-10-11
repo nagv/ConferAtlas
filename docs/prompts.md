@@ -172,3 +172,5 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
     *Result: added a Welcome page as the default entry, explaining the platform, its audience and three main benefits, with links into the existing workflows. Preserved staff access controls. All 19 welcome, page and access checks passed; checked desktop and narrow-screen previews.*
 
 32. > commit all the changes to git
+
+    *Result: there was no git repository, so Claude created one (`main` branch) and made the first commit (78 files) with all the work, including the other session's auth, access and home-page files. Before committing it checked that `.env` (with the real OpenRouter key) and the virtual environment are ignored, that test files hold only dummy keys and `secrets.toml.example` only placeholders, and added the scratch test-run folders (`.pytest-*`) to `.gitignore`. Not pushed: no remote is configured.*
