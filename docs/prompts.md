@@ -249,3 +249,12 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
 50. > [chose: Opt-in public demo (Recommended)]
 
     *Result: added `CONFERATLAS_PUBLIC_DEMO=true`, an explicit opt-in that lets a remote frontend show the built-in synthetic data without sign-in. It is off by default, uploads are hidden, a custom data folder or `CONFERATLAS_REQUIRE_AUTH=true` still require sign-in, and everything else behaves as before. Tests added; all 529 pass. Committed and pushed to main.*
+
+51. > still getting error 
+    > Staff sign-in must be configured before this app can show data. Ask the app administrator to complete the authentication setup in the README.
+
+52. > also one more error 
+    > ImportError: ... File "/mount/src/conferatlas/frontend/components/auth.py", line 9, in <module> from shared.access import access_required, public_demo_enabled, staff_access_allowed
+    > https://conferatlas-ecc23dprhau6bswj5zrbbe.streamlit.app/
+
+    *Result: two causes. (1) Streamlit copies top-level secrets into environment variables only once `st.secrets` is first read, and the access check ran before that, so `CONFERATLAS_PUBLIC_DEMO` was never seen. Frontend settings are now read from `st.secrets` first, then the environment (test added; all 530 pass). (2) The ImportError came from the running Cloud app reloading the changed `frontend/` code while keeping the old `shared/access.py` in memory; a Reboot loads it. Committed and pushed to main.*

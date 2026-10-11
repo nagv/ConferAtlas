@@ -61,6 +61,15 @@ def test_remote_app_needs_sign_in_unless_public_demo(monkeypatch, public_demo, s
     assert any(m.value == "DEMO CONTENT" for m in at.markdown) is shown
 
 
+def test_settings_in_streamlit_secrets_work_without_environment_variables(monkeypatch):
+    """Streamlit Community Cloud puts settings in st.secrets (TOML values may be booleans)."""
+    import frontend.components.auth as auth
+    monkeypatch.setattr(st, "secrets", {"CONFERATLAS_PUBLIC_DEMO": True})
+    monkeypatch.setattr(auth, "_served_remotely", lambda: True)
+    at = AppTest.from_string("from frontend.components.auth import require_staff_access\nimport streamlit as st\nrequire_staff_access()\nst.markdown('DEMO CONTENT')").run()
+    assert not at.exception and any(m.value == "DEMO CONTENT" for m in at.markdown)
+
+
 def test_public_demo_still_blocks_uploads_and_hides_the_uploader(monkeypatch):
     import frontend.components.auth as auth
     monkeypatch.setattr(st, "secrets", {})

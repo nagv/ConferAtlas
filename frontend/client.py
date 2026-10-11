@@ -26,10 +26,24 @@ def load_env() -> None:
     load_dotenv(Path(__file__).with_name(".env"), override=False)
 
 
+def setting(name: str, default: str = "") -> str:
+    """A frontend setting: Streamlit secrets (e.g. Streamlit Community Cloud) first, then the environment.
+
+    Streamlit copies top-level secrets into os.environ only once st.secrets is first read, so they
+    are read here directly rather than relying on that side effect."""
+    try:
+        value = st.secrets.get(name)
+    except Exception:  # no secrets file (local runs, tests)
+        value = None
+    if value is None or isinstance(value, dict):
+        value = os.getenv(name, default)
+    return str(value)
+
+
 def ai_timeout_s() -> float:
     """AI requests can run for minutes (feedback batches, report revisions, agent tool rounds)."""
     try:
-        return float(os.getenv("AI_HTTP_TIMEOUT_S", "600"))
+        return float(setting("AI_HTTP_TIMEOUT_S", "600"))
     except ValueError:
         return 600.0
 
@@ -56,8 +70,8 @@ def error_from(status_code: int, detail) -> ApiError:
 
 
 def api(method: str, path: str, timeout: float = HTTP_TIMEOUT_S, **kwargs):
-    base = os.getenv("BACKEND_URL", "http://127.0.0.1:8000").rstrip("/")
-    token = os.getenv("BACKEND_API_TOKEN")
+    base = setting("BACKEND_URL", "http://127.0.0.1:8000").rstrip("/")
+    token = setting("BACKEND_API_TOKEN")
     headers = {"X-API-Token": token} if token else None
     try:
         response = httpx.request(method, base + path, headers=headers, timeout=timeout, **kwargs)

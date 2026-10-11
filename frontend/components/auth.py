@@ -1,8 +1,6 @@
 """OIDC sign-in and staff allowlist, checked before the app loads any data."""
 from __future__ import annotations
 
-import os
-
 import streamlit as st
 
 from frontend import client
@@ -28,7 +26,7 @@ def _served_remotely() -> bool:
 
 def public_demo_mode() -> bool:
     """CONFERATLAS_PUBLIC_DEMO is on: the built-in demo is shown without sign-in; uploads are not offered."""
-    return public_demo_enabled(os.getenv("CONFERATLAS_PUBLIC_DEMO", ""), os.getenv("CONFERATLAS_REQUIRE_AUTH", ""))
+    return public_demo_enabled(client.setting("CONFERATLAS_PUBLIC_DEMO"), client.setting("CONFERATLAS_REQUIRE_AUTH"))
 
 
 def require_staff_access() -> None:
@@ -36,11 +34,11 @@ def require_staff_access() -> None:
     required = access_required(remote=_served_remotely(),
                                custom_data=("uploaded_dataset" in st.session_state
                                             or bool(st.session_state.get("dataset_upload"))),
-                               flag=os.getenv("CONFERATLAS_REQUIRE_AUTH", ""),
-                               public_demo=os.getenv("CONFERATLAS_PUBLIC_DEMO", "")) or _backend_uses_custom_data()
+                               flag=client.setting("CONFERATLAS_REQUIRE_AUTH"),
+                               public_demo=client.setting("CONFERATLAS_PUBLIC_DEMO")) or _backend_uses_custom_data()
     if not required:
         return
-    allowed = tuple(os.getenv("CONFERATLAS_STAFF_EMAILS", "").split(","))
+    allowed = tuple(client.setting("CONFERATLAS_STAFF_EMAILS").split(","))
     try:
         auth = st.secrets.get("auth", {})
         configured = all(auth.get(k) for k in
