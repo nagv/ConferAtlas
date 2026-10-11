@@ -194,3 +194,9 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
 37. > how about the docs/screenshots/README.md you updated
 
     *Answer: it was already committed and pushed in f9b6c54 together with the screenshots. GitHub's copy includes the new "Recapturing" section, and there are no local differences.*
+
+38. > Create a plan to refactor the code to have front end and backend logic similar to C:\Users\rajvo\Gen Academy\community-health-pulse
+    > Dont change any functionality. Have this deployed as 2 applications (Front end is Streamlet and backend is Fast API).
+    > Make sure not one of existing functionality is missing/broken in the proposal
+
+    *Result: in progress. The plan was approved: a FastAPI backend (data, analysis, LLM), a Streamlit frontend (presentation only), and shared contracts, deployed with Docker Compose and local scripts. The staff sign-in stays in the frontend and the backend is protected by an API token.*
