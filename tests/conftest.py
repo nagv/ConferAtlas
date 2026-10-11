@@ -9,7 +9,7 @@ def _isolate_from_dotenv(monkeypatch):
     for var in ("OPENROUTER_BASE_URL", "OPENROUTER_API_KEY", "ANTHROPIC_API_KEY", "OPENAI_API_KEY", "LLM_PROVIDER", "LLM_MODEL",
                 "LLM_MAX_OUTPUT_TOKENS", "LLM_TEMPERATURE", "LLM_MAX_RETRIES", "LLM_TIMEOUT_SECONDS",
                 "LLM_INPUT_PRICE_PER_MTOK", "LLM_OUTPUT_PRICE_PER_MTOK", "CONFERATLAS_REQUIRE_AUTH",
-                "CONFERATLAS_STAFF_EMAILS", "CONFERATLAS_DATA_DIR", "BACKEND_API_TOKEN", "BACKEND_URL",
+                "CONFERATLAS_STAFF_EMAILS", "CONFERATLAS_DATA_DIR", "CONFERATLAS_PUBLIC_DEMO", "BACKEND_API_TOKEN", "BACKEND_URL",
                 "MAX_UPLOAD_MB", "AI_HTTP_TIMEOUT_S"):
         monkeypatch.delenv(var, raising=False)
     monkeypatch.setattr("frontend.client.load_dotenv", lambda *a, **k: None)

@@ -54,7 +54,13 @@ def _use_built_in_data() -> None:
 
 def render_data_source_sidebar() -> None:
     """Upload controls, tucked into a collapsed section: most viewers never need them."""
+    from frontend.components.auth import public_demo_mode  # local import: auth uses the client too
+
     with st.sidebar.expander("Data source", icon=":material/database:", expanded=using_uploaded_data()):
+        if public_demo_mode() and not using_uploaded_data():
+            st.caption("This public demo shows the built-in synthetic data only. Uploading your own data "
+                       "needs staff sign-in (see the README).")
+            return
         st.file_uploader("Upload your dataset (all 8 CSVs)", type="csv", accept_multiple_files=True,
                          key=_UPLOADER_WIDGET, help="Expected files: " + ", ".join(DATASET_FILES))
         if unknown := st.session_state.get("uploaded_unknown_files"):

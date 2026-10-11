@@ -6,7 +6,7 @@ import os
 import streamlit as st
 
 from frontend import client
-from shared.access import access_required, staff_access_allowed
+from shared.access import access_required, public_demo_enabled, staff_access_allowed
 
 
 def _logout() -> None:
@@ -22,13 +22,22 @@ def _backend_uses_custom_data() -> bool:
         return False  # no backend means no data to show; the app reports that it cannot reach it
 
 
+def _served_remotely() -> bool:
+    return st.get_option("server.address") not in ("127.0.0.1", "localhost", "::1")
+
+
+def public_demo_mode() -> bool:
+    """CONFERATLAS_PUBLIC_DEMO is on: the built-in demo is shown without sign-in; uploads are not offered."""
+    return public_demo_enabled(os.getenv("CONFERATLAS_PUBLIC_DEMO", ""), os.getenv("CONFERATLAS_REQUIRE_AUTH", ""))
+
+
 def require_staff_access() -> None:
     client.load_env()
-    remote = st.get_option("server.address") not in ("127.0.0.1", "localhost", "::1")
-    required = access_required(remote=remote,
+    required = access_required(remote=_served_remotely(),
                                custom_data=("uploaded_dataset" in st.session_state
                                             or bool(st.session_state.get("dataset_upload"))),
-                               flag=os.getenv("CONFERATLAS_REQUIRE_AUTH", "")) or _backend_uses_custom_data()
+                               flag=os.getenv("CONFERATLAS_REQUIRE_AUTH", ""),
+                               public_demo=os.getenv("CONFERATLAS_PUBLIC_DEMO", "")) or _backend_uses_custom_data()
     if not required:
         return
     allowed = tuple(os.getenv("CONFERATLAS_STAFF_EMAILS", "").split(","))

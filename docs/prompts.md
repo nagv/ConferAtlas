@@ -212,3 +212,40 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
 41. > go ahead and merge
 
     *Result: merged `refactor/frontend-backend` into `main` (merge commit, no conflicts; `main` had no other changes) and pushed `main` to GitHub.*
+
+42. > i am creating app in Streamlet cloud. whats main file path
+
+    *Answer: `frontend/app.py`. Streamlit Community Cloud runs only the frontend, so the FastAPI backend must be hosted somewhere else, and `BACKEND_URL`, `BACKEND_API_TOKEN` and `CONFERATLAS_REQUIRE_AUTH=true` go in the app's Secrets.*
+
+43. > lets first deploy backend to Render first. give me instructions
+
+    *Answer: step-by-step Render setup: a Docker web service built from `backend/Dockerfile` with the repository root as the build context, `PORT=8000`, `/health` as the health check, the API token and LLM settings as environment variables, then checks with `/health`, `/docs` and a token-protected `/status` call.*
+
+44. > [screenshot of https://conferatlas.onrender.com showing {"detail": "Not Found"}] backend deploy succeed. but giving error
+
+    *Answer: the 404 is expected, because the API has no page at `/`; `/health` and `/docs` both responded. The check did find two missing Render environment variables: `/status` answered without a token (so `BACKEND_API_TOKEN` is not set) and `llm_configured` was false (so `OPENROUTER_API_KEY` is not set).*
+
+45. > i added few as secrets.. does this pose any issues
+
+    *Answer: yes. Render Secret Files are written to `/etc/secrets/<name>`, not set as environment variables, and the backend only reads environment variables (plus `.env` in the project folder). The live check still showed no API key and no token check. The fix is to add them as Environment Variables, which Render already stores encrypted and hides in the dashboard.*
+
+46. > backend got deployed at https://conferatlas.onrender.com/. Give me environment variables required for front end
+
+    *Answer: checked the backend first (key configured, requests without the token refused with 401). Gave the Streamlit Cloud Secrets: `BACKEND_URL` and `BACKEND_API_TOKEN` (required), `AI_HTTP_TIMEOUT_S` (optional), and the staff sign-in settings (`CONFERATLAS_REQUIRE_AUTH`, `CONFERATLAS_STAFF_EMAILS`, `[auth]`) for a private app, plus what a public demo without sign-in would mean.*
+
+47. > is environment values in auth are required? if yes, give me exact values
+
+    *Answer: only needed for a staff-only app; a public synthetic demo can leave `[auth]` out. Claude cannot know the exact client ID and secret, which come from the identity provider. It gave the fixed values (Google metadata URL, redirect URI pattern), how to generate the cookie secret, and the Google Cloud steps to create the client.*
+
+48. > i would like defer google authentication for later..
+
+    *Answer: deploy without sign-in, with only `BACKEND_URL` and `BACKEND_API_TOKEN` in the Streamlit Cloud Secrets. The synthetic demo and AI features are then public; uploads stay blocked until sign-in is configured. Sign-in can be added later by adding the secrets and rebooting, with no code change.*
+
+49. > i  am getting this error part of deploy 
+    > Staff sign-in must be configured before this app can show data. Ask the app administrator to complete the authentication setup in the README.
+
+    *Answer: the access rule requires sign-in whenever the app is not served from the local machine (Streamlit Cloud is remote), so running there without sign-in is blocked by design, as it was before the split. The earlier advice that a public demo could skip sign-in was wrong. Claude offered an explicit opt-in public demo setting (built-in synthetic data only) or setting up Google sign-in now, and asked which the user wants.*
+
+50. > [chose: Opt-in public demo (Recommended)]
+
+    *Result: added `CONFERATLAS_PUBLIC_DEMO=true`, an explicit opt-in that lets a remote frontend show the built-in synthetic data without sign-in. It is off by default, uploads are hidden, a custom data folder or `CONFERATLAS_REQUIRE_AUTH=true` still require sign-in, and everything else behaves as before. Tests added; all 529 pass. Committed and pushed to main.*

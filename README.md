@@ -145,7 +145,7 @@ python scripts/generate_data.py --validate path/to/folder  # check your own CSVs
 
 ## Staff sign-in and real-data use
 
-Sign-in happens in the frontend; the backend API is protected separately by `BACKEND_API_TOKEN` (see [Configuration](#configuration)). The default frontend binds to `127.0.0.1` for the local synthetic demo. A non-loopback frontend binding (including Docker), a custom `CONFERATLAS_DATA_DIR` on the backend, or an uploaded dataset requires staff sign-in. When using a reverse proxy, explicitly set `CONFERATLAS_REQUIRE_AUTH=true` even if Streamlit binds to loopback. Setting `CONFERATLAS_REQUIRE_AUTH=false` cannot bypass these checks. Sponsors receive exported reports and are not app users.
+Sign-in happens in the frontend; the backend API is protected separately by `BACKEND_API_TOKEN` (see [Configuration](#configuration)). The default frontend binds to `127.0.0.1` for the local synthetic demo. A non-loopback frontend binding (including Docker), a custom `CONFERATLAS_DATA_DIR` on the backend, or an uploaded dataset requires staff sign-in. When using a reverse proxy, explicitly set `CONFERATLAS_REQUIRE_AUTH=true` even if Streamlit binds to loopback. Setting `CONFERATLAS_REQUIRE_AUTH=false` cannot bypass these checks. The one exception is an explicit public demo: `CONFERATLAS_PUBLIC_DEMO=true` (for example on Streamlit Community Cloud before sign-in is set up) lets a remote frontend show the **built-in synthetic data** without sign-in. Uploads are hidden, a custom backend data folder still requires sign-in, and `CONFERATLAS_REQUIRE_AUTH=true` switches the demo mode off. Anyone with the link can then use the AI features, which spend your provider credit. Sponsors receive exported reports and are not app users.
 
 To configure staff access:
 
@@ -170,6 +170,7 @@ Each app has its own settings file: `backend/.env` (see `backend/.env.example`) 
 | `BACKEND_API_TOKEN` | none | Sent as `X-API-Token`; must match the backend's value |
 | `AI_HTTP_TIMEOUT_S` | `600` | How long to wait for an AI request (data requests wait 65 s) |
 | `CONFERATLAS_REQUIRE_AUTH` / `CONFERATLAS_STAFF_EMAILS` | none | Staff sign-in (see above) |
+| `CONFERATLAS_PUBLIC_DEMO` | off | `true` shows the built-in synthetic demo remotely without sign-in (uploads hidden) |
 
 **Backend (`backend/.env`)**
 

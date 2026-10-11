@@ -20,3 +20,16 @@ def test_access_requires_verified_allowlisted_unexpired_identity():
 def test_access_required_for_remote_or_custom_data(remote, custom, flag, expected):
     from core.access import access_required
     assert access_required(remote=remote, custom_data=custom, flag=flag) is expected
+
+
+@pytest.mark.parametrize("remote, custom, flag, public_demo, expected", [
+    (True, False, "", "true", False),    # opt-in: the remote synthetic demo is open
+    (True, False, "", "", True),         # off by default
+    (True, False, "", "maybe", True),    # anything but an explicit yes keeps it closed
+    (True, True, "", "true", True),      # uploads and custom data folders still need sign-in
+    (True, False, "true", "true", True),  # REQUIRE_AUTH always wins
+    (False, False, "", "true", False),
+])
+def test_public_demo_only_lifts_the_remote_rule(remote, custom, flag, public_demo, expected):
+    from shared.access import access_required
+    assert access_required(remote=remote, custom_data=custom, flag=flag, public_demo=public_demo) is expected

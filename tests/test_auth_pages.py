@@ -47,3 +47,28 @@ def test_local_upload_requires_staff_before_data_is_shown(monkeypatch, source):
     assert not at.exception
     assert at.error and "Staff sign-in" in at.error[0].value
     assert not any(m.value == "PRIVATE UPLOAD" for m in at.markdown)
+
+
+@pytest.mark.parametrize("public_demo, shown", [("true", True), ("", False)])
+def test_remote_app_needs_sign_in_unless_public_demo(monkeypatch, public_demo, shown):
+    """Streamlit Cloud serves the app remotely: blocked by default, open only with the explicit opt-in."""
+    import frontend.components.auth as auth
+    monkeypatch.setattr(st, "secrets", {})
+    monkeypatch.setattr(auth, "_served_remotely", lambda: True)
+    monkeypatch.setenv("CONFERATLAS_PUBLIC_DEMO", public_demo)
+    at = AppTest.from_string("from frontend.components.auth import require_staff_access\nimport streamlit as st\nrequire_staff_access()\nst.markdown('DEMO CONTENT')").run()
+    assert not at.exception
+    assert any(m.value == "DEMO CONTENT" for m in at.markdown) is shown
+
+
+def test_public_demo_still_blocks_uploads_and_hides_the_uploader(monkeypatch):
+    import frontend.components.auth as auth
+    monkeypatch.setattr(st, "secrets", {})
+    monkeypatch.setattr(auth, "_served_remotely", lambda: True)
+    monkeypatch.setenv("CONFERATLAS_PUBLIC_DEMO", "true")
+    at = AppTest.from_string("from frontend.components.auth import require_staff_access\nimport streamlit as st\nrequire_staff_access()\nst.markdown('PRIVATE UPLOAD')")
+    at.session_state["uploaded_dataset"] = {"events.csv": b"private"}
+    at.run()
+    assert at.error and not any(m.value == "PRIVATE UPLOAD" for m in at.markdown)
+    sidebar = AppTest.from_string("from frontend.components.data_source import render_data_source_sidebar\nrender_data_source_sidebar()").run()
+    assert not sidebar.get("file_uploader") and "public demo" in sidebar.sidebar.caption[0].value
