@@ -1,0 +1,9 @@
+# --- UI ---
+streamlit[auth]>=1.50,<2.0
+plotly>=5.24,<7.0
+pandas>=2.2,<3.0                # display only: tables, charts and CSV downloads
+
+# --- Backend calls and shared contracts ---
+httpx>=0.28,<1
+pydantic>=2.10,<3
+python-dotenv>=1.0

@@ -1,0 +1,26 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file:
+      - path: backend/.env
+        required: false
+    environment:
+      BACKEND_API_TOKEN: ${BACKEND_API_TOKEN:?Set BACKEND_API_TOKEN in the root .env}
+    ports:
+      - "127.0.0.1:8000:8000"
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    env_file:
+      - path: frontend/.env
+        required: false
+    environment:
+      BACKEND_URL: http://backend:8000
+      BACKEND_API_TOKEN: ${BACKEND_API_TOKEN:?Set BACKEND_API_TOKEN in the root .env}
+    ports:
+      - "127.0.0.1:8501:8501"
+    depends_on:
+      - backend

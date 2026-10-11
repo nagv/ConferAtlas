@@ -1,0 +1,13 @@
+.git
+.venv
+venv
+**/.env
+**/.env.*
+!**/.env.example
+**/secrets.toml
+**/__pycache__
+.pytest_cache
+.pytest-*
+tests
+docs
+*.log

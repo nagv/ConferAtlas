@@ -9,8 +9,61 @@ def _isolate_from_dotenv(monkeypatch):
     for var in ("OPENROUTER_BASE_URL", "OPENROUTER_API_KEY", "ANTHROPIC_API_KEY", "OPENAI_API_KEY", "LLM_PROVIDER", "LLM_MODEL",
                 "LLM_MAX_OUTPUT_TOKENS", "LLM_TEMPERATURE", "LLM_MAX_RETRIES", "LLM_TIMEOUT_SECONDS",
                 "LLM_INPUT_PRICE_PER_MTOK", "LLM_OUTPUT_PRICE_PER_MTOK", "CONFERATLAS_REQUIRE_AUTH",
-                "CONFERATLAS_STAFF_EMAILS", "CONFERATLAS_DATA_DIR"):
+                "CONFERATLAS_STAFF_EMAILS", "CONFERATLAS_DATA_DIR", "BACKEND_API_TOKEN", "BACKEND_URL",
+                "MAX_UPLOAD_MB", "AI_HTTP_TIMEOUT_S"):
         monkeypatch.delenv(var, raising=False)
+    monkeypatch.setattr("frontend.client.load_dotenv", lambda *a, **k: None)
+
+
+@pytest.fixture(autouse=True)
+def install_api(monkeypatch):
+    """Route the frontend's HTTP calls to the FastAPI app in this process (a full contract test).
+
+    Each test starts with empty frontend caches and no uploaded datasets on the backend."""
+    import streamlit as st
+    from fastapi.testclient import TestClient
+
+    import frontend.client as api_client
+    from backend.main import app, store
+
+    test_client = TestClient(app)
+
+    def local_api(method, path, timeout=None, **kwargs):
+        response = test_client.request(method, path, **kwargs)
+        if response.is_error:
+            try:
+                detail = response.json().get("detail", "The request could not be completed.")
+            except ValueError:
+                detail = "The request could not be completed."
+            raise api_client.error_from(response.status_code, detail)
+        return response.json() if response.content else None
+
+    monkeypatch.setattr(api_client, "api", local_api)
+    st.cache_data.clear()
+    for dataset_id in list(store._uploads):
+        store.delete(dataset_id)
+    yield test_client
+
+
+def seed_upload(at, tables, digest: str = "seed") -> object:
+    """Make ``tables`` the AppTest session's uploaded dataset (already validated, held by the backend)."""
+    from backend.main import info, store
+
+    stored = store.put_tables(tables, source=f"upload:{digest}")
+    at.session_state["uploaded_dataset"] = {name: b"" for name in tables}
+    at.session_state["uploaded_dataset_digest"] = digest
+    at.session_state["uploaded_dataset_ref"] = {"digest": digest, "info": info(stored).model_dump(mode="json"),
+                                                "error": None}
+    return stored
+
+
+def refresh(stored) -> None:
+    """After editing a seeded dataset's tables in place, drop every cached result built from them."""
+    import streamlit as st
+
+    stored._filtered.clear()
+    stored._comparisons.clear()
+    st.cache_data.clear()
 
 from core.generator import generate_dataset, write_dataset
 from core.schema import load_dataset, validate_dataset

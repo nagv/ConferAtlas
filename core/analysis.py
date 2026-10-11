@@ -28,6 +28,7 @@ import numpy as np
 import pandas as pd
 
 from core.schema import LEAD_SOURCES, TIERS
+from shared.kpis import MetricChange
 
 Tables = dict[str, pd.DataFrame]
 
@@ -459,20 +460,6 @@ def portfolio_kpis(t: Tables) -> PortfolioKPIs:
 
 
 # --- period over period ------------------------------------------------------
-
-@dataclass(frozen=True)
-class MetricChange:
-    metric: str
-    label: str
-    current: float | None
-    previous: float | None
-    change: float | None       # current - previous (in points for rates and scores)
-    pct_change: float | None   # relative change; None for a zero/missing baseline and for rates/scores
-    improved: bool | None      # None when unchanged or not comparable
-
-    def to_dict(self) -> dict:
-        return asdict(self)
-
 
 # metric -> (label, higher is better, report a % change). Rates and scores get
 # no % change: going from an NPS of -0.4 to -7.6 is not a meaningful "-1,900%".

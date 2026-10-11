@@ -1,0 +1,17 @@
+# --- API ---
+fastapi>=0.115,<1
+uvicorn[standard]>=0.34,<1
+python-multipart>=0.0.20
+pydantic>=2.10,<3
+
+# --- Data / analysis ---
+pandas>=2.2,<3.0
+
+# --- AI (LangChain) ---
+langchain>=0.3,<2.0
+langchain-core>=0.3,<2.0
+langchain-anthropic>=0.3,<2.0
+langchain-openai>=0.3,<2.0      # OpenRouter (default) and OpenAI
+
+# --- Config ---
+python-dotenv>=1.0

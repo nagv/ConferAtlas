@@ -65,7 +65,8 @@ def _env_number(name: str, default, cast=float):
 
 
 def get_settings() -> Settings:
-    load_dotenv(PROJECT_ROOT / ".env", override=False)
+    load_dotenv(PROJECT_ROOT / "backend" / ".env", override=False)
+    load_dotenv(PROJECT_ROOT / ".env", override=False)  # older single-app setups kept .env at the root
     data_dir = Path(os.getenv("CONFERATLAS_DATA_DIR", str(DEFAULT_DATA_DIR)))
     if not data_dir.is_absolute():
         data_dir = PROJECT_ROOT / data_dir

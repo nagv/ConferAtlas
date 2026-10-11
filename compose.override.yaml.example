@@ -1,0 +1,6 @@
+# Copy to compose.override.yaml (git-ignored) to give the frontend container its staff sign-in
+# settings. In Docker the frontend listens on all interfaces, so sign-in is always required.
+services:
+  frontend:
+    volumes:
+      - ./frontend/.streamlit/secrets.toml:/app/frontend/.streamlit/secrets.toml:ro
