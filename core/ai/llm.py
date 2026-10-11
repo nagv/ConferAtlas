@@ -1,0 +1,271 @@
+"""One place for every LLM call: model setup, retries, friendly errors and usage tracking.
+
+- ``build_chat_model`` creates the LangChain chat model with the request
+  timeout and output-token cap from settings, the provider's own retries
+  switched off (``retry_call`` does them, so attempts are never doubled), and
+  a callback that records each call in a ``UsageRecorder``.
+- ``retry_call`` runs a call, retrying timeouts, rate limits, overloads and
+  network errors with exponential backoff and jitter (or the provider's
+  Retry-After). Anything else, or the last failed attempt, becomes an
+  ``LLMError`` whose message tells the user what to do.
+- ``UsageRecorder`` keeps, per app session, one ``CallRecord`` per attempt:
+  purpose, model, input/output tokens, estimated cost, latency and status.
+  The app stores one in ``st.session_state`` and shows it in the sidebar.
+"""
+from __future__ import annotations
+
+import random
+import time
+from collections.abc import Callable
+from dataclasses import dataclass, field
+from datetime import datetime
+from typing import Any
+
+from core.config import Settings, get_settings
+
+RETRYABLE = {"timeout", "rate_limit", "overloaded", "network"}
+BACKOFF_BASE_S = 1.0
+BACKOFF_CAP_S = 8.0
+MAX_STORED_CALLS = 200
+
+
+class LLMNotConfiguredError(RuntimeError):
+    """Raised when no API key (or provider package) is available for the configured provider."""
+
+
+def resolve_settings(settings: Settings | None, injected_model) -> Settings:
+    """Settings for a call. When a test injects a fake model without settings, retries are off so
+    scripted replies are used exactly once."""
+    if settings is not None:
+        return settings
+    from dataclasses import replace
+    base = get_settings()
+    return replace(base, llm_max_retries=0) if injected_model is not None else base
+
+
+# --- usage tracking ---------------------------------------------------------------
+
+@dataclass
+class CallRecord:
+    started: datetime
+    purpose: str
+    model: str
+    input_tokens: int | None
+    output_tokens: int | None
+    cost_usd: float | None
+    latency_s: float
+    status: str               # "ok" or "error"
+    error: str = ""
+
+
+@dataclass
+class UsageRecorder:
+    """Every LLM call in one session, plus running totals (kept even when old rows roll off)."""
+
+    calls: list[CallRecord] = field(default_factory=list)
+    total_calls: int = 0
+    total_errors: int = 0
+    total_input_tokens: int = 0
+    total_output_tokens: int = 0
+    total_cost_usd: float = 0.0
+    cost_known: bool = True    # False once any call's cost could not be estimated
+    total_latency_s: float = 0.0
+
+    def add(self, record: CallRecord) -> None:
+        self.calls.append(record)
+        del self.calls[:-MAX_STORED_CALLS]
+        self.total_calls += 1
+        self.total_errors += record.status != "ok"
+        self.total_input_tokens += record.input_tokens or 0
+        self.total_output_tokens += record.output_tokens or 0
+        self.total_latency_s += record.latency_s
+        if record.status == "ok":
+            if record.cost_usd is None:
+                self.cost_known = False
+            else:
+                self.total_cost_usd += record.cost_usd
+
+    @property
+    def avg_latency_s(self) -> float | None:
+        return self.total_latency_s / self.total_calls if self.total_calls else None
+
+
+def estimate_cost(input_tokens: int | None, output_tokens: int | None, settings: Settings) -> float | None:
+    """USD from the per-million-token prices in settings; None when prices or counts are unknown."""
+    if settings.input_price_per_mtok is None or settings.output_price_per_mtok is None:
+        return None
+    if input_tokens is None or output_tokens is None:
+        return None
+    return (input_tokens * settings.input_price_per_mtok + output_tokens * settings.output_price_per_mtok) / 1e6
+
+
+def _usage_from(response: Any) -> tuple[int | None, int | None]:
+    """Token counts from a LangChain LLMResult (usage_metadata first, then provider llm_output)."""
+    try:
+        message = response.generations[0][0].message
+        usage = getattr(message, "usage_metadata", None)
+        if usage:
+            return usage.get("input_tokens"), usage.get("output_tokens")
+    except (AttributeError, IndexError, TypeError):
+        pass
+    raw = (getattr(response, "llm_output", None) or {}).get("usage") or {}
+    return raw.get("input_tokens"), raw.get("output_tokens")
+
+
+def make_usage_callback(recorder: UsageRecorder, settings: Settings, purpose: str,
+                        clock: Callable[[], float] = time.monotonic):
+    """A LangChain callback handler that records latency, tokens and cost for each model call."""
+    from langchain_core.callbacks import BaseCallbackHandler
+
+    class UsageCallback(BaseCallbackHandler):
+        def __init__(self):
+            self._started: dict = {}
+
+        def on_chat_model_start(self, serialized, messages, *, run_id, **kwargs):
+            self._started[run_id] = (clock(), datetime.now())
+
+        def on_llm_start(self, serialized, prompts, *, run_id, **kwargs):
+            self._started[run_id] = (clock(), datetime.now())
+
+        def _start_of(self, run_id):
+            started = self._started.pop(run_id, None)  # not pop(key, default): the default would be evaluated
+            return started if started is not None else (clock(), datetime.now())
+
+        def on_llm_end(self, response, *, run_id, **kwargs):
+            start, when = self._start_of(run_id)
+            tokens_in, tokens_out = _usage_from(response)
+            recorder.add(CallRecord(when, purpose, settings.llm_model, tokens_in, tokens_out,
+                                    estimate_cost(tokens_in, tokens_out, settings), clock() - start, "ok"))
+
+        def on_llm_error(self, error, *, run_id, **kwargs):
+            start, when = self._start_of(run_id)
+            recorder.add(CallRecord(when, purpose, settings.llm_model, None, None, None, clock() - start,
+                                    "error", classify_error(error)))
+
+    return UsageCallback()
+
+
+# --- model --------------------------------------------------------------------------
+
+def build_chat_model(settings: Settings, purpose: str, recorder: UsageRecorder | None = None,
+                     max_tokens: int | None = None, timeout_s: float | None = None):
+    """The configured chat model with timeout, output cap and usage tracking applied."""
+    if not settings.llm_configured:
+        raise LLMNotConfiguredError(missing_key_message(settings))
+    try:
+        from langchain.chat_models import init_chat_model
+
+        callbacks = [make_usage_callback(recorder, settings, purpose)] if recorder is not None else None
+        common = dict(
+            timeout=timeout_s or settings.llm_timeout_s,
+            max_retries=0,  # retry_call does retries with backoff, so attempts are never doubled
+            # Always cap output: without it OpenRouter reserves the model's full output budget
+            # and can return 402 on low-credit accounts.
+            max_tokens=max_tokens or settings.llm_max_output_tokens,
+            temperature=settings.llm_temperature,
+            callbacks=callbacks,
+        )
+        if settings.llm_provider == "openrouter":
+            # OpenRouter speaks the OpenAI API, so it is the "openai" provider with another base URL.
+            return init_chat_model(model=settings.llm_model, model_provider="openai", base_url=settings.base_url,
+                                   api_key=settings.api_key, default_headers={"X-Title": "ConferAtlas"}, **common)
+        return init_chat_model(settings.llm_model, model_provider=settings.llm_provider, **common)
+    except ImportError as exc:
+        package = {"anthropic": "langchain-anthropic", "openai": "langchain-openai",
+                   "openrouter": "langchain-openai"}.get(settings.llm_provider, "the provider package")
+        raise LLMNotConfiguredError(f"The '{settings.llm_provider}' provider needs {package}. Install it with "
+                                    f"`pip install {package}` and restart the app.") from exc
+
+
+def structured_output_method(settings: Settings) -> str:
+    """'json_schema' for Anthropic (forced tool calling is unsupported on some Claude models);
+    'function_calling' for OpenAI-compatible providers such as OpenRouter, where tool calling is
+    supported by the widest range of models (including Gemini)."""
+    return "json_schema" if settings.llm_provider == "anthropic" else "function_calling"
+
+
+def missing_key_message(settings: Settings) -> str:
+    var = settings.api_key_env_var
+    if var is None:
+        return (f"LLM_PROVIDER is set to '{settings.llm_provider}', which ConferAtlas does not support. "
+                "Use 'openrouter', 'anthropic' or 'openai' in .env.")
+    return f"No API key: set {var} in the .env file in the project folder (see .env.example), then restart the app."
+
+
+# --- errors and retries ----------------------------------------------------------------
+
+class LLMError(RuntimeError):
+    """A failed LLM call with a message written for the user. ``kind`` says what went wrong."""
+
+    def __init__(self, kind: str, message: str, attempts: int = 1):
+        self.kind, self.attempts = kind, attempts
+        super().__init__(message)
+
+
+def classify_error(exc: BaseException) -> str:
+    """'auth', 'not_found', 'bad_request', 'rate_limit', 'overloaded', 'timeout', 'network' or 'unknown'."""
+    name = type(exc).__name__.lower()
+    status = getattr(exc, "status_code", None) or getattr(getattr(exc, "response", None), "status_code", None)
+    if isinstance(exc, TimeoutError) or "timeout" in name:
+        return "timeout"
+    if status in (401, 403) or "authentication" in name or "permission" in name:
+        return "auth"
+    if status == 402 or "paymentrequired" in name or "insufficient" in str(exc).lower():
+        return "credits"
+    if status == 404 or "notfound" in name:
+        return "not_found"
+    if status == 429 or "ratelimit" in name:
+        return "rate_limit"
+    if status in (500, 502, 503, 504, 529) or "overloaded" in name or "internalserver" in name:
+        return "overloaded"
+    if status in (400, 413, 422) or "badrequest" in name:
+        return "bad_request"
+    if isinstance(exc, ConnectionError) or "connection" in name or "network" in name:
+        return "network"
+    return "unknown"
+
+
+def friendly_message(kind: str, exc: BaseException, settings: Settings, attempts: int) -> str:
+    tries = f" (tried {attempts} times)" if attempts > 1 else ""
+    detail = str(exc).strip()[:200]
+    return {
+        "auth": f"The AI provider rejected the API key. Check {settings.api_key_env_var or 'the key'} in .env "
+                "(no quotes or spaces) and restart the app.",
+        "not_found": f"The model '{settings.llm_model}' was not found. Check LLM_MODEL in .env.",
+        "credits": "The AI provider says the account does not have enough credit for this request. Add credit "
+                   "(for OpenRouter: openrouter.ai/settings/credits) or lower LLM_MAX_OUTPUT_TOKENS in .env.",
+        "rate_limit": f"The AI provider is limiting requests right now{tries}. Wait a minute and try again.",
+        "overloaded": f"The AI provider is busy or having problems{tries}. Try again in a moment.",
+        "timeout": f"The AI request took longer than {settings.llm_timeout_s:.0f} seconds{tries}. Try again, or "
+                   "narrow the selection so there is less to process.",
+        "network": f"Couldn't reach the AI provider{tries}. Check your internet connection.",
+        "bad_request": f"The AI provider refused the request: {detail}",
+    }.get(kind, f"The AI request failed ({type(exc).__name__}): {detail}")
+
+
+def backoff_delay(attempt: int, exc: BaseException | None = None, rng: Callable[[], float] = random.random) -> float:
+    """Seconds to wait before retry number ``attempt`` (1-based): exponential with jitter, or Retry-After."""
+    headers = getattr(getattr(exc, "response", None), "headers", None) or {}
+    try:
+        retry_after = float(headers.get("retry-after", ""))
+        return min(BACKOFF_CAP_S, max(0.0, retry_after))
+    except (TypeError, ValueError):
+        pass
+    return min(BACKOFF_CAP_S, BACKOFF_BASE_S * 2 ** (attempt - 1)) * (0.5 + rng() / 2)
+
+
+def retry_call(fn: Callable[[], Any], settings: Settings, max_retries: int | None = None,
+               sleep: Callable[[float], None] = time.sleep) -> Any:
+    """Run ``fn()``; retry retryable failures with backoff; raise ``LLMError`` with a friendly message."""
+    retries = settings.llm_max_retries if max_retries is None else max_retries
+    for attempt in range(1, retries + 2):
+        try:
+            return fn()
+        except LLMError:
+            raise
+        except Exception as exc:
+            kind = classify_error(exc)
+            if kind in RETRYABLE and attempt <= retries:
+                sleep(backoff_delay(attempt, exc))
+                continue
+            raise LLMError(kind, friendly_message(kind, exc, settings, attempt), attempt) from exc

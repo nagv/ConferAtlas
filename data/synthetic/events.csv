@@ -1,0 +1,13 @@
+event_id,name,event_type,format,city,start_date,end_date,budget,actual_cost
+EV001,Chicago DevSecOps Forum 2024,tech,in-person,Chicago,2024-04-02,2024-04-04,326000.0,335500.0
+EV002,Toronto Clinical Innovation Congress 2024,medical,virtual,Toronto,2024-04-28,2024-04-29,149000.0,144200.0
+EV003,Boston Clinical Innovation Congress 2024,medical,in-person,Boston,2024-09-04,2024-09-05,300000.0,327100.0
+EV004,Chicago EdTech Leaders Summit 2025,education,in-person,Chicago,2025-02-16,2025-02-17,192000.0,202000.0
+EV005,San Francisco Teaching & Learning Forum 2025,education,hybrid,San Francisco,2025-03-28,2025-03-30,251000.0,261900.0
+EV006,New York Revenue Ops Conference 2025,business,in-person,New York,2025-04-04,2025-04-06,324000.0,329700.0
+EV007,Austin Revenue Ops Conference 2025,business,hybrid,Austin,2025-07-02,2025-07-03,163000.0,163900.0
+EV008,San Francisco DevSecOps Forum 2025,tech,hybrid,San Francisco,2025-07-14,2025-07-16,453000.0,441400.0
+EV009,New York Future of Work Forum 2025,business,virtual,New York,2025-10-02,2025-10-03,94000.0,105200.0
+EV010,Toronto Higher Ed Futures Conference 2026,education,virtual,Toronto,2026-03-21,2026-03-21,78000.0,75900.0
+EV011,Boston Cloud Native Conference 2026,tech,virtual,Boston,2026-05-02,2026-05-03,165000.0,175500.0
+EV012,Austin Clinical Innovation Congress 2026,medical,hybrid,Austin,2026-05-28,2026-05-30,260000.0,256000.0

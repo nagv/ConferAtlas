@@ -1,0 +1,31 @@
+sponsor_id,name,industry,tier,goals,contract_value
+SP001,Orchidia Cloud,Cloud Infrastructure,gold,Customer retention; Brand awareness,115800.0
+SP002,Driftwood Cloud,Cloud Infrastructure,gold,Partner development,100800.0
+SP003,Evergrove Capital,Financial Services,gold,Partner development,109400.0
+SP004,Bluefin Software,Software,silver,Talent recruiting,48800.0
+SP005,Polarion Partners,Consulting,gold,Product launch; Brand awareness,109200.0
+SP006,Halcyon Medical,Medical Devices,silver,Talent recruiting; Lead generation,36300.0
+SP007,Harborview Software,Software,gold,Product launch,97500.0
+SP008,Granite Learning,EdTech,silver,Lead generation,55700.0
+SP009,Copperleaf Press,Publishing,platinum,Brand awareness,231500.0
+SP010,Tidewater Press,Publishing,bronze,Talent recruiting; Brand awareness,23700.0
+SP011,Larkspur Capital,Financial Services,gold,Talent recruiting,65300.0
+SP012,Indigo Learning,EdTech,silver,Lead generation; Talent recruiting,44900.0
+SP013,Vertexa Cloud,Cloud Infrastructure,gold,Product launch,82200.0
+SP014,Brightpath Security,Cybersecurity,platinum,Customer retention,149800.0
+SP015,Foxglove Partners,Consulting,gold,Lead generation,61600.0
+SP016,Quillon Security,Cybersecurity,platinum,Brand awareness,248400.0
+SP017,Northgate Medical,Medical Devices,gold,Product launch; Partner development,60000.0
+SP018,Sablewood Therapeutics,Pharmaceuticals,bronze,Lead generation; Brand awareness,12600.0
+SP019,Juniper Capital,Financial Services,bronze,Brand awareness; Lead generation,24400.0
+SP020,Mosaic Press,Publishing,silver,Customer retention,33600.0
+SP021,Kestrel Health,Health IT,silver,Customer retention; Lead generation,54800.0
+SP022,Summitry Security,Cybersecurity,gold,Lead generation; Customer retention,87900.0
+SP023,Meridian Capital,Financial Services,platinum,Talent recruiting; Brand awareness,198400.0
+SP024,Corvid Medical,Medical Devices,platinum,Talent recruiting; Product launch,212400.0
+SP025,Lumen Cloud,Cloud Infrastructure,silver,Product launch; Customer retention,52100.0
+SP026,Cedarline Capital,Financial Services,gold,Partner development,84400.0
+SP027,Ironwood Cloud,Cloud Infrastructure,silver,Product launch; Talent recruiting,51500.0
+SP028,Hollis Security,Cybersecurity,gold,Brand awareness; Partner development,105700.0
+SP029,Apex Health,Health IT,bronze,Lead generation; Talent recruiting,13900.0
+SP030,Nimbus Cloud,Cloud Infrastructure,gold,Lead generation; Product launch,88700.0

@@ -1,0 +1,107 @@
+{
+  "sponsor": {
+    "name": "Northwind Analytics",
+    "tier": "gold",
+    "industry": "Software",
+    "goals": "Lead generation; Brand awareness",
+    "renewal_status": "Renewed"
+  },
+  "scope": "Last calendar year (1 Jan 2025 - 31 Dec 2025)",
+  "totals": {
+    "events": 2,
+    "leads": 412,
+    "leads_target": 380,
+    "attainment": 1.0842,
+    "targets_met": 1,
+    "events_below_80": 0,
+    "spend": 64000.0,
+    "cost_per_lead": 155.34,
+    "leads_booth": 251,
+    "leads_demo": 118,
+    "leads_virtual": 43,
+    "alert_threshold": 0.8
+  },
+  "events": [
+    {
+      "name": "Harbor City Data Summit 2025",
+      "date": "2025-04-08",
+      "format": "in-person",
+      "city": "Boston",
+      "package": "Premier Booth",
+      "leads": 268,
+      "leads_target": 220,
+      "attainment": 1.2182,
+      "cost_per_lead": 119.4,
+      "registrations": 1480,
+      "attendees": 1176
+    },
+    {
+      "name": "Lakeside AI Forum 2025",
+      "date": "2025-09-17",
+      "format": "hybrid",
+      "city": "Chicago",
+      "package": "Premier Booth",
+      "leads": 144,
+      "leads_target": 160,
+      "attainment": 0.9,
+      "cost_per_lead": 222.22,
+      "registrations": 1210,
+      "attendees": 905
+    }
+  ],
+  "audience": {
+    "registrations": 2690,
+    "attendees": 2081,
+    "show_up_rate": 0.8042,
+    "top_seniority": [
+      {
+        "value": "Senior",
+        "share": 0.31
+      },
+      {
+        "value": "Mid",
+        "share": 0.27
+      }
+    ],
+    "top_roles": [
+      {
+        "value": "Data Scientist",
+        "share": 0.22
+      },
+      {
+        "value": "Software Engineer",
+        "share": 0.19
+      }
+    ],
+    "top_industries": [
+      {
+        "value": "Software",
+        "share": 0.38
+      },
+      {
+        "value": "Financial Services",
+        "share": 0.17
+      }
+    ],
+    "top_countries": [
+      {
+        "value": "United States",
+        "share": 0.71
+      },
+      {
+        "value": "Canada",
+        "share": 0.09
+      }
+    ]
+  },
+  "engagement": {
+    "sessions": 61,
+    "avg_session_rating": 4.02,
+    "nps": 8.0,
+    "booth_visits_event_total": 2310,
+    "avg_watch_minutes": 34.6,
+    "polls_per_attendee": 0.71,
+    "questions_per_attendee": 0.22,
+    "rating_scale": "1-5"
+  }
+}

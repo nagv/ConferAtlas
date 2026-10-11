@@ -1,0 +1,308 @@
+session_id,event_id,track,speaker,mode,capacity,attendance,rating
+S0001,EV001,Cloud,Nikhil Zhang,in-person,200,200,3.64
+S0002,EV001,AI & ML,Ava Okafor,in-person,80,35,4.0
+S0003,EV001,Security,Rafael Patel,in-person,150,92,2.45
+S0004,EV001,DevOps,Farah Jensen,in-person,150,53,2.62
+S0005,EV001,Cloud,Chloe Garcia,in-person,200,102,4.43
+S0006,EV001,AI & ML,Nikhil Thompson,in-person,150,54,4.0
+S0007,EV001,Security,Olivia Martin,in-person,150,91,3.21
+S0008,EV001,Cloud,Yara Chen,in-person,120,120,4.55
+S0009,EV001,AI & ML,Yara Nakamura,in-person,500,64,3.77
+S0010,EV001,AI & ML,Priya Thompson,in-person,300,296,4.56
+S0011,EV001,AI & ML,Victor Patel,in-person,200,200,4.5
+S0012,EV001,AI & ML,Nikhil Fischer,in-person,80,80,4.76
+S0013,EV001,AI & ML,Rafael Martin,in-person,150,150,4.04
+S0014,EV001,AI & ML,Yara Patel,in-person,500,84,3.83
+S0015,EV001,Security,Farah Reyes,in-person,150,35,3.86
+S0016,EV001,DevOps,Farah Young,in-person,200,199,3.53
+S0017,EV001,Cloud,Maya Jensen,in-person,120,120,4.61
+S0018,EV001,Security,Chloe Duarte,in-person,200,117,2.96
+S0019,EV001,Cloud,Maya Young,in-person,200,200,3.79
+S0020,EV001,Product,Farah Garcia,in-person,120,59,3.1
+S0021,EV001,Security,Jamal Walsh,in-person,120,88,4.25
+S0022,EV001,DevOps,Quinn Garcia,in-person,300,89,3.28
+S0023,EV001,Security,Olivia Silva,in-person,500,55,3.73
+S0024,EV001,Product,Hiro Garcia,in-person,80,80,4.69
+S0025,EV001,Security,Elena Martin,in-person,500,165,3.86
+S0026,EV001,AI & ML,Farah Jensen,in-person,120,103,4.68
+S0027,EV001,Security,Uma Garcia,in-person,500,52,3.8
+S0028,EV001,AI & ML,Elena Garcia,in-person,120,120,3.52
+S0029,EV001,AI & ML,Diego Garcia,in-person,300,169,3.69
+S0030,EV001,Cloud,Rafael Brooks,in-person,80,56,4.08
+S0031,EV002,Policy,Zane Silva,virtual,1000,132,4.05
+S0032,EV002,Research,Leo Evans,virtual,1000,117,4.33
+S0033,EV002,Digital Health,Leo Nakamura,virtual,1000,211,3.82
+S0034,EV002,Digital Health,Kira Okafor,virtual,1000,162,3.63
+S0035,EV002,Research,Sofia Usman,virtual,1000,70,4.25
+S0036,EV002,Research,Elena Martin,virtual,1000,176,4.28
+S0037,EV002,Digital Health,Hiro Fischer,virtual,1000,166,3.57
+S0038,EV002,Digital Health,Nikhil Nakamura,virtual,1000,9,5.0
+S0039,EV002,Digital Health,Ava Ibrahim,virtual,1000,62,4.25
+S0040,EV002,Digital Health,Elena Nakamura,virtual,1000,196,3.24
+S0041,EV002,Patient Care,Kira Garcia,virtual,1000,177,4.14
+S0042,EV002,Digital Health,Rafael Fischer,virtual,1000,78,3.09
+S0043,EV002,Digital Health,Nikhil Ibrahim,virtual,1000,88,4.57
+S0044,EV002,Clinical Practice,Wen Thompson,virtual,1000,151,4.1
+S0045,EV002,Patient Care,Ben Lee,virtual,1000,36,2.5
+S0046,EV002,Clinical Practice,Chloe Duarte,virtual,1000,47,3.88
+S0047,EV002,Patient Care,Diego Garcia,virtual,1000,298,4.14
+S0048,EV002,Clinical Practice,Olivia Brooks,virtual,1000,167,4.44
+S0049,EV002,Clinical Practice,Priya Silva,virtual,1000,17,3.2
+S0050,EV002,Digital Health,Wen Silva,virtual,1000,255,3.2
+S0051,EV003,Digital Health,Grace Fischer,in-person,120,120,4.48
+S0052,EV003,Clinical Practice,Victor Kowalski,in-person,300,38,4.67
+S0053,EV003,Policy,Sofia Kowalski,in-person,200,16,4.0
+S0054,EV003,Clinical Practice,Farah Usman,in-person,300,165,3.39
+S0055,EV003,Research,Victor Adams,in-person,200,128,3.7
+S0056,EV003,Policy,Wen Chen,in-person,200,200,4.29
+S0057,EV003,Policy,Kira Evans,in-person,200,45,4.5
+S0058,EV003,Digital Health,Quinn Fischer,in-person,200,200,4.07
+S0059,EV003,Research,Kira Okafor,in-person,300,221,4.26
+S0060,EV003,Research,Chloe Adams,in-person,150,150,4.16
+S0061,EV003,Digital Health,Chloe Evans,in-person,80,80,3.54
+S0062,EV003,Research,Grace Chen,in-person,150,47,4.11
+S0063,EV003,Patient Care,Elena Usman,in-person,500,131,3.95
+S0064,EV003,Research,Tariq Usman,in-person,80,80,4.42
+S0065,EV003,Digital Health,Quinn Martin,in-person,500,58,4.64
+S0066,EV003,Digital Health,Jamal Zhang,in-person,200,200,4.23
+S0067,EV003,Research,Nikhil Kowalski,in-person,300,113,3.77
+S0068,EV003,Research,Jamal Ibrahim,in-person,120,84,4.07
+S0069,EV003,Digital Health,Farah Brooks,in-person,300,129,4.07
+S0070,EV003,Digital Health,Wen Okafor,in-person,300,221,4.36
+S0071,EV003,Policy,Victor Garcia,in-person,120,120,3.43
+S0072,EV003,Digital Health,Isla Ibrahim,in-person,300,213,3.5
+S0073,EV003,Policy,Ava Zhang,in-person,300,26,3.0
+S0074,EV003,Clinical Practice,Quinn Garcia,in-person,500,51,3.75
+S0075,EV003,Policy,Quinn Adams,in-person,80,80,4.0
+S0076,EV003,Digital Health,Kira Okafor,in-person,200,20,4.0
+S0077,EV004,Higher Ed,Zane Zhang,in-person,200,16,3.0
+S0078,EV004,Leadership,Leo Martin,in-person,300,89,4.33
+S0079,EV004,Inclusion,Yara Kowalski,in-person,150,54,4.44
+S0080,EV004,Leadership,Olivia Thompson,in-person,150,150,3.67
+S0081,EV004,Assessment,Diego Chen,in-person,150,16,4.33
+S0082,EV004,Higher Ed,Farah Hughes,in-person,200,19,3.75
+S0083,EV004,Higher Ed,Grace Lee,in-person,80,80,4.11
+S0084,EV004,Leadership,Ava Duarte,in-person,500,178,3.77
+S0085,EV004,Leadership,Jamal Lee,in-person,300,30,3.67
+S0086,EV004,Inclusion,Priya Duarte,in-person,120,87,4.23
+S0087,EV004,Classroom Tech,Grace Garcia,in-person,80,21,4.29
+S0088,EV004,Leadership,Chloe Duarte,in-person,150,95,2.81
+S0089,EV004,Inclusion,Priya Young,in-person,120,90,4.58
+S0090,EV004,Classroom Tech,Priya Evans,in-person,300,59,3.0
+S0091,EV004,Assessment,Uma Evans,in-person,200,45,4.0
+S0092,EV004,Classroom Tech,Wen Thompson,in-person,150,146,4.36
+S0093,EV004,Assessment,Priya Hughes,in-person,300,14,5.0
+S0094,EV004,Inclusion,Nikhil Martin,in-person,80,45,3.5
+S0095,EV004,Assessment,Grace Garcia,in-person,80,63,3.8
+S0096,EV004,Leadership,Quinn Kowalski,in-person,500,18,3.25
+S0097,EV004,Assessment,Nikhil Hughes,in-person,80,80,4.67
+S0098,EV004,Higher Ed,Rafael Okafor,in-person,150,27,1.8
+S0099,EV004,Leadership,Uma Evans,in-person,200,67,2.58
+S0100,EV004,Inclusion,Wen Evans,in-person,300,109,4.71
+S0101,EV004,Leadership,Kira Okafor,in-person,120,29,3.5
+S0102,EV004,Inclusion,Grace Martin,in-person,500,6,3.0
+S0103,EV004,Higher Ed,Maya Ibrahim,in-person,300,96,4.0
+S0104,EV004,Leadership,Chloe Walsh,in-person,80,80,4.07
+S0105,EV005,Leadership,Ava Varga,hybrid,80,80,2.62
+S0106,EV005,Higher Ed,Wen Zhang,hybrid,150,127,4.17
+S0107,EV005,Assessment,Tariq Kowalski,in-person,150,150,4.15
+S0108,EV005,Leadership,Victor Young,in-person,200,97,3.75
+S0109,EV005,Inclusion,Maya Okafor,in-person,200,182,3.29
+S0110,EV005,Higher Ed,Yara Patel,hybrid,120,120,3.45
+S0111,EV005,Assessment,Farah Okafor,hybrid,300,82,3.44
+S0112,EV005,Leadership,Nikhil Martin,in-person,200,174,4.07
+S0113,EV005,Classroom Tech,Tariq Jensen,hybrid,80,80,4.56
+S0114,EV005,Inclusion,Hiro Lee,virtual,1000,85,4.56
+S0115,EV005,Assessment,Maya Jensen,hybrid,150,9,1.0
+S0116,EV005,Inclusion,Elena Kowalski,hybrid,150,110,4.12
+S0117,EV005,Higher Ed,Rafael Fischer,in-person,200,38,3.8
+S0118,EV005,Inclusion,Diego Silva,hybrid,200,157,4.37
+S0119,EV005,Higher Ed,Ben Brooks,hybrid,500,46,3.36
+S0120,EV005,Assessment,Hiro Chen,hybrid,120,120,4.26
+S0121,EV005,Higher Ed,Grace Zhang,hybrid,150,34,4.22
+S0122,EV005,Classroom Tech,Yara Hughes,hybrid,80,26,4.33
+S0123,EV005,Leadership,Yara Martin,hybrid,80,80,4.07
+S0124,EV005,Inclusion,Priya Zhang,virtual,1000,108,2.89
+S0125,EV005,Higher Ed,Maya Duarte,hybrid,150,150,3.8
+S0126,EV005,Inclusion,Kira Okafor,hybrid,120,11,1.75
+S0127,EV005,Leadership,Wen Fischer,hybrid,500,64,3.8
+S0128,EV005,Leadership,Sofia Walsh,hybrid,200,126,3.67
+S0129,EV005,Inclusion,Grace Walsh,virtual,1000,96,2.95
+S0130,EV005,Inclusion,Leo Hughes,hybrid,120,91,2.93
+S0131,EV005,Assessment,Sofia Okafor,hybrid,120,92,4.15
+S0132,EV005,Higher Ed,Farah Patel,virtual,1000,52,4.14
+S0133,EV005,Classroom Tech,Wen Usman,hybrid,300,239,4.81
+S0134,EV005,Inclusion,Wen Lee,hybrid,500,40,4.5
+S0135,EV005,Leadership,Ben Brooks,virtual,1000,110,2.96
+S0136,EV005,Classroom Tech,Priya Jensen,in-person,500,79,4.31
+S0137,EV005,Assessment,Ben Fischer,virtual,1000,182,4.44
+S0138,EV005,Classroom Tech,Quinn Silva,hybrid,120,120,3.44
+S0139,EV005,Leadership,Olivia Lee,hybrid,80,80,4.5
+S0140,EV005,Classroom Tech,Olivia Zhang,virtual,1000,106,4.16
+S0141,EV006,Marketing,Diego Varga,in-person,200,105,2.55
+S0142,EV006,Sales,Olivia Reyes,in-person,300,177,4.41
+S0143,EV006,Sales,Victor Patel,in-person,200,16,4.0
+S0144,EV006,Marketing,Elena Lee,in-person,500,98,3.7
+S0145,EV006,Leadership,Victor Nakamura,in-person,300,8,3.33
+S0146,EV006,Finance,Sofia Silva,in-person,200,68,3.46
+S0147,EV006,Operations,Maya Adams,in-person,500,78,3.0
+S0148,EV006,Operations,Elena Brooks,in-person,80,70,4.11
+S0149,EV006,Sales,Nikhil Patel,in-person,80,68,3.82
+S0150,EV006,Leadership,Elena Patel,in-person,80,80,3.2
+S0151,EV006,Operations,Ben Jensen,in-person,150,100,3.67
+S0152,EV006,Operations,Ben Brooks,in-person,80,80,4.08
+S0153,EV006,Marketing,Quinn Lee,in-person,150,139,2.97
+S0154,EV006,Operations,Uma Jensen,in-person,200,121,4.09
+S0155,EV006,Operations,Leo Kowalski,in-person,150,150,3.97
+S0156,EV006,Finance,Farah Okafor,in-person,150,150,3.69
+S0157,EV006,Sales,Ava Chen,in-person,80,62,4.88
+S0158,EV006,Sales,Maya Lee,in-person,200,104,3.05
+S0159,EV006,Leadership,Grace Okafor,in-person,120,82,3.82
+S0160,EV006,Leadership,Quinn Kowalski,in-person,150,114,4.28
+S0161,EV006,Finance,Priya Garcia,in-person,120,120,3.6
+S0162,EV006,Marketing,Sofia Walsh,in-person,500,63,3.88
+S0163,EV006,Sales,Victor Hughes,in-person,80,40,4.75
+S0164,EV006,Operations,Sofia Thompson,in-person,80,80,3.79
+S0165,EV006,Operations,Tariq Garcia,in-person,80,80,4.15
+S0166,EV006,Marketing,Nikhil Martin,in-person,300,71,4.58
+S0167,EV006,Operations,Jamal Okafor,in-person,300,93,4.56
+S0168,EV006,Marketing,Uma Varga,in-person,150,150,3.61
+S0169,EV006,Marketing,Diego Silva,in-person,200,73,4.3
+S0170,EV006,Operations,Ava Walsh,in-person,120,120,2.94
+S0171,EV007,Marketing,Priya Patel,hybrid,80,64,3.94
+S0172,EV007,Operations,Ben Martin,hybrid,200,170,4.54
+S0173,EV007,Marketing,Elena Evans,hybrid,150,37,4.57
+S0174,EV007,Sales,Chloe Martin,in-person,200,18,4.0
+S0175,EV007,Operations,Ava Silva,virtual,1000,177,3.55
+S0176,EV007,Operations,Farah Chen,hybrid,80,67,2.46
+S0177,EV007,Sales,Victor Garcia,in-person,150,15,3.33
+S0178,EV007,Operations,Zane Varga,hybrid,120,106,3.77
+S0179,EV007,Finance,Ben Patel,in-person,200,127,4.45
+S0180,EV007,Leadership,Zane Jensen,hybrid,120,18,3.0
+S0181,EV007,Leadership,Jamal Young,hybrid,80,70,4.29
+S0182,EV007,Sales,Jamal Kowalski,virtual,1000,31,3.17
+S0183,EV007,Operations,Yara Reyes,in-person,80,5,4.0
+S0184,EV007,Operations,Yara Reyes,virtual,1000,85,3.5
+S0185,EV007,Finance,Wen Okafor,in-person,120,19,3.0
+S0186,EV007,Operations,Ava Patel,hybrid,500,46,3.5
+S0187,EV007,Finance,Elena Fischer,in-person,200,39,4.75
+S0188,EV007,Sales,Priya Zhang,hybrid,500,79,4.11
+S0189,EV007,Sales,Elena Silva,hybrid,500,196,3.89
+S0190,EV007,Sales,Hiro Martin,hybrid,150,49,4.17
+S0191,EV008,DevOps,Jamal Lee,virtual,1000,272,3.64
+S0192,EV008,Security,Maya Nakamura,in-person,300,230,3.93
+S0193,EV008,DevOps,Sofia Thompson,virtual,1000,133,4.65
+S0194,EV008,Security,Tariq Jensen,hybrid,150,77,3.94
+S0195,EV008,Security,Elena Young,in-person,300,31,4.67
+S0196,EV008,Product,Yara Ibrahim,hybrid,500,211,3.53
+S0197,EV008,Product,Zane Brooks,hybrid,120,120,3.86
+S0198,EV008,DevOps,Uma Usman,virtual,1000,136,3.84
+S0199,EV008,AI & ML,Priya Evans,in-person,300,300,3.92
+S0200,EV008,DevOps,Priya Chen,virtual,1000,143,4.29
+S0201,EV008,DevOps,Zane Usman,hybrid,150,98,3.94
+S0202,EV008,Security,Ava Garcia,virtual,1000,93,3.94
+S0203,EV008,Product,Hiro Ibrahim,virtual,1000,121,4.05
+S0204,EV008,AI & ML,Olivia Silva,hybrid,200,143,3.89
+S0205,EV008,AI & ML,Zane Martin,hybrid,200,96,3.89
+S0206,EV008,DevOps,Elena Hughes,in-person,80,80,4.44
+S0207,EV008,Security,Tariq Hughes,virtual,1000,172,4.28
+S0208,EV008,Product,Diego Kowalski,hybrid,80,80,3.65
+S0209,EV008,Cloud,Maya Young,hybrid,500,40,4.2
+S0210,EV008,AI & ML,Diego Hughes,in-person,500,144,3.27
+S0211,EV008,DevOps,Leo Jensen,hybrid,300,105,3.44
+S0212,EV008,Product,Chloe Fischer,hybrid,300,273,4.13
+S0213,EV008,AI & ML,Ben Lee,hybrid,300,300,3.2
+S0214,EV008,DevOps,Maya Reyes,virtual,1000,317,3.62
+S0215,EV008,Security,Nikhil Usman,in-person,300,300,3.92
+S0216,EV008,DevOps,Chloe Brooks,virtual,1000,204,3.82
+S0217,EV008,Product,Zane Nakamura,hybrid,200,85,3.92
+S0218,EV008,DevOps,Tariq Walsh,hybrid,500,63,2.5
+S0219,EV008,Security,Zane Patel,in-person,500,157,3.97
+S0220,EV008,Security,Chloe Chen,hybrid,150,150,3.7
+S0221,EV008,Cloud,Farah Lee,virtual,1000,300,3.72
+S0222,EV008,Cloud,Isla Usman,virtual,1000,248,4.0
+S0223,EV008,Security,Rafael Duarte,hybrid,80,80,3.54
+S0224,EV008,Security,Farah Duarte,hybrid,200,115,4.06
+S0225,EV008,DevOps,Quinn Hughes,in-person,80,80,4.0
+S0226,EV008,DevOps,Chloe Thompson,in-person,300,36,4.2
+S0227,EV008,Cloud,Rafael Reyes,hybrid,500,147,4.0
+S0228,EV008,DevOps,Ben Adams,virtual,1000,23,4.0
+S0229,EV008,DevOps,Nikhil Evans,hybrid,300,14,4.0
+S0230,EV008,Product,Elena Jensen,hybrid,300,25,3.0
+S0231,EV008,Product,Wen Reyes,hybrid,300,204,4.4
+S0232,EV008,Cloud,Diego Chen,hybrid,150,68,4.08
+S0233,EV009,Operations,Priya Jensen,virtual,1000,213,3.28
+S0234,EV009,Sales,Maya Brooks,virtual,1000,125,3.52
+S0235,EV009,Operations,Zane Martin,virtual,1000,174,3.58
+S0236,EV009,Leadership,Kira Thompson,virtual,1000,83,3.86
+S0237,EV009,Marketing,Tariq Walsh,virtual,1000,17,5.0
+S0238,EV009,Marketing,Ava Patel,virtual,1000,130,3.84
+S0239,EV009,Leadership,Yara Walsh,virtual,1000,88,3.65
+S0240,EV009,Sales,Leo Varga,virtual,1000,127,3.58
+S0241,EV009,Operations,Uma Chen,virtual,1000,63,4.2
+S0242,EV009,Leadership,Elena Patel,virtual,1000,237,3.84
+S0243,EV009,Finance,Yara Patel,virtual,1000,55,3.88
+S0244,EV009,Operations,Diego Hughes,virtual,1000,68,3.78
+S0245,EV009,Leadership,Elena Thompson,virtual,1000,150,3.61
+S0246,EV009,Finance,Isla Evans,virtual,1000,86,4.33
+S0247,EV009,Marketing,Grace Duarte,virtual,1000,84,3.5
+S0248,EV009,Marketing,Nikhil Walsh,virtual,1000,131,4.17
+S0249,EV009,Leadership,Kira Thompson,virtual,1000,86,3.65
+S0250,EV009,Sales,Nikhil Varga,virtual,1000,104,3.22
+S0251,EV009,Marketing,Olivia Young,virtual,1000,21,3.25
+S0252,EV009,Finance,Tariq Silva,virtual,1000,112,3.82
+S0253,EV010,Assessment,Ben Martin,virtual,1000,187,4.3
+S0254,EV010,Higher Ed,Wen Adams,virtual,1000,125,4.04
+S0255,EV010,Leadership,Victor Martin,virtual,1000,67,3.2
+S0256,EV010,Leadership,Chloe Young,virtual,1000,31,3.71
+S0257,EV010,Inclusion,Diego Zhang,virtual,1000,78,3.31
+S0258,EV010,Leadership,Nikhil Jensen,virtual,1000,91,3.44
+S0259,EV010,Leadership,Diego Young,virtual,1000,125,3.96
+S0260,EV010,Higher Ed,Zane Hughes,virtual,1000,64,3.67
+S0261,EV010,Higher Ed,Ben Zhang,virtual,1000,44,2.56
+S0262,EV011,Product,Isla Nakamura,virtual,1000,71,3.87
+S0263,EV011,DevOps,Farah Zhang,virtual,1000,158,4.14
+S0264,EV011,Product,Ava Reyes,virtual,1000,59,3.56
+S0265,EV011,Product,Farah Brooks,virtual,1000,158,4.22
+S0266,EV011,AI & ML,Rafael Duarte,virtual,1000,55,2.8
+S0267,EV011,Product,Diego Martin,virtual,1000,91,3.96
+S0268,EV011,Cloud,Zane Thompson,virtual,1000,286,3.52
+S0269,EV011,Product,Nikhil Hughes,virtual,1000,72,3.55
+S0270,EV011,Cloud,Ben Nakamura,virtual,1000,306,3.85
+S0271,EV011,DevOps,Tariq Varga,virtual,1000,319,4.71
+S0272,EV011,AI & ML,Sofia Thompson,virtual,1000,71,3.44
+S0273,EV011,Cloud,Farah Okafor,virtual,1000,321,3.86
+S0274,EV011,Cloud,Leo Reyes,virtual,1000,146,3.79
+S0275,EV011,DevOps,Rafael Brooks,virtual,1000,172,3.93
+S0276,EV011,Product,Grace Hughes,virtual,1000,204,4.21
+S0277,EV011,AI & ML,Farah Nakamura,virtual,1000,68,3.56
+S0278,EV012,Research,Nikhil Silva,hybrid,500,123,3.86
+S0279,EV012,Patient Care,Nikhil Kowalski,hybrid,300,50,4.45
+S0280,EV012,Digital Health,Rafael Evans,hybrid,500,94,3.61
+S0281,EV012,Research,Wen Martin,hybrid,500,145,4.09
+S0282,EV012,Patient Care,Olivia Chen,hybrid,500,78,1.83
+S0283,EV012,Policy,Rafael Walsh,in-person,300,191,3.66
+S0284,EV012,Research,Elena Kowalski,hybrid,150,109,4.05
+S0285,EV012,Digital Health,Priya Varga,in-person,80,80,4.0
+S0286,EV012,Clinical Practice,Maya Martin,virtual,1000,122,3.76
+S0287,EV012,Clinical Practice,Maya Usman,hybrid,150,9,2.67
+S0288,EV012,Research,Maya Thompson,hybrid,200,178,3.47
+S0289,EV012,Patient Care,Elena Duarte,hybrid,120,120,3.75
+S0290,EV012,Research,Sofia Zhang,virtual,1000,170,3.22
+S0291,EV012,Patient Care,Victor Reyes,in-person,150,5,3.0
+S0292,EV012,Policy,Quinn Martin,hybrid,150,120,3.78
+S0293,EV012,Patient Care,Isla Reyes,in-person,500,93,4.27
+S0294,EV012,Patient Care,Kira Chen,hybrid,120,115,3.67
+S0295,EV012,Digital Health,Rafael Kowalski,virtual,1000,127,4.25
+S0296,EV012,Policy,Priya Reyes,in-person,120,120,4.09
+S0297,EV012,Clinical Practice,Victor Nakamura,hybrid,500,26,4.0
+S0298,EV012,Research,Wen Okafor,hybrid,500,62,3.09
+S0299,EV012,Clinical Practice,Sofia Duarte,hybrid,200,170,3.68
+S0300,EV012,Digital Health,Diego Okafor,in-person,120,120,3.96
+S0301,EV012,Policy,Ben Ibrahim,hybrid,80,80,4.22
+S0302,EV012,Digital Health,Grace Martin,hybrid,120,120,3.5
+S0303,EV012,Patient Care,Grace Garcia,hybrid,150,73,3.94
+S0304,EV012,Patient Care,Chloe Patel,hybrid,300,19,4.0
+S0305,EV012,Research,Zane Garcia,hybrid,120,120,4.5
+S0306,EV012,Clinical Practice,Isla Varga,hybrid,150,120,4.48
+S0307,EV012,Policy,Olivia Ibrahim,hybrid,200,18,3.25

@@ -1,0 +1,11 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.streamlit/secrets.toml
+
+# Scratch output from test runs
+.pytest-*/
+.pytest-*.txt
