@@ -356,3 +356,15 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
 76. > I want to save this file in git repo as a file "C:\Users\rajvo\OneDrive\Documents\Zoom\2026-10-11 22.51.01 Gen Academy Week 1 Project\video1618121271.mp4" Keep in an appropriate folder and name is as Project Intro
 
     *Result: Claude copied the Zoom recording (20.7 MB) to docs/videos/Project Intro.mp4, next to docs/screenshots. It is under GitHub's 50 MB warning size, so no Git LFS is needed. The original file is unchanged, and nothing was committed.*
+
+77. > commit and push to repo
+
+    *Result: Claude checked the pending files for secrets first; it found only placeholders. Then it made two commits on main and pushed them to github.com/nagv/ConferAtlas (cb0b05f..2e48d97). 66fd981 adds the Render and Streamlit Cloud deployment notes to the backend and frontend READMEs, plus a placeholder-only public demo secrets example. 2e48d97 adds docs/videos/Project Intro.mp4, the solution kit assets and the prompt log entries.*
+
+78. > delete old file and add this file "C:\Users\rajvo\OneDrive\Documents\Zoom\2026-10-11 23.31.40 Agentic AI Week 1\video1626681968.mp4" and name it as Project Intro
+
+    *Result: Claude replaced docs/videos/Project Intro.mp4 with the new Zoom recording under the same name. The old version remains only in git history (commit 2e48d97). The original recording is unchanged. Not committed.*
+
+79. > yes
+
+    *Result: Claude committed the replacement Project Intro video and the prompt log entries to main and pushed them.*
