@@ -210,6 +210,59 @@ def test_openrouter_model_uses_configured_endpoint_and_key(monkeypatch):
     assert len(model.callbacks) == 1
 
 
+def test_google_genai_model_uses_bare_id_key_and_no_thinking(monkeypatch):
+    monkeypatch.setenv("LLM_PROVIDER", "google_genai")
+    monkeypatch.setenv("GOOGLE_API_KEY", "google-test-key")
+    monkeypatch.setenv("OPENROUTER_API_KEY", "unrelated-key")
+    settings = get_settings()  # LLM_MODEL unset, so the OpenRouter-style default id is used
+    assert settings.api_key_env_var == "GOOGLE_API_KEY" and settings.llm_configured and settings.base_url is None
+    model = llm.build_chat_model(settings, "Google test", llm.UsageRecorder())
+    assert model.model.removeprefix("models/") == "gemini-2.5-flash"
+    assert model.google_api_key.get_secret_value() == "google-test-key"
+    assert model.thinking_budget == 0 and model.max_output_tokens == 1000 and model.max_retries == 0
+    assert model.timeout == 60 and model.temperature == 0
+    assert len(model.callbacks) == 1
+
+
+def test_google_genai_missing_key_is_explained(monkeypatch):
+    monkeypatch.setenv("LLM_PROVIDER", "google_genai")
+    with pytest.raises(llm.LLMNotConfiguredError, match="GOOGLE_API_KEY"):
+        llm.build_chat_model(get_settings(), "Google test")
+
+
+class ResourceExhausted(Exception):  # shaped like google.api_core.exceptions.ResourceExhausted
+    code = 429
+
+
+class GoogleClientError(Exception):  # shaped like google.genai.errors.ClientError
+    def __init__(self, code):
+        super().__init__(f"{code} error")
+        self.code = code
+
+
+class PermissionDenied(Exception):
+    pass
+
+
+class DeadlineExceeded(Exception):
+    pass
+
+
+@pytest.mark.parametrize("exc, kind", [
+    (ResourceExhausted(), "rate_limit"), (GoogleClientError(429), "rate_limit"), (GoogleClientError(403), "auth"),
+    (GoogleClientError(400), "bad_request"), (GoogleClientError(503), "overloaded"), (PermissionDenied(), "auth"),
+    (DeadlineExceeded(), "timeout"),
+])
+def test_classify_google_errors(exc, kind):
+    assert llm.classify_error(exc) == kind
+
+
+def test_google_rate_limit_message_mentions_free_tier():
+    settings = replace(SETTINGS, llm_provider="google_genai")
+    assert "free tier" in llm.friendly_message("rate_limit", ResourceExhausted(), settings, 3)
+    assert "free tier" not in llm.friendly_message("rate_limit", ResourceExhausted(), SETTINGS, 3)
+
+
 def test_openrouter_missing_key_does_not_use_openai_key(monkeypatch):
     monkeypatch.setenv("OPENAI_API_KEY", "unrelated-key")
     with pytest.raises(llm.LLMNotConfiguredError, match="OPENROUTER_API_KEY"):

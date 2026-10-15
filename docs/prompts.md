@@ -368,3 +368,31 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
 79. > yes
 
     *Result: Claude committed the replacement Project Intro video and the prompt log entries to main and pushed them.*
+
+80. > create me a write up similar to this for this project to post (pasted classmates' Week 1 submission posts as examples)
+
+    *Answer: Claude drafted a short Week 1 submission post for ConferAtlas in the same style: why it was built, what it does, the main AI features, the stack, and links to the live app, project doc, demo video and GitHub. It noted that the Google Doc is currently owner-only and must be shared before posting. Not committed.*
+
+81. > link is accessible to all
+
+    *Answer: Claude checked the Drive permissions. The solution kit doc is now shared as "anyone with the link: viewer", with the owner unchanged, so the documentation link in the post works for everyone.*
+
+82. > video is part of git and its accile too
+
+    *Answer: confirmed. The video is committed (c7801a9) and pushed to the public repo, so the GitHub demo link in the post works. Every link in the post is now accessible.*
+
+83. > change Live App link to  https://conferatlas.streamlit.app/
+
+    *Answer: Claude updated the Live App link in the post draft to https://conferatlas.streamlit.app/ and checked that the URL responds. Not committed.*
+
+84. > where to get org id from langsmith dashboard (with a screenshot of LangSmith Settings > API keys)
+
+    *Answer: in LangSmith, go to Settings and use the "ID" copy button next to the Organizations heading in the left sidebar; it copies the organisation ID for the selected organisation (Personal). Not committed.*
+
+85. > I want to switch to google free tier google/gemini-2.5-flash from openrouter. Give me the proposed changes and explain the impact/if any
+
+    *Result: Claude proposed adding Google AI Studio as a fourth provider (`google_genai`) and switching to it through the environment, explained the impact (free, but low per-minute and per-day limits, and Google may use free-tier prompts, so keep it for synthetic data), and the user approved the plan. Changes: `GOOGLE_API_KEY` in `core/config.py`; a `google_genai` branch in `build_chat_model` that drops the `google/` prefix and sets `thinking_budget=0` so thinking tokens don't eat the 1000-token output cap; `classify_error` now reads Google's `.code` status and names (ResourceExhausted, PermissionDenied, DeadlineExceeded and others) so free-tier 429s are retried and explained; a free-tier hint on the rate-limit message; `langchain-google-genai` added to `backend/requirements.txt`; `.env.example` and README document the switch; new tests in `tests/test_llm.py`. OpenRouter stays the code default, so switching back is one env var. Not committed.*
+
+86. > push the changes to git
+
+    *Result: Claude committed the Google AI Studio provider work (#85) together with the pending prompt-log entries #81 to #86 and pushed to origin/main.*

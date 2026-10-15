@@ -14,6 +14,7 @@ _PROVIDER_KEY_VARS = {
     "openrouter": "OPENROUTER_API_KEY",
     "anthropic": "ANTHROPIC_API_KEY",
     "openai": "OPENAI_API_KEY",
+    "google_genai": "GOOGLE_API_KEY",  # Google AI Studio (Gemini API), which has a free tier
 }
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 DEFAULT_PROVIDER = "openrouter"

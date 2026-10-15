@@ -6,7 +6,7 @@ import pytest
 def _isolate_from_dotenv(monkeypatch):
     """Tests never read the real .env or use a real API key: they run offline with defaults."""
     monkeypatch.setattr("core.config.load_dotenv", lambda *a, **k: None)
-    for var in ("OPENROUTER_BASE_URL", "OPENROUTER_API_KEY", "ANTHROPIC_API_KEY", "OPENAI_API_KEY", "LLM_PROVIDER", "LLM_MODEL",
+    for var in ("OPENROUTER_BASE_URL", "OPENROUTER_API_KEY", "ANTHROPIC_API_KEY", "OPENAI_API_KEY", "GOOGLE_API_KEY", "LLM_PROVIDER", "LLM_MODEL",
                 "LLM_MAX_OUTPUT_TOKENS", "LLM_TEMPERATURE", "LLM_MAX_RETRIES", "LLM_TIMEOUT_SECONDS",
                 "LLM_INPUT_PRICE_PER_MTOK", "LLM_OUTPUT_PRICE_PER_MTOK", "CONFERATLAS_REQUIRE_AUTH",
                 "CONFERATLAS_STAFF_EMAILS", "CONFERATLAS_DATA_DIR", "CONFERATLAS_PUBLIC_DEMO", "BACKEND_API_TOKEN", "BACKEND_URL",

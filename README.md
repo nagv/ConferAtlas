@@ -110,6 +110,8 @@ copy backend\.env.example backend\.env      # macOS/Linux: cp backend/.env.examp
 
 Then edit `backend/.env` and set `OPENROUTER_API_KEY`. The default provider is OpenRouter with `google/gemini-2.5-flash`; `OPENROUTER_BASE_URL=https://openrouter.ai/api/v1` is the API endpoint (use the plain URL, without Markdown brackets). Everything except the AI buttons and chat works without it. Only the backend ever holds the key. A `.env` at the project root is still read by the backend as a fallback, so an existing setup keeps working.
 
+To use the **Google AI Studio free tier** instead of OpenRouter, create a key at aistudio.google.com/apikey and set `LLM_PROVIDER=google_genai`, `LLM_MODEL=gemini-2.5-flash` and `GOOGLE_API_KEY` in `backend/.env` (and in the Render environment). It costs nothing, but the free tier allows only a few requests per minute and per day, so several people using the AI features at once will see "limiting requests" messages. Google may also use free-tier prompts to improve its products, so keep it for the synthetic demo data. Thinking is turned off for this provider so responses stay within `LLM_MAX_OUTPUT_TOKENS`. Switch back by setting `LLM_PROVIDER=openrouter`.
+
 ### 3. Run
 
 ConferAtlas runs as two apps: the **backend API** on port 8000 and the **Streamlit frontend** on port 8501. From the project folder, start both with one command (Ctrl+C stops both):
@@ -178,10 +180,10 @@ Each app has its own settings file: `backend/.env` (see `backend/.env.example`) 
 |---|---|---|
 | `BACKEND_API_TOKEN` | none | When set, every route except `/health` requires it. Set it for any shared deployment |
 | `MAX_UPLOAD_MB` | `200` | Largest accepted CSV, per file |
-| `LLM_PROVIDER` | `openrouter` | Provider (`openrouter`, `anthropic` or `openai`) |
-| `LLM_MODEL` | `google/gemini-2.5-flash` | Model name for that provider; OpenRouter uses vendor/model IDs |
+| `LLM_PROVIDER` | `openrouter` | Provider (`openrouter`, `google_genai`, `anthropic` or `openai`) |
+| `LLM_MODEL` | `google/gemini-2.5-flash` | Model name for that provider; OpenRouter uses vendor/model IDs, `google_genai` uses bare IDs such as `gemini-2.5-flash` (a `google/` prefix is dropped) |
 | `OPENROUTER_BASE_URL` | `https://openrouter.ai/api/v1` | OpenRouter OpenAI-compatible API endpoint |
-| `OPENROUTER_API_KEY` / `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` | none | Key for the chosen provider; provider packages are included in requirements |
+| `OPENROUTER_API_KEY` / `GOOGLE_API_KEY` / `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` | none | Key for the chosen provider; provider packages are included in requirements |
 | `LLM_TIMEOUT_SECONDS` | `60` | Seconds before one AI request is abandoned |
 | `LLM_MAX_RETRIES` | `2` | Retries after a timeout, rate limit, overload or network error, with exponential backoff |
 | `LLM_MAX_OUTPUT_TOKENS` | `1000` | Cap on each AI response; keeps OpenRouter output-credit reservations bounded |

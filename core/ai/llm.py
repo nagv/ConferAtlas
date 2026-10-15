@@ -123,10 +123,17 @@ def build_chat_model(settings: Settings, purpose: str, recorder: UsageRecorder |
             # OpenRouter speaks the OpenAI API, so it is the "openai" provider with another base URL.
             return init_chat_model(model=settings.llm_model, model_provider="openai", base_url=settings.base_url,
                                    api_key=settings.api_key, default_headers={"X-Title": "ConferAtlas"}, **common)
+        if settings.llm_provider == "google_genai":
+            # Google's API uses bare ids ("gemini-2.5-flash"), so an OpenRouter-style "google/" prefix is dropped.
+            # Gemini 2.5 Flash thinks by default and thinking tokens count against max_tokens, which can
+            # truncate structured output; thinking_budget=0 turns it off (as with the OpenRouter default).
+            return init_chat_model(settings.llm_model.removeprefix("google/"), model_provider="google_genai",
+                                   api_key=settings.api_key, thinking_budget=0, **common)
         return init_chat_model(settings.llm_model, model_provider=settings.llm_provider, **common)
     except ImportError as exc:
         package = {"anthropic": "langchain-anthropic", "openai": "langchain-openai",
-                   "openrouter": "langchain-openai"}.get(settings.llm_provider, "the provider package")
+                   "openrouter": "langchain-openai",
+                   "google_genai": "langchain-google-genai"}.get(settings.llm_provider, "the provider package")
         raise LLMNotConfiguredError(f"The '{settings.llm_provider}' provider needs {package}. Install it with "
                                     f"`pip install {package}` and restart the app.") from exc
 
@@ -142,7 +149,7 @@ def missing_key_message(settings: Settings) -> str:
     var = settings.api_key_env_var
     if var is None:
         return (f"LLM_PROVIDER is set to '{settings.llm_provider}', which ConferAtlas does not support. "
-                "Use 'openrouter', 'anthropic' or 'openai' in .env.")
+                "Use 'openrouter', 'google_genai', 'anthropic' or 'openai' in .env.")
     return f"No API key: set {var} in the .env file in the project folder (see .env.example), then restart the app."
 
 
@@ -160,19 +167,23 @@ def classify_error(exc: BaseException) -> str:
     """'auth', 'not_found', 'bad_request', 'rate_limit', 'overloaded', 'timeout', 'network' or 'unknown'."""
     name = type(exc).__name__.lower()
     status = getattr(exc, "status_code", None) or getattr(getattr(exc, "response", None), "status_code", None)
-    if isinstance(exc, TimeoutError) or "timeout" in name:
+    if status is None:  # Google's client errors carry the HTTP status in .code instead
+        code = getattr(exc, "code", None)
+        status = int(code) if isinstance(code, int) else None
+    if isinstance(exc, TimeoutError) or "timeout" in name or "deadlineexceeded" in name:
         return "timeout"
-    if status in (401, 403) or "authentication" in name or "permission" in name:
+    if status in (401, 403) or "authentication" in name or "permission" in name or "unauthenticated" in name:
         return "auth"
     if status == 402 or "paymentrequired" in name or "insufficient" in str(exc).lower():
         return "credits"
     if status == 404 or "notfound" in name:
         return "not_found"
-    if status == 429 or "ratelimit" in name:
+    if status == 429 or "ratelimit" in name or "resourceexhausted" in name:
         return "rate_limit"
-    if status in (500, 502, 503, 504, 529) or "overloaded" in name or "internalserver" in name:
+    if (status in (500, 502, 503, 504, 529) or "overloaded" in name or "internalserver" in name
+            or "serviceunavailable" in name):
         return "overloaded"
-    if status in (400, 413, 422) or "badrequest" in name:
+    if status in (400, 413, 422) or "badrequest" in name or "invalidargument" in name:
         return "bad_request"
     if isinstance(exc, ConnectionError) or "connection" in name or "network" in name:
         return "network"
@@ -188,7 +199,10 @@ def friendly_message(kind: str, exc: BaseException, settings: Settings, attempts
         "not_found": f"The model '{settings.llm_model}' was not found. Check LLM_MODEL in .env.",
         "credits": "The AI provider says the account does not have enough credit for this request. Add credit "
                    "(for OpenRouter: openrouter.ai/settings/credits) or lower LLM_MAX_OUTPUT_TOKENS in .env.",
-        "rate_limit": f"The AI provider is limiting requests right now{tries}. Wait a minute and try again.",
+        "rate_limit": f"The AI provider is limiting requests right now{tries}. Wait a minute and try again."
+                      + (" The Google AI Studio free tier allows only a few requests per minute and per day; "
+                         "see aistudio.google.com for your limits." if settings.llm_provider == "google_genai"
+                         else ""),
         "overloaded": f"The AI provider is busy or having problems{tries}. Try again in a moment.",
         "timeout": f"The AI request took longer than {settings.llm_timeout_s:.0f} seconds{tries}. Try again, or "
                    "narrow the selection so there is less to process.",
