@@ -224,6 +224,17 @@ def test_google_genai_model_uses_bare_id_key_and_no_thinking(monkeypatch):
     assert len(model.callbacks) == 1
 
 
+@pytest.mark.parametrize("model", ["gemini-2.5-flash", "google/gemini-2.5-flash", "gemini/gemini-2.5-flash"])
+def test_google_model_id_accepts_prefixed_ids(model):
+    assert llm.google_model_id(model) == "gemini-2.5-flash"
+
+
+def test_not_found_on_openrouter_points_at_the_provider():
+    settings = replace(SETTINGS, llm_provider="openrouter", llm_model="gemini/gemini-2.5-flash")
+    message = llm.friendly_message("not_found", Exception("404"), settings, 1)
+    assert "gemini/gemini-2.5-flash" in message and "LLM_PROVIDER=google_genai" in message
+
+
 def test_google_genai_missing_key_is_explained(monkeypatch):
     monkeypatch.setenv("LLM_PROVIDER", "google_genai")
     with pytest.raises(llm.LLMNotConfiguredError, match="GOOGLE_API_KEY"):

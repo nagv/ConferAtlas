@@ -124,10 +124,10 @@ def build_chat_model(settings: Settings, purpose: str, recorder: UsageRecorder |
             return init_chat_model(model=settings.llm_model, model_provider="openai", base_url=settings.base_url,
                                    api_key=settings.api_key, default_headers={"X-Title": "ConferAtlas"}, **common)
         if settings.llm_provider == "google_genai":
-            # Google's API uses bare ids ("gemini-2.5-flash"), so an OpenRouter-style "google/" prefix is dropped.
-            # Gemini 2.5 Flash thinks by default and thinking tokens count against max_tokens, which can
-            # truncate structured output; thinking_budget=0 turns it off (as with the OpenRouter default).
-            return init_chat_model(settings.llm_model.removeprefix("google/"), model_provider="google_genai",
+            # Google's API uses bare ids ("gemini-2.5-flash"), so a "google/" (OpenRouter) or "gemini/" (LiteLLM)
+            # prefix is dropped. Gemini 2.5 Flash thinks by default and thinking tokens count against max_tokens,
+            # which can truncate structured output; thinking_budget=0 turns it off (as with the OpenRouter default).
+            return init_chat_model(google_model_id(settings.llm_model), model_provider="google_genai",
                                    api_key=settings.api_key, thinking_budget=0, **common)
         return init_chat_model(settings.llm_model, model_provider=settings.llm_provider, **common)
     except ImportError as exc:
@@ -136,6 +136,13 @@ def build_chat_model(settings: Settings, purpose: str, recorder: UsageRecorder |
                    "google_genai": "langchain-google-genai"}.get(settings.llm_provider, "the provider package")
         raise LLMNotConfiguredError(f"The '{settings.llm_provider}' provider needs {package}. Install it with "
                                     f"`pip install {package}` and restart the app.") from exc
+
+
+def google_model_id(model: str) -> str:
+    """'gemini-2.5-flash' from 'google/gemini-2.5-flash', 'gemini/gemini-2.5-flash' or 'gemini-2.5-flash'."""
+    for prefix in ("google/", "gemini/"):
+        model = model.removeprefix(prefix)
+    return model
 
 
 def structured_output_method(settings: Settings) -> str:
@@ -196,7 +203,10 @@ def friendly_message(kind: str, exc: BaseException, settings: Settings, attempts
     return {
         "auth": f"The AI provider rejected the API key. Check {settings.api_key_env_var or 'the key'} in .env "
                 "(no quotes or spaces) and restart the app.",
-        "not_found": f"The model '{settings.llm_model}' was not found. Check LLM_MODEL in .env.",
+        "not_found": f"The model '{settings.llm_model}' was not found. Check LLM_MODEL in .env."
+                     + (f" LLM_PROVIDER is '{settings.llm_provider}': OpenRouter needs a vendor/model id such as "
+                        "google/gemini-2.5-flash; for Google AI Studio set LLM_PROVIDER=google_genai."
+                        if settings.llm_provider == "openrouter" else ""),
         "credits": "The AI provider says the account does not have enough credit for this request. Add credit "
                    "(for OpenRouter: openrouter.ai/settings/credits) or lower LLM_MAX_OUTPUT_TOKENS in .env.",
         "rate_limit": f"The AI provider is limiting requests right now{tries}. Wait a minute and try again."

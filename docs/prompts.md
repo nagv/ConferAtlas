@@ -396,3 +396,13 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
 86. > push the changes to git
 
     *Result: Claude committed the Google AI Studio provider work (#85) together with the pending prompt-log entries #81 to #86 and pushed to origin/main.*
+
+87. > The model 'gemini/gemini-2.5-flash' was not found. Check LLM_MODEL in .env. Check your connection, API key and model name in .env.
+    >
+    > i tried to change to gemini-2.5-flash and gemini/gemini-2.5-flash
+
+    *Result: the error means the request still went to OpenRouter: only LLM_MODEL was changed, while LLM_PROVIDER was still `openrouter` (the local `.env` still says so), and OpenRouter knows neither `gemini-2.5-flash` nor `gemini/gemini-2.5-flash`. Fix: set LLM_PROVIDER=google_genai and GOOGLE_API_KEY as well. Claude also made the code more forgiving: the google_genai provider now accepts `gemini/` as well as `google/` prefixes (`google_model_id`), and the "model not found" message on OpenRouter now says which provider is set and how to switch. Tests added. Not committed.*
+
+88. > push change to branch
+
+    *Result: Claude committed the #87 changes (gemini/ prefix accepted, clearer "model not found" message, tests, prompt log) and pushed them to origin/main.*
