@@ -35,6 +35,7 @@ from frontend.views import (  # noqa: E402
     feedback,
     home,
     overview,
+    rag_lab,
     sponsor_performance,
     sponsor_report,
 )
@@ -77,6 +78,7 @@ page = st.navigation({
     "AI assistants": [
         st.Page(ask.render, title="Ask the portfolio", url_path="ask", icon=":material/chat:"),
         st.Page(ai_insights.render, title="AI insights", url_path="ai-insights", icon=":material/auto_awesome:"),
+        st.Page(rag_lab.render, title="RAG Lab", url_path="rag-lab", icon=":material/science:"),
     ],
     "Help": [about],
 })

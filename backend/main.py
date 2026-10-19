@@ -18,6 +18,7 @@ from backend.services import (
     about,
     audience,
     chat,
+    documents,
     drilldown,
     feedback,
     insights,
@@ -32,8 +33,19 @@ from core.ai.feedback import DEFAULT_BATCH_TOKENS, DEFAULT_MAX_TOTAL_TOKENS, DEF
 from core.ai.llm import UsageRecorder, missing_key_message
 from core.ai.portfolio_agent import HISTORY_MESSAGES, MAX_TOOL_CALLS
 from core.config import DEFAULT_DATA_DIR, get_settings
+from core.rag.embeddings import EmbeddingsNotConfiguredError
 from shared.models import (
     AboutResponse,
+    BuildRequest,
+    BuildResponse,
+    ChunkRequest,
+    ChunkResponse,
+    DocumentInfo,
+    ExperimentsResponse,
+    MapRequest,
+    MapResponse,
+    RagSearchRequest,
+    RagSearchResponse,
     AudienceRequest,
     AudienceResponse,
     ChatRequest,
@@ -124,6 +136,7 @@ def status():
         limits=Limits(max_tool_calls=MAX_TOOL_CALLS, history_messages=HISTORY_MESSAGES,
                       feedback_batch_tokens=DEFAULT_BATCH_TOKENS, feedback_max_total_tokens=DEFAULT_MAX_TOTAL_TOKENS,
                       feedback_request_timeout_s=DEFAULT_REQUEST_TIMEOUT_S),
+        documents=documents.status(s),
     )
 
 
@@ -256,3 +269,49 @@ def ask(dataset_id: str, request: ChatRequest):
     except Exception as exc:
         raise errors.ai_error(exc, recorder) from None
     return {"answer": answer, "usage": errors.usage_records(recorder)}
+
+
+# --- documents and RAG Lab (Week 2) -------------------------------------------------------------
+
+def _rag(run):
+    """Run a RAG Lab call, turning setup problems into clear HTTP errors."""
+    try:
+        return run()
+    except EmbeddingsNotConfiguredError as exc:
+        raise HTTPException(503, str(exc)) from None
+    except KeyError as exc:
+        raise HTTPException(404, f"Unknown document {exc}.") from None
+    except LookupError as exc:
+        raise HTTPException(409, str(exc)) from None
+
+
+@app.get("/rag/documents", response_model=list[DocumentInfo], dependencies=protected)
+def rag_documents():
+    return documents.documents()
+
+
+@app.post("/rag/chunks", response_model=ChunkResponse, dependencies=protected)
+def rag_chunks(request: ChunkRequest):
+    return _rag(lambda: documents.chunks(request))
+
+
+@app.post("/rag/map", response_model=MapResponse, dependencies=protected)
+def rag_map(request: MapRequest):
+    return _rag(lambda: documents.embedding_map(request))
+
+
+@app.post("/rag/build", response_model=BuildResponse, dependencies=protected)
+def rag_build(request: BuildRequest):
+    return _rag(lambda: documents.build(request))
+
+
+@app.get("/rag/experiments", response_model=ExperimentsResponse, dependencies=protected)
+def rag_experiments():
+    return documents.experiments()
+
+
+@app.post("/datasets/{dataset_id}/rag/search", response_model=RagSearchResponse, dependencies=protected)
+def rag_search(dataset_id: str, request: RagSearchRequest):
+    ds = get_dataset(dataset_id)
+    _, tables = selection.scoped(ds, request)
+    return _rag(lambda: documents.search(ds, tables, request))

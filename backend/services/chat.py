@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from backend.serialize import json_safe, table
+from backend.services import documents
 from backend.services.selection import scope_text, scoped
 from backend.store import StoredDataset
 from core.ai.llm import UsageRecorder
@@ -12,9 +13,11 @@ from shared.models import ChatRequest
 def ask(ds: StoredDataset, req: ChatRequest, recorder: UsageRecorder) -> dict:
     """The agent's answer as a JSON-ready dict (raises the core errors unchanged).
 
-    The toolkit is rebuilt for every question, so no chat state is kept on the server."""
+    The toolkit is rebuilt for every question, so no chat state is kept on the server. When document
+    search is available it gets one search tool per corpus, narrowed to the selected events."""
     state, t = scoped(ds, req)
-    toolkit = PortfolioToolkit(t, history=ds.tables, scope=scope_text(state, ds.tables, req.today))
+    docs, docs_note = documents.document_search(ds, t)
+    toolkit = PortfolioToolkit(t, history=ds.tables, scope=scope_text(state, ds.tables, req.today), documents=docs)
     prior = [m.model_dump() for m in req.history]
     answer = ask_portfolio(req.question, toolkit, history=prior, recorder=recorder)
     return {
@@ -24,4 +27,8 @@ def ask(ds: StoredDataset, req: ChatRequest, recorder: UsageRecorder) -> dict:
         "charts": [vars(c) for c in answer.charts],
         "unverified_numbers": list(answer.unverified_numbers), "warnings": list(answer.warnings),
         "tool_calls": answer.tool_calls,
+        "sources": [vars(s) for s in answer.sources],
+        "trace": [{"step": s["step"], "text": s.get("text", ""), "tool": s.get("tool", ""),
+                   "args": json_safe(s.get("args", {})), "summary": s.get("summary", "")} for s in answer.trace],
+        "documents_note": docs_note,
     }

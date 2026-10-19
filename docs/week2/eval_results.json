@@ -1,0 +1,5272 @@
+{
+  "generated_at": "2026-10-17T20:23:04",
+  "golden_questions": 20,
+  "embedding_model": "Qwen/Qwen3-Embedding-8B",
+  "answer_model": "nebius:deepseek-ai/DeepSeek-V4-Flash-0731",
+  "judge_model": "zai-org/GLM-5.3",
+  "langsmith_dataset": "conferatlas-golden-20q-e394c55f",
+  "merged_at": "2026-10-18T16:52:28",
+  "results": [
+    {
+      "setting": "fixed \u00b7 dense",
+      "kind": "retrieval",
+      "questions": 20,
+      "hit_rate": 0.9412,
+      "mrr": 0.8676,
+      "refusal_accuracy": 0.85,
+      "within_8s": 1.0,
+      "latency_median_s": 0.09,
+      "latency_p90_s": 0.14
+    },
+    {
+      "setting": "fixed \u00b7 hybrid",
+      "kind": "retrieval",
+      "questions": 20,
+      "hit_rate": 1.0,
+      "mrr": 0.9235,
+      "refusal_accuracy": 0.85,
+      "within_8s": 1.0,
+      "latency_median_s": 0.11,
+      "latency_p90_s": 0.17
+    },
+    {
+      "setting": "fixed \u00b7 hybrid + rerank",
+      "kind": "retrieval",
+      "questions": 20,
+      "hit_rate": 1.0,
+      "mrr": 0.9706,
+      "refusal_accuracy": 0.9,
+      "within_8s": 0.05,
+      "latency_median_s": 8.91,
+      "latency_p90_s": 9.83
+    },
+    {
+      "setting": "structure \u00b7 dense",
+      "kind": "retrieval",
+      "questions": 20,
+      "hit_rate": 1.0,
+      "mrr": 1.0,
+      "refusal_accuracy": 0.85,
+      "within_8s": 1.0,
+      "latency_median_s": 0.05,
+      "latency_p90_s": 0.06
+    },
+    {
+      "setting": "structure \u00b7 hybrid",
+      "kind": "retrieval",
+      "questions": 20,
+      "hit_rate": 1.0,
+      "mrr": 0.9314,
+      "refusal_accuracy": 0.85,
+      "within_8s": 1.0,
+      "latency_median_s": 0.11,
+      "latency_p90_s": 0.11
+    },
+    {
+      "setting": "structure \u00b7 hybrid + rerank",
+      "kind": "retrieval",
+      "questions": 20,
+      "hit_rate": 1.0,
+      "mrr": 1.0,
+      "refusal_accuracy": 0.9,
+      "within_8s": 1.0,
+      "latency_median_s": 1.0,
+      "latency_p90_s": 1.64
+    },
+    {
+      "setting": "semantic \u00b7 dense",
+      "kind": "retrieval",
+      "questions": 20,
+      "hit_rate": 1.0,
+      "mrr": 0.9706,
+      "refusal_accuracy": 0.85,
+      "within_8s": 1.0,
+      "latency_median_s": 0.05,
+      "latency_p90_s": 0.08
+    },
+    {
+      "setting": "semantic \u00b7 hybrid",
+      "kind": "retrieval",
+      "questions": 20,
+      "hit_rate": 0.9412,
+      "mrr": 0.8333,
+      "refusal_accuracy": 0.85,
+      "within_8s": 1.0,
+      "latency_median_s": 0.08,
+      "latency_p90_s": 0.12
+    },
+    {
+      "setting": "semantic \u00b7 hybrid + rerank",
+      "kind": "retrieval",
+      "questions": 20,
+      "hit_rate": 1.0,
+      "mrr": 1.0,
+      "refusal_accuracy": 0.9,
+      "within_8s": 1.0,
+      "latency_median_s": 1.15,
+      "latency_p90_s": 4.56
+    },
+    {
+      "setting": "agent \u00b7 structure \u00b7 hybrid + rerank",
+      "kind": "agent",
+      "questions": 20,
+      "judged": 19,
+      "correctness": 0.9947,
+      "faithfulness": 1.0,
+      "hit_rate": 1.0,
+      "mrr": 1.0,
+      "refusal_accuracy": 0.95,
+      "relevance": 1.0,
+      "routing_accuracy": 1.0,
+      "within_8s": 0.95,
+      "latency_median_s": 2.53,
+      "latency_p90_s": 5.97,
+      "tokens_per_question": 6924
+    },
+    {
+      "setting": "agent \u00b7 structure \u00b7 dense",
+      "kind": "agent",
+      "questions": 20,
+      "judged": 19,
+      "correctness": 0.9974,
+      "faithfulness": 0.9763,
+      "hit_rate": 1.0,
+      "mrr": 1.0,
+      "refusal_accuracy": 0.95,
+      "relevance": 0.9974,
+      "routing_accuracy": 1.0,
+      "within_8s": 1.0,
+      "latency_median_s": 1.88,
+      "latency_p90_s": 3.75,
+      "tokens_per_question": 7422
+    },
+    {
+      "setting": "agent \u00b7 fixed \u00b7 hybrid + rerank",
+      "kind": "agent",
+      "questions": 20,
+      "judged": 16,
+      "correctness": 0.8125,
+      "faithfulness": 0.9469,
+      "hit_rate": 1.0,
+      "mrr": 1.0,
+      "refusal_accuracy": 0.7,
+      "relevance": 0.8063,
+      "routing_accuracy": 1.0,
+      "within_8s": 0.65,
+      "latency_median_s": 6.06,
+      "latency_p90_s": 32.61,
+      "tokens_per_question": 16545
+    },
+    {
+      "setting": "agent \u00b7 semantic \u00b7 hybrid + rerank",
+      "kind": "agent",
+      "questions": 20,
+      "judged": 19,
+      "correctness": 0.9947,
+      "faithfulness": 0.9842,
+      "hit_rate": 1.0,
+      "mrr": 1.0,
+      "refusal_accuracy": 0.95,
+      "relevance": 1.0,
+      "routing_accuracy": 1.0,
+      "within_8s": 1.0,
+      "latency_median_s": 2.97,
+      "latency_p90_s": 5.83,
+      "tokens_per_question": 6609
+    }
+  ],
+  "per_question": {
+    "agent \u00b7 structure \u00b7 hybrid + rerank": [
+      {
+        "id": "Q01",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The main operational issue at the Chicago DevSecOps Forum 2024 was that the registration queue peaked at 25 minutes on the first morning. In response, two extra badge printers were opened and a walk-in lane was added [S1].\n\n- The event was held April 2\u20134, 2024 at the Lakeshore Conference Center, with 769 attendees out of 959 confirmed registrations (80% show-up) [S4].\n- Sponsors collected 1,567 leads against a combined target of 1,270, with 9 of 10 sponsors meeting their target [S4].",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV008",
+          "report_EV004"
+        ],
+        "seconds": 2.39
+      },
+      {
+        "id": "Q02",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The team recorded that booth traffic dropped sharply after lunch, and recommended moving the expo hall next to the coffee stations so attendees pass the booths between sessions [S1].",
+        "doc_ids": [
+          "report_EV004"
+        ],
+        "seconds": 2.61
+      },
+      {
+        "id": "Q03",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "At the New York Revenue Ops Conference 2025, Harborview Software collected **317 leads** against a target of **145**, reaching 219% attainment [S1].",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV007",
+          "report_EV009"
+        ],
+        "seconds": 2.88
+      },
+      {
+        "id": "Q04",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Quillon Security asked for attendee job titles in the lead export at the San Francisco DevSecOps Forum 2025 [S1].\n\n- Quillon Security was the Title Sponsor, collecting 413 leads against a target of 360 (115% attainment) [S1].",
+        "doc_ids": [
+          "report_EV008",
+          "report_EV005"
+        ],
+        "seconds": 2.94
+      },
+      {
+        "id": "Q05",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "A Premier Booth for 2026 events costs **$51,000** [S1].\n\n- It's an in-person/hybrid package with a 10 x 20 ft booth, a lead target of 140 per 1,000 attendees, logo in the event app, 6 full passes, lead retrieval for 3 staff, and one demo theater slot [S1].\n- New for 2026: Premier Booth sponsors whose leads fall below 70% of target receive a credit of 15% of the package price toward the following year [S2].\n- For comparison, the 2025 Premier Booth was $48,000 [S3].",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 2.45
+      },
+      {
+        "id": "Q06",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 0.9
+        },
+        "answer": "The Title Sponsor package includes: **keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff**, with a 20\u00d720 ft island booth and a lead target of 220 per 1,000 attendees [S2][S3].\n\n- Price: $95,000 in 2025, rising to $100,500 in 2026 [S2][S3].\n- New for 2026: if a Title Sponsor's leads fall below 70% of target, they receive a credit of 15% of the package price toward the following year [S1].",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 2.45
+      },
+      {
+        "id": "Q07",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "A cancellation 60 days before the event falls in the 30\u201390 day window, so **25% of fees paid is refunded** [S1][S2].\n\n- Cancellations more than 90 days out receive a 75% refund; within 30 days, nothing is refunded [S1][S2].\n- The balance is due 60 days before the event, so a 60-day cancellation would be at the point the balance is payable [S1][S2].",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 2.19
+      },
+      {
+        "id": "Q08",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Under the **2026 lead guarantee**, a Premier Booth sponsor whose leads reach less than 70% of their lead target receives a **credit of 15% of their package price** toward the following year [S1][S5]. This guarantee is new for 2026 and applies to both Title Sponsor and Premier Booth sponsors [S1][S5].\n\n- The 2026 Premier Booth package is $51,000 [S3].\n- Note this is a 2026 policy; the 2025 brochure does not mention such a guarantee [S2][S6].",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 4.19
+      },
+      {
+        "id": "Q09",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Badge scanners must be charged and tested by **7:00 AM on each event day** [S1].",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_registration_desk"
+        ],
+        "seconds": 1.89
+      },
+      {
+        "id": "Q10",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Sponsors receive their lead export within **48 hours** of the event closing [S1].\n\nThe export is a **CSV** containing: **name, company, job title, source, and notes** [S1].",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_virtual_streaming",
+          "sop_venue_setup"
+        ],
+        "seconds": 1.62
+      },
+      {
+        "id": "Q11",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "If a stream is down for more than 5 minutes, the producer switches to the backup encoder and escalates to the platform vendor's on-call engineer [S1].",
+        "doc_ids": [
+          "sop_virtual_streaming",
+          "sop_registration_desk"
+        ],
+        "seconds": 1.67
+      },
+      {
+        "id": "Q12",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "We proposed keeping Quillon Security's current packages and adding a sponsored breakout session at each event [S1]. This was framed as the main ask of the renewal meeting [S1].\n\n- The proposal was presented at the Quillon Security renewal meeting covering events through 2025 [S2].\n- Their results through 2025: 1,558 leads against a 1,455 target (107%), at a $159 cost per lead, with targets met at 5 of 6 events [S3].",
+        "doc_ids": [
+          "deck_SP016",
+          "deck_SP014"
+        ],
+        "seconds": 2.36
+      },
+      {
+        "id": "Q13",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The session \"Case study: assessment at a mid-size organization\" at the Toronto Higher Ed Futures Conference 2026 was presented by **Ben Martin** (Assessment track, virtual format) [S1].",
+        "doc_ids": [
+          "abstracts_EV010",
+          "abstracts_EV002",
+          "abstracts_EV012"
+        ],
+        "seconds": 1.83
+      },
+      {
+        "id": "Q14",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The session \"Research myths, busted\" at the Austin Clinical Innovation Congress 2026 was in the **Research** track, presented by Maya Thompson in a hybrid format [S1].",
+        "doc_ids": [
+          "abstracts_EV012",
+          "abstracts_EV003"
+        ],
+        "seconds": 1.84
+      },
+      {
+        "id": "Q15",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "**Chicago DevSecOps Forum 2024** (Lakeshore Conference Center): the main operational issue was the registration queue peaking at 25 minutes on the first morning; in response, two extra badge printers were opened and a walk-in lane was added [S1].\n\n**Austin Clinical Innovation Congress 2026** (Lone Star Convention Center): the main operational issue was catering running out of vegetarian lunches on day 1; in response, the caterer increased vegetarian portions by 40% for the remaining days [S5].\n\n- Chicago was an in-person tech event (April 2\u20134, 2024); Austin was a hybrid medical event (May 28\u201330, 2026) [S2][S6].\n- Chicago ran over budget ($335,500 vs $326,000); Austin came in under budget ($256,000 vs $260,000) [S2][S6].\n- Chicago's show-up rate was 80% (769/959) vs Austin's 78% (777/999) [S2][S6].",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV004",
+          "report_EV008",
+          "report_EV012",
+          "report_EV002",
+          "report_EV003"
+        ],
+        "seconds": 5.97
+      },
+      {
+        "id": "Q16",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Brightpath Security bought the **Title Sponsor** package at the Austin Clinical Innovation Congress 2026 [S1], which costs **$100,500** in 2026 [S6].\n\n- The Title Sponsor package includes a 20\u00d720 ft island booth, keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff [S6].\n- Brightpath collected 232 leads against a target of 240 (97% attainment) [S1].\n- They asked to move their demo slot to the morning [S1].",
+        "doc_ids": [
+          "report_EV012",
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 3.59
+      },
+      {
+        "id": "Q17",
+        "category": "mixed",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The show-up rate at the Chicago DevSecOps Forum 2024 was **80%** (769 attendees out of 959 confirmed registrations) [S1][T1].\n\nThe report recommended sending a **reminder email 48 hours before the event, with the agenda and a calendar invite**, to reduce the number of confirmed registrants who did not show up [S3].\n\n- The event drew 769 attendees from 1,030 total registrations, and 9 of 10 sponsors met their lead target [S1].\n- The event ran 30 sessions; the top-rated was AI & ML with Nikhil Fischer (4.76) [S4].",
+        "doc_ids": [
+          "report_EV001"
+        ],
+        "seconds": 3.09
+      },
+      {
+        "id": "Q18",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": null,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "I couldn't find the speaker hotel room rate for the Chicago EdTech Leaders Summit 2025 in our documents.\n\nThe post-event report for that event covers the executive summary, audience, program highlights, and sponsor results, but it does not mention a speaker hotel room rate. The operations SOPs also returned nothing relevant. If you have a hotel rate sheet or speaker logistics document, I could look there.",
+        "doc_ids": [
+          "report_EV004"
+        ],
+        "seconds": 2.84
+      },
+      {
+        "id": "Q19",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": null,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "I couldn't find the catering company or its charge in our documents.\n\nThe New York Revenue Ops Conference 2025 post-event report covers the venue (Empire Pier Conference Hall), audience, program highlights, and an operational issue (Hall B air conditioning failure) [S1][S4], but it does not mention which catering company served the event or what it charged. The operations documents also returned nothing on catering for this event.",
+        "doc_ids": [
+          "report_EV006"
+        ],
+        "seconds": 3.31
+      },
+      {
+        "id": "Q20",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "routing_accuracy": null,
+          "within_8s": 0.0,
+          "faithfulness": null,
+          "relevance": null,
+          "correctness": null
+        },
+        "answer": "Next year's (2026) events in the current selection are:\n\n- **Toronto Higher Ed Futures Conference 2026** \u2014 March 21, 2026 (virtual) [S7]\n- **Boston Cloud Native Conference 2026** \u2014 May 2\u20133, 2026 (virtual) [S6]\n- **Austin Clinical Innovation Congress 2026** \u2014 May 28\u201330, 2026 (hybrid) [S5]\n\nThe remaining events in the portfolio are 2024\u20132025 events.",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "report_EV012",
+          "report_EV011",
+          "report_EV010",
+          "report_EV006"
+        ],
+        "seconds": 8.08
+      }
+    ],
+    "agent \u00b7 structure \u00b7 dense": [
+      {
+        "id": "Q01",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The main operational issue at the Chicago DevSecOps Forum 2024 was that the registration queue peaked at 25 minutes on the first morning. It was handled by opening two extra badge printers and adding a walk-in lane [S2].\n\n- The event drew 769 attendees from 959 confirmed registrations (80% show-up rate) [S1].\n- A separate lesson noted too many confirmed registrants didn't show up; the recommendation was a reminder email 48 hours before the next edition with the agenda and a calendar invite [S3].",
+        "doc_ids": [
+          "report_EV001"
+        ],
+        "seconds": 3.75
+      },
+      {
+        "id": "Q02",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The team recorded that booth traffic dropped sharply after lunch, and recommended moving the expo hall next to the coffee stations so attendees pass the booths between sessions [S2].",
+        "doc_ids": [
+          "report_EV004"
+        ],
+        "seconds": 1.62
+      },
+      {
+        "id": "Q03",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "At the New York Revenue Ops Conference 2025, Harborview Software collected **317 leads** against a target of **145** (219% attainment) [S5].",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV007",
+          "report_EV001",
+          "report_EV009"
+        ],
+        "seconds": 3.3
+      },
+      {
+        "id": "Q04",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Quillon Security asked for attendee job titles in the lead export at the San Francisco DevSecOps Forum 2025 [S3].\n\n- Quillon Security was the Title Sponsor, collecting 413 leads against a target of 360 (115% attainment) [S3].\n- The standard lead export already includes job title as a column (name, company, job title, source, notes), so the request was for that field to be included in their export [S5].",
+        "doc_ids": [
+          "report_EV008",
+          "sop_booth_logistics",
+          "sop_registration_desk"
+        ],
+        "seconds": 1.84
+      },
+      {
+        "id": "Q05",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "A Premier Booth for 2026 events costs **$51,000** [S1].\n\n- It's an in-person/hybrid package with a 10 x 20 ft booth and a lead target of 140 per 1,000 attendees [S1].\n- Includes logo in the event app, 6 full passes, lead retrieval for 3 staff, and one demo theater slot [S1].\n- New for 2026: Premier Booth sponsors whose leads fall below 70% of target receive a 15% credit toward the following year [S4].\n- For comparison, the 2025 Premier Booth was $48,000 [S3].",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 1.84
+      },
+      {
+        "id": "Q06",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 0.95
+        },
+        "answer": "The Title Sponsor package includes: **keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff**, with a **20 x 20 ft island booth** and a lead target of **220 per 1,000 attendees** [S1].\n\n- **2025 price:** $95,000 [S1]\n- **2026 price:** $100,500 [S3]\n- It's available in in-person or hybrid format [S1][S3].",
+        "doc_ids": [
+          "pricing_2025",
+          "pricing_2026"
+        ],
+        "seconds": 1.86
+      },
+      {
+        "id": "Q07",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "A cancellation 60 days before the event falls in the **30\u201390 day window**, so the sponsor receives a **25% refund of fees paid** [S1][S2].\n\n- Cancellations more than 90 days out get 75% back; within 30 days, nothing is refunded [S1][S2].\n- The 50% deposit is due at signing and the balance 60 days before the event [S1][S2].",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 1.83
+      },
+      {
+        "id": "Q08",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Under the 2026 lead guarantee, a Premier Booth sponsor whose leads reach less than 70% of its lead target receives a credit of 15% of its package price toward the following year [S1][S5]. This is new for 2026 and also applies to Title Sponsors [S1][S5].\n\n- The 2026 Premier Booth package is $51,000 (10 x 20 ft booth, 140 lead target per 1,000 attendees) [S2].\n- Lead targets are scaled to each event's expected attendance and confirmed in the sponsorship agreement [S4].\n- Note: this guarantee appears only in the 2026 pricing; the 2025 brochure does not list it [S3][S6].",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 2.19
+      },
+      {
+        "id": "Q09",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Badge scanners must be charged and tested by **7:00 AM on each event day** [S1].",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_registration_desk",
+          "sop_virtual_streaming"
+        ],
+        "seconds": 1.56
+      },
+      {
+        "id": "Q10",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Sponsors receive their lead export within 48 hours of the event closing [S1].\n\nThe export is a CSV containing name, company, job title, source, and notes [S1].",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_virtual_streaming"
+        ],
+        "seconds": 1.55
+      },
+      {
+        "id": "Q11",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 0.95,
+          "correctness": 1.0
+        },
+        "answer": "If a stream is down for more than 5 minutes, the producer switches to the backup encoder and escalates to the platform vendor's on-call engineer [S1].\n\n- The target stream latency is under 15 seconds [S1].\n- A backup encoder must already be running in parallel for the keynote stream [S4].",
+        "doc_ids": [
+          "sop_virtual_streaming"
+        ],
+        "seconds": 2.05
+      },
+      {
+        "id": "Q12",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "We proposed keeping Quillon Security's current packages and adding a sponsored breakout session at each event [S1].\n\n- This was presented as the main ask of the renewal meeting [S1].\n- Quillon sponsored six events through 2025, including Title Sponsor at Chicago DevSecOps Forum 2024, Boston Clinical Innovation Congress 2024, New York Revenue Ops Conference 2025, San Francisco DevSecOps Forum 2025, and New York Future of Work Forum 2025, plus Digital Premier at Toronto Clinical Innovation Congress 2024 [S3].",
+        "doc_ids": [
+          "deck_SP016",
+          "deck_SP014"
+        ],
+        "seconds": 1.69
+      },
+      {
+        "id": "Q13",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The session \"Case study: assessment at a mid-size organization\" at the Toronto Higher Ed Futures Conference 2026 was presented by **Ben Martin** (Assessment track, virtual format) [S1].",
+        "doc_ids": [
+          "abstracts_EV010",
+          "abstracts_EV005"
+        ],
+        "seconds": 1.36
+      },
+      {
+        "id": "Q14",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The session \"Research myths, busted\" was in the **Research** track at the Austin Clinical Innovation Congress 2026 [S1].",
+        "doc_ids": [
+          "abstracts_EV012",
+          "abstracts_EV003"
+        ],
+        "seconds": 1.56
+      },
+      {
+        "id": "Q15",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "**Chicago DevSecOps Forum 2024** (Lakeshore Conference Center): the main operational issue was a registration queue that peaked at 25 minutes on the first morning; in response, two extra badge printers were opened and a walk-in lane was added [S1].\n\n**Austin Clinical Innovation Congress 2026** (Lone Star Convention Center): the main operational issue was catering running out of vegetarian lunches on day 1; in response, the caterer increased vegetarian portions by 40% for the remaining days [S5]. A separate lesson noted that technical problems were only found on the first morning, with a recommendation to run a full technical rehearsal the day before the next edition [S7].\n\n- Chicago was an in-person tech event (769 attendees, 80% show-up); Austin was a hybrid medical event (777 attendees, 78% show-up) [S2][S6].\n- Chicago ran over budget (+2.9%); Austin came in under budget (-1.5%) [S2][S6].",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV008",
+          "report_EV004",
+          "report_EV012"
+        ],
+        "seconds": 1.89
+      },
+      {
+        "id": "Q16",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Brightpath Security bought the **Title Sponsor** package at the Austin Clinical Innovation Congress 2026 [S2], which costs **$100,500** in 2026 [S5].\n\n- The Title Sponsor package includes a 20\u00d720 ft island booth, keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff [S5].\n- At the event, Brightpath collected 232 leads against a target of 240 (97% attainment) [S2].\n- Brightpath asked to move their demo slot to the morning [S2].",
+        "doc_ids": [
+          "report_EV012",
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 2.34
+      },
+      {
+        "id": "Q17",
+        "category": "mixed",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The show-up rate at the Chicago DevSecOps Forum 2024 was **80%** (769 attendees out of 959 confirmed registrations) [S1].\n\nThe report recommended sending a **reminder email 48 hours before the event, with the agenda and a calendar invite**, to reduce the number of confirmed registrants who did not show up [S2].\n\n- The event drew 769 attendees out of 1,030 total registrations, with an average rating of 3.90/5 and an NPS of -1 [S1].\n- It ran 30 sessions; the highest-rated was AI & ML with Nikhil Fischer (4.76) and the lowest was Security with Rafael Patel (2.45) [S3].",
+        "doc_ids": [
+          "report_EV001"
+        ],
+        "seconds": 2.61
+      },
+      {
+        "id": "Q18",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": null,
+          "within_8s": 1.0,
+          "faithfulness": 0.75,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "I couldn't find the hotel room rate for speakers at the Chicago EdTech Leaders Summit 2025 in our documents.\n\nThe post-event report for that event covers the executive summary, audience, program highlights, and sponsor results [S1\u2013S4], but it does not mention speaker hotel rates. The operations SOPs also returned nothing relevant. If you have a speaker logistics or hotel block document, I could search that for the rate.",
+        "doc_ids": [
+          "report_EV004"
+        ],
+        "seconds": 2.3
+      },
+      {
+        "id": "Q19",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": null,
+          "within_8s": 1.0,
+          "faithfulness": 0.8,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "I couldn't find this in our documents. The New York Revenue Ops Conference 2025 post-event report covers the venue (Empire Pier Conference Hall), program, and sponsor results, but it does not name a catering company or list a catering charge [S1][S4]. The operations SOPs also contain no catering vendor details for this event.",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV007",
+          "report_EV012",
+          "report_EV009"
+        ],
+        "seconds": 3.08
+      },
+      {
+        "id": "Q20",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "routing_accuracy": null,
+          "within_8s": 1.0,
+          "faithfulness": null,
+          "relevance": null,
+          "correctness": null
+        },
+        "answer": "Next year's (2026) events in the current selection are:\n\n- **Toronto Higher Ed Futures Conference 2026** \u2014 March 21, 2026 (virtual) [S7]\n- **Boston Cloud Native Conference 2026** \u2014 May 2\u20133, 2026 (virtual) [S6]\n- **Austin Clinical Innovation Congress 2026** \u2014 May 28\u201330, 2026 (hybrid) [S5]\n\nThese are the only 2026 events in the portfolio; the rest of the selection is 2024\u20132025 events.",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "report_EV012",
+          "report_EV011",
+          "report_EV010"
+        ],
+        "seconds": 5.24
+      }
+    ],
+    "agent \u00b7 semantic \u00b7 hybrid + rerank": [
+      {
+        "id": "Q01",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The main operational issue at the Chicago DevSecOps Forum 2024 was that the registration queue peaked at 25 minutes on the first morning. It was handled by opening two extra badge printers and adding a walk-in lane [S1].",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV008",
+          "report_EV004"
+        ],
+        "seconds": 3.45
+      },
+      {
+        "id": "Q02",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The team recorded that booth traffic dropped sharply after lunch, and recommended moving the expo hall next to the coffee stations so attendees pass the booths between sessions [S1].",
+        "doc_ids": [
+          "report_EV004"
+        ],
+        "seconds": 3.41
+      },
+      {
+        "id": "Q03",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "At the New York Revenue Ops Conference 2025, Harborview Software collected **317 leads** against a target of **145**, reaching 219% attainment [S1].",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV007",
+          "report_EV009"
+        ],
+        "seconds": 2.72
+      },
+      {
+        "id": "Q04",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Quillon Security asked for attendee job titles in the lead export at the San Francisco DevSecOps Forum 2025 [S1].\n\n- Quillon was the Title Sponsor, collecting 413 leads against a 360 target (115% attainment) [S1].\n- The standard lead export already includes job title (name, company, job title, source, notes), so this was a request for that field in the export [S5].",
+        "doc_ids": [
+          "report_EV008",
+          "report_EV005",
+          "sop_booth_logistics",
+          "sop_virtual_streaming"
+        ],
+        "seconds": 3.83
+      },
+      {
+        "id": "Q05",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "A Premier Booth for 2026 events costs **$51,000** [S1].\n\n- It's an in-person/hybrid package with a 10 x 20 ft booth and a lead target of 140 per 1,000 attendees [S1].\n- Includes logo in the event app, 6 full passes, lead retrieval for 3 staff, and one demo theater slot [S1].\n- New for 2026: Premier Booth sponsors whose leads fall below 70% of target receive a credit of 15% of the package price toward the following year [S2].",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 2.22
+      },
+      {
+        "id": "Q06",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 0.95
+        },
+        "answer": "The Title Sponsor package includes: **keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff** [S1].\n\n- In-person/hybrid format, 20\u00d720 ft island booth, price $100,500 in 2026 ($95,000 in 2025), with a lead target of 220 per 1,000 attendees [S1][S2].\n- New for 2026: Title Sponsor and Premier Booth sponsors whose leads reach less than 70% of target receive a 15% credit toward the following year [S3].",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 2.66
+      },
+      {
+        "id": "Q07",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 0.9,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "A cancellation 60 days before the event falls in the 30\u201390 day window, so the sponsor receives a **25% refund** of fees paid [S1][S2].\n\n- Cancellations more than 90 days out get a 75% refund; within 30 days, nothing is refunded [S1][S2].\n- Note the balance is due 60 days before the event, so a cancellation at that point would already have the full fee paid [S1][S2].",
+        "doc_ids": [
+          "pricing_2025",
+          "pricing_2026"
+        ],
+        "seconds": 2.78
+      },
+      {
+        "id": "Q08",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Under the 2026 lead guarantee, a Premier Booth sponsor whose leads reach less than 70% of their lead target receives a credit of 15% of their package price toward the following year [S1][S5].\n\n- This guarantee is new for 2026 and applies to both Title Sponsor and Premier Booth sponsors [S1][S5].\n- The 2026 Premier Booth package is $51,000 (10 x 20 ft booth, 140 leads per 1,000 attendees) [S2][S7].\n- Note: the 2025 brochure has no such lead guarantee, so this only applies to 2026 contracts [S3][S6].",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 4.83
+      },
+      {
+        "id": "Q09",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Badge scanners must be charged and tested by **7:00 AM on each event day** [S1].",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_registration_desk"
+        ],
+        "seconds": 1.69
+      },
+      {
+        "id": "Q10",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Sponsors receive their lead export within 48 hours of the event closing [S1].\n\n- The export is a CSV containing name, company, job title, source, and notes [S1].\n- This is part of the sponsor booth logistics procedure covering move-in, lead retrieval, and teardown [S4].",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_virtual_streaming",
+          "sop_venue_setup"
+        ],
+        "seconds": 1.81
+      },
+      {
+        "id": "Q11",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "If a stream is down for more than 5 minutes, the producer switches to the backup encoder and escalates to the platform vendor's on-call engineer [S1].",
+        "doc_ids": [
+          "sop_virtual_streaming",
+          "sop_registration_desk"
+        ],
+        "seconds": 1.92
+      },
+      {
+        "id": "Q12",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "We proposed keeping Quillon Security's current packages and adding a sponsored breakout session at each event [S1]. This is the main ask of the renewal meeting [S1].\n\nSupporting context from the review deck:\n- Total leads were 1,558 against a target of 1,455 (107%), at a cost per lead of $159 [S3].\n- Best event was San Francisco DevSecOps Forum 2025 with 413 leads; targets were met at 5 of 6 events [S3].",
+        "doc_ids": [
+          "deck_SP016",
+          "deck_SP014"
+        ],
+        "seconds": 2.34
+      },
+      {
+        "id": "Q13",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The session \"Case study: assessment at a mid-size organization\" at the Toronto Higher Ed Futures Conference 2026 was presented by **Ben Martin** (Assessment track, virtual format) [S1].",
+        "doc_ids": [
+          "abstracts_EV010",
+          "abstracts_EV002",
+          "abstracts_EV005",
+          "abstracts_EV012"
+        ],
+        "seconds": 2.03
+      },
+      {
+        "id": "Q14",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The session \"Research myths, busted\" was in the **Research** track at the Austin Clinical Innovation Congress 2026 [S1].",
+        "doc_ids": [
+          "abstracts_EV012",
+          "abstracts_EV003"
+        ],
+        "seconds": 2.08
+      },
+      {
+        "id": "Q15",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "**Chicago DevSecOps Forum 2024** (Lakeshore Conference Center, Apr 2\u20134): the main operational issue was the registration queue peaking at 25 minutes on the first morning; in response, two extra badge printers were opened and a walk-in lane was added [S1].\n\n**Austin Clinical Innovation Congress 2026** (Lone Star Convention Center, May 28\u201330): the main operational issue was catering running out of vegetarian lunches on day 1; in response, the caterer increased vegetarian portions by 40% for the remaining days [S5].\n\nSo the two events had very different operational problems \u2014 one was a registration/check-in bottleneck, the other a catering shortfall \u2014 and each was resolved with a targeted fix (extra badge printers + walk-in lane vs. a 40% increase in vegetarian portions).",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV004",
+          "report_EV008",
+          "report_EV012",
+          "report_EV002",
+          "report_EV003"
+        ],
+        "seconds": 4.17
+      },
+      {
+        "id": "Q16",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Brightpath Security bought the **Title Sponsor** package at the Austin Clinical Innovation Congress 2026 [S1], which costs **$100,500** in 2026 [S6].\n\n- The Title Sponsor package includes a 20\u00d720 ft island booth, keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff [S6].\n- At the event, Brightpath collected 232 leads against a target of 240 (97% attainment) [S1].",
+        "doc_ids": [
+          "report_EV012",
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 3.81
+      },
+      {
+        "id": "Q17",
+        "category": "mixed",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The show-up rate at the Chicago DevSecOps Forum 2024 was **80%** (769 attendees out of 959 confirmed registrations) [S1].\n\nThe report's recommendation to improve it: **send a reminder email 48 hours before the event, with the agenda and a calendar invite**, since too many confirmed registrants did not show up [S4].\n\n- The event had 1,030 total registrations and 769 attendees [S1].\n- 9 of 10 sponsors met their lead target, with 1,567 leads against a combined target of 1,270 [S1].",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV008"
+        ],
+        "seconds": 3.17
+      },
+      {
+        "id": "Q18",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": null,
+          "within_8s": 1.0,
+          "faithfulness": 0.8,
+          "relevance": 1.0,
+          "correctness": 0.95
+        },
+        "answer": "I couldn't find the hotel room rate for speakers at the Chicago EdTech Leaders Summit 2025 in our documents.\n\nThe post-event report for that event covers the executive summary, audience breakdown, program highlights, and sponsor results [S1][S2][S3][S4], but it does not mention speaker hotel room rates. The operations SOPs also returned nothing relevant. If you have a speaker logistics or hotel contract document, I could look there.",
+        "doc_ids": [
+          "report_EV004"
+        ],
+        "seconds": 3.19
+      },
+      {
+        "id": "Q19",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": null,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "I couldn't find this in our documents. The New York Revenue Ops Conference 2025 post-event report covers the audience, program highlights, sponsor results, and overall cost ($329,700 vs. a $324,000 budget) [S2], but it does not name a catering company or a catering charge.",
+        "doc_ids": [
+          "report_EV006"
+        ],
+        "seconds": 5.83
+      },
+      {
+        "id": "Q20",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "routing_accuracy": null,
+          "within_8s": 1.0,
+          "faithfulness": null,
+          "relevance": null,
+          "correctness": null
+        },
+        "answer": "Next year's (2026) events in the current selection are:\n\n- **Toronto Higher Ed Futures Conference 2026** \u2014 March 21, 2026 (virtual) [S7]\n- **Boston Cloud Native Conference 2026** \u2014 May 2\u20133, 2026 (virtual) [S6]\n- **Austin Clinical Innovation Congress 2026** \u2014 May 28\u201330, 2026 (hybrid) [S5]\n\nThe event list shows 12 events in the selection, of which these three are dated in 2026; the rest are 2024\u20132025 events.",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "report_EV012",
+          "report_EV011",
+          "report_EV010",
+          "report_EV004"
+        ],
+        "seconds": 6.64
+      }
+    ],
+    "agent \u00b7 fixed \u00b7 hybrid + rerank": [
+      {
+        "id": "Q01",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 0.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 0.0,
+          "faithfulness": 0.9,
+          "relevance": 0.0,
+          "correctness": 0.0
+        },
+        "answer": "I couldn't find the specific operational problem in our documents. The Chicago DevSecOps Forum 2024 post-event report's \"Venue and operational issues\" section (section 4) is present in the document but is truncated in every search result, so the actual problem and how it was handled are not visible.\n\nWhat the report does show for this event:\n- 769 attendees out of 959 confirmed registrations (1,030 total), an 80% show-up rate; NPS of -1; cost $335,500 vs. a $326,000 budget (+2.9%) [S1]\n- 10 sponsors took part; 9 met their lead target; 1,567 leads collected against a combined target of 1,270 [S1]\n- The only sponsor feedback noted was Harborview Software asking for a larger booth near the coffee station [S3]\n- The lessons-learned item was that too many confirmed registrants didn't show up, with a recommendation to send a reminder email 48 hours before the event [S3]\n\nTo get the operational problem, the full text of section 4 of that report would need to be retrieved.",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV008",
+          "report_EV004"
+        ],
+        "seconds": 25.89
+      },
+      {
+        "id": "Q02",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 0.9,
+          "correctness": 1.0
+        },
+        "answer": "The team recorded that **booth traffic dropped sharply after lunch**, and recommended moving the expo hall next to the coffee stations so attendees pass the booths between sessions [S1].\n\n- The report also noted Tidewater Press asked for a speaking slot in the main track next year [S1].\n- The event drew 488 attendees (81% show-up) with an NPS of 1; 6 of 8 sponsors met their lead target [S2].",
+        "doc_ids": [
+          "report_EV004",
+          "report_EV005",
+          "report_EV001"
+        ],
+        "seconds": 6.16
+      },
+      {
+        "id": "Q03",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 0.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 0.0,
+          "faithfulness": null,
+          "relevance": null,
+          "correctness": null
+        },
+        "answer": "I couldn't find Harborview Software's leads and target specifically for the New York Revenue Ops Conference 2025 in our documents. The sponsor results table for that event (S7, S10, S14, S20) lists Larkspur Capital, Orchidia Cloud, Summitry Security, Vertexa Cloud, and Bluefin Software, but Harborview Software does not appear in the visible rows.\n\nWhat the documents do show:\n- Across all 7 events in the current selection, Harborview Software collected 1,518 leads against a combined target of 1,215 (125% attainment) [T4].\n- At the New York Future of Work Forum 2025, Harborview collected 204 leads against a target of 185 (110%) [S5/S11].\n\nTo get the per-event figure for the New York Revenue Ops Conference, the full sponsor results table for that event would need to be retrieved.",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV009",
+          "report_EV007",
+          "report_EV001"
+        ],
+        "seconds": 32.61
+      },
+      {
+        "id": "Q04",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "**Quillon Security** asked for attendee job titles in the lead export at the San Francisco DevSecOps Forum 2025 [S1].\n\n- The request appears in the event's sponsor feedback section [S1].\n- Note that the standard lead export already includes job title (name, company, job title, source, notes) per the booth logistics SOP [S5].",
+        "doc_ids": [
+          "report_EV008",
+          "report_EV003",
+          "report_EV005",
+          "sop_booth_logistics",
+          "sop_registration_desk",
+          "sop_virtual_streaming",
+          "sop_venue_setup"
+        ],
+        "seconds": 4.81
+      },
+      {
+        "id": "Q05",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "A Premier Booth for 2026 events costs **$51,000** [S1].\n\n- It's an in-person/hybrid package with a 10 x 20 ft booth, a lead target of 140 per 1,000 attendees, logo in the event app, 6 full passes, lead retrieval for 3 staff, and one demo theater slot [S1].\n- For comparison, the 2025 price was $48,000 [S2].",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 1.97
+      },
+      {
+        "id": "Q06",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The Title Sponsor package includes a **20 x 20 ft island booth**, **keynote introduction**, **logo on all signage and the event app**, **10 full passes**, and **lead retrieval for 4 staff** [S1].\n\n- In 2026 it costs **$100,500** with a lead target of **220 per 1,000 attendees** [S1].\n- In 2025 it was **$95,000** with the same inclusions and lead target [S2].\n- It is available for in-person or hybrid formats [S1].",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 2.14
+      },
+      {
+        "id": "Q07",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "A cancellation 60 days before the event falls in the 30\u201390 day window, so **25% of the fees paid is refunded** [S1].\n\n- Cancellations more than 90 days out receive a 75% refund; within 30 days, nothing is refunded [S1].\n- The balance of the fee is due 60 days before the event [S1].",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 1.98
+      },
+      {
+        "id": "Q08",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 0.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 0.0,
+          "faithfulness": 0.85,
+          "relevance": 0.0,
+          "correctness": 0.0
+        },
+        "answer": "I couldn't find the specific provision about what happens when a Premier Booth sponsor reaches less than 70% of its lead target in our documents.\n\nWhat the pricing documents do cover:\n- The Premier Booth package (2026: $51,000, 10\u00d720 ft booth, 140 leads per 1,000 attendees; 2025: $48,000) [S1][S2].\n- Lead targets are scaled to each event's expected attendance and confirmed in the sponsorship agreement [S3][S6].\n- Payment and cancellation terms (75% refund >90 days out, 25% at 30\u201390 days, none within 30 days) [S3][S6].\n\nThe 2026 brochure references a \"lead guarantee,\" but the search results did not surface its terms (e.g., any compensation or credit at the 70% threshold). To answer this, I'd need the specific lead-guarantee clause from the 2026 pricing brochure or a sponsorship agreement.",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 20.91
+      },
+      {
+        "id": "Q09",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Badge scanners must be charged and tested by **7:00 AM on each event day** [S1].",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_registration_desk",
+          "sop_venue_setup",
+          "sop_virtual_streaming"
+        ],
+        "seconds": 1.7
+      },
+      {
+        "id": "Q10",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Sponsors receive their lead export within 48 hours of the event closing [S1]. The export is a CSV containing name, company, job title, source, and notes [S1].",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_venue_setup",
+          "sop_virtual_streaming",
+          "sop_registration_desk"
+        ],
+        "seconds": 1.64
+      },
+      {
+        "id": "Q11",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "If a stream is down for more than 5 minutes, the producer switches to the backup encoder and escalates to the platform vendor's on-call engineer [S1].\n\n- A backup encoder must already be running in parallel for the keynote stream [S1].\n- Target stream latency is under 15 seconds [S1].",
+        "doc_ids": [
+          "sop_virtual_streaming",
+          "sop_registration_desk",
+          "sop_booth_logistics",
+          "sop_venue_setup"
+        ],
+        "seconds": 1.89
+      },
+      {
+        "id": "Q12",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 0.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 0.0,
+          "faithfulness": 0.75,
+          "relevance": 0.0,
+          "correctness": 0.0
+        },
+        "answer": "I couldn't find the proposal for Quillon Security in our documents. The Quillon Security partnership-review deck I retrieved only contains the opening/results slide \u2014 its goals (brand awareness), events sponsored, and results (1,558 leads vs 1,455 target, 107%, cost per lead $159) [S1]. The \"Proposal for next year\" section appears in the decks for other sponsors (e.g., Brightpath, Corvid, Meridian, Orchidia, Copperleaf), but no proposal text for Quillon was returned by any search.",
+        "doc_ids": [
+          "deck_SP016",
+          "deck_SP014",
+          "deck_SP024",
+          "deck_SP023",
+          "deck_SP001",
+          "deck_SP009"
+        ],
+        "seconds": 13.8
+      },
+      {
+        "id": "Q13",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "Ben Martin presented the session \"Case study: assessment at a mid-size organization\" at the Toronto Higher Ed Futures Conference 2026 [S1]. It was a virtual session in the Assessment track [S1].",
+        "doc_ids": [
+          "abstracts_EV010",
+          "abstracts_EV006",
+          "abstracts_EV005",
+          "abstracts_EV001"
+        ],
+        "seconds": 6.3
+      },
+      {
+        "id": "Q14",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The session \"Research myths, busted\" was in the **Research** track at the Austin Clinical Innovation Congress 2026 [S1].",
+        "doc_ids": [
+          "abstracts_EV012",
+          "abstracts_EV003",
+          "abstracts_EV007"
+        ],
+        "seconds": 4.89
+      },
+      {
+        "id": "Q15",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 0.0,
+          "faithfulness": null,
+          "relevance": null,
+          "correctness": null
+        },
+        "answer": "I couldn't retrieve the full \"Venue and operational issues\" section (section 4) for either event \u2014 it was truncated in every excerpt returned. What I can compare from the lessons-learned sections of each report:\n\n**Chicago DevSecOps Forum 2024** (Lakeshore Conference Center, in-person, Apr 2\u20134, 2024)\n- Lesson learned: too many confirmed registrants did not show up (80% show-up rate, 769 of 959 confirmed). Recommendation: send a reminder email 48 hours before with the agenda and a calendar invite [S3].\n- Sponsor feedback: Harborview Software asked for a larger booth near the coffee station [S3].\n\n**Austin Clinical Innovation Congress 2026** (Lone Star Convention Center, hybrid, May 28\u201330, 2026)\n- Lesson learned: technical problems were found only on the first morning. Recommendation: run a full technical rehearsal the day before the event [S6].\n- Sponsor feedback: Brightpath Security asked to move their demo slot to the morning [S6].\n\nSo the two events' operational takeaways differ: Chicago's issue was attendance/no-show management, while Austin's was technical readiness (a hybrid event). The specific venue and operational-issue narratives (section 4) for both events were not available in the returned excerpts, so I couldn't compare those directly.",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV008",
+          "report_EV004",
+          "report_EV012",
+          "report_EV002",
+          "report_EV003",
+          "report_EV007"
+        ],
+        "seconds": 33.67
+      },
+      {
+        "id": "Q16",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 0.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 0.0,
+          "faithfulness": null,
+          "relevance": null,
+          "correctness": null
+        },
+        "answer": "I couldn't find which specific package Brightpath Security bought at the Austin Clinical Innovation Congress 2026. The Austin post-event report's sponsor results table is truncated and doesn't show Brightpath's row, so its package at that event isn't in the results I retrieved [S1][S8][S13][S16].\n\nWhat I can tell you from the data:\n- Across the portfolio, Brightpath Security is a **platinum-tier** sponsor (Cybersecurity) that sponsored 2 events, collected 488 leads against a 465 target (105% attainment), and renewed [T6].\n- The 2026 pricing brochure lists packages as Title Sponsor ($100,500), Premier Booth ($51,000), Standard Booth ($23,500), Exhibitor Table ($10,000), Digital Premier ($32,000), and Virtual Booth [S6]. But the brochure doesn't say which package Brightpath bought at Austin.\n\nTo confirm the package, I'd need the full sponsor results table from the Austin 2026 post-event report.",
+        "doc_ids": [
+          "report_EV012",
+          "report_EV002",
+          "report_EV003",
+          "pricing_2025",
+          "pricing_2026",
+          "report_EV001",
+          "report_EV007"
+        ],
+        "seconds": 26.58
+      },
+      {
+        "id": "Q17",
+        "category": "mixed",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": 1.0,
+          "within_8s": 1.0,
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "The show-up rate at the Chicago DevSecOps Forum 2024 was **80%** (769 attendees out of 959 confirmed registrations) [S1].\n\nThe report's recommendation to improve it: **send a reminder email 48 hours before the event, with the agenda and a calendar invite** [S2].\n\n- The report's lesson learned was that \"too many confirmed registrants did not show up\" [S2].\n- The event had 1,030 total registrations but only 769 attendees [S1].",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV008",
+          "report_EV004"
+        ],
+        "seconds": 4.92
+      },
+      {
+        "id": "Q18",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": null,
+          "within_8s": 1.0,
+          "faithfulness": 0.8,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "I couldn't find the speaker hotel room rate for the Chicago EdTech Leaders Summit 2025 in our documents.\n\nThe post-event report for that event [S1] covers attendance, program ratings, sponsors, and budget, but it does not mention a speaker hotel room rate. The operations SOPs also returned nothing on this. Our documents don't appear to cover hotel room rates for speakers.",
+        "doc_ids": [
+          "report_EV004",
+          "report_EV001",
+          "report_EV008"
+        ],
+        "seconds": 6.45
+      },
+      {
+        "id": "Q19",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 1.0,
+          "routing_accuracy": null,
+          "within_8s": 0.0,
+          "faithfulness": 0.85,
+          "relevance": 1.0,
+          "correctness": 1.0
+        },
+        "answer": "I couldn't find this in our documents. The New York Revenue Ops Conference 2025 post-event report covers attendance, program ratings, sponsors, and the overall event cost ($329,700 vs. a $324,000 budget, +1.8%) [S1], but it does not name a catering company or list a catering charge. The operations documents also returned nothing on catering for this event. The documents cover venue/operations issues, sponsor results, and pricing packages, but not catering vendors or their fees.",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV007",
+          "report_EV009"
+        ],
+        "seconds": 25.33
+      },
+      {
+        "id": "Q20",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "routing_accuracy": null,
+          "within_8s": 1.0,
+          "faithfulness": null,
+          "relevance": null,
+          "correctness": null
+        },
+        "answer": "In the current selection, next year's (2026) events are:\n\n- **Toronto Higher Ed Futures Conference 2026** \u2014 March 21, 2026 (virtual) [T3]\n- **Boston Cloud Native Conference 2026** \u2014 May 2, 2026 (virtual) [T3]\n- **Austin Clinical Innovation Congress 2026** \u2014 May 28, 2026 (hybrid) [T3]\n\nThe rest of the portfolio is 2024\u20132025 events.",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 5.97
+      }
+    ],
+    "fixed \u00b7 dense": [
+      {
+        "id": "Q01",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV008",
+          "abstracts_EV001",
+          "report_EV002"
+        ],
+        "seconds": 0.156
+      },
+      {
+        "id": "Q02",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "abstracts_EV004",
+          "abstracts_EV004",
+          "report_EV004",
+          "report_EV005"
+        ],
+        "seconds": 0.125
+      },
+      {
+        "id": "Q03",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV007",
+          "report_EV006",
+          "report_EV009",
+          "report_EV008"
+        ],
+        "seconds": 0.109
+      },
+      {
+        "id": "Q04",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV008",
+          "report_EV008",
+          "report_EV001",
+          "abstracts_EV008",
+          "abstracts_EV008"
+        ],
+        "seconds": 0.125
+      },
+      {
+        "id": "Q05",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "pricing_2026",
+          "report_EV009",
+          "report_EV011"
+        ],
+        "seconds": 0.063
+      },
+      {
+        "id": "Q06",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "pricing_2026",
+          "report_EV007",
+          "deck_SP009"
+        ],
+        "seconds": 0.093
+      },
+      {
+        "id": "Q07",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2026",
+          "pricing_2025",
+          "report_EV006",
+          "report_EV011"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q08",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "report_EV006",
+          "report_EV011",
+          "pricing_2025",
+          "report_EV001"
+        ],
+        "seconds": 0.125
+      },
+      {
+        "id": "Q09",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 0.25,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_registration_desk",
+          "report_EV007",
+          "report_EV012",
+          "sop_booth_logistics",
+          "sop_venue_setup"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q10",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV003",
+          "report_EV008",
+          "pricing_2026",
+          "report_EV006",
+          "report_EV006"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q11",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_virtual_streaming",
+          "report_EV007",
+          "report_EV012",
+          "report_EV002",
+          "report_EV007"
+        ],
+        "seconds": 0.109
+      },
+      {
+        "id": "Q12",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP016",
+          "deck_SP014",
+          "report_EV008",
+          "report_EV001",
+          "report_EV008"
+        ],
+        "seconds": 0.125
+      },
+      {
+        "id": "Q13",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV010",
+          "report_EV010",
+          "abstracts_EV005",
+          "abstracts_EV010",
+          "abstracts_EV005"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q14",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV012",
+          "abstracts_EV003",
+          "abstracts_EV012",
+          "report_EV012",
+          "report_EV012"
+        ],
+        "seconds": 0.093
+      },
+      {
+        "id": "Q15",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV012",
+          "report_EV008",
+          "report_EV012"
+        ],
+        "seconds": 0.079
+      },
+      {
+        "id": "Q16",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP014",
+          "report_EV012",
+          "pricing_2026",
+          "report_EV012",
+          "pricing_2025"
+        ],
+        "seconds": 0.078
+      },
+      {
+        "id": "Q17",
+        "category": "mixed",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV008",
+          "report_EV008",
+          "abstracts_EV001"
+        ],
+        "seconds": 0.078
+      },
+      {
+        "id": "Q18",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "pricing_2025",
+          "report_EV004",
+          "report_EV005",
+          "abstracts_EV004"
+        ],
+        "seconds": 0.078
+      },
+      {
+        "id": "Q19",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV007",
+          "report_EV006",
+          "report_EV009",
+          "report_EV007"
+        ],
+        "seconds": 0.062
+      },
+      {
+        "id": "Q20",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2025",
+          "report_EV006",
+          "pricing_2026",
+          "report_EV008",
+          "report_EV007"
+        ],
+        "seconds": 0.141
+      }
+    ],
+    "fixed \u00b7 hybrid": [
+      {
+        "id": "Q01",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV008",
+          "abstracts_EV001",
+          "abstracts_EV001"
+        ],
+        "seconds": 0.172
+      },
+      {
+        "id": "Q02",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "report_EV004",
+          "abstracts_EV004",
+          "abstracts_EV004",
+          "deck_SP009"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q03",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV006",
+          "deck_SP024",
+          "deck_SP001",
+          "report_EV007"
+        ],
+        "seconds": 0.093
+      },
+      {
+        "id": "Q04",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV008",
+          "report_EV008",
+          "report_EV003",
+          "report_EV005",
+          "deck_SP016"
+        ],
+        "seconds": 0.11
+      },
+      {
+        "id": "Q05",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "deck_SP024",
+          "deck_SP014",
+          "deck_SP001",
+          "deck_SP023"
+        ],
+        "seconds": 0.203
+      },
+      {
+        "id": "Q06",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "deck_SP009",
+          "pricing_2025",
+          "deck_SP024",
+          "report_EV006"
+        ],
+        "seconds": 0.125
+      },
+      {
+        "id": "Q07",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "pricing_2026",
+          "report_EV010",
+          "report_EV010"
+        ],
+        "seconds": 0.109
+      },
+      {
+        "id": "Q08",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "report_EV009",
+          "report_EV004",
+          "report_EV006",
+          "report_EV006"
+        ],
+        "seconds": 0.078
+      },
+      {
+        "id": "Q09",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_registration_desk",
+          "report_EV007",
+          "report_EV012",
+          "sop_venue_setup"
+        ],
+        "seconds": 0.11
+      },
+      {
+        "id": "Q10",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 0.2,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "report_EV003",
+          "report_EV008",
+          "sop_booth_logistics"
+        ],
+        "seconds": 0.109
+      },
+      {
+        "id": "Q11",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_virtual_streaming",
+          "report_EV010",
+          "sop_registration_desk",
+          "report_EV007",
+          "report_EV007"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q12",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP016",
+          "report_EV008",
+          "report_EV006",
+          "report_EV003",
+          "abstracts_EV001"
+        ],
+        "seconds": 0.125
+      },
+      {
+        "id": "Q13",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV010",
+          "abstracts_EV005",
+          "report_EV010",
+          "abstracts_EV010",
+          "abstracts_EV004"
+        ],
+        "seconds": 0.14
+      },
+      {
+        "id": "Q14",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV012",
+          "abstracts_EV003",
+          "report_EV012",
+          "abstracts_EV012",
+          "abstracts_EV003"
+        ],
+        "seconds": 0.156
+      },
+      {
+        "id": "Q15",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV012",
+          "deck_SP014",
+          "report_EV012",
+          "report_EV003"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q16",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP014",
+          "report_EV012",
+          "report_EV012",
+          "pricing_2026",
+          "abstracts_EV012"
+        ],
+        "seconds": 0.125
+      },
+      {
+        "id": "Q17",
+        "category": "mixed",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV008",
+          "deck_SP016",
+          "report_EV004"
+        ],
+        "seconds": 0.11
+      },
+      {
+        "id": "Q18",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "report_EV004",
+          "abstracts_EV004",
+          "abstracts_EV004",
+          "deck_SP009"
+        ],
+        "seconds": 0.156
+      },
+      {
+        "id": "Q19",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV006",
+          "deck_SP024",
+          "deck_SP001",
+          "report_EV007"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q20",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP024",
+          "deck_SP023",
+          "deck_SP001",
+          "deck_SP009",
+          "deck_SP014"
+        ],
+        "seconds": 0.109
+      }
+    ],
+    "fixed \u00b7 hybrid + rerank": [
+      {
+        "id": "Q01",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "abstracts_EV001",
+          "abstracts_EV001",
+          "report_EV008",
+          "report_EV001"
+        ],
+        "seconds": 11.484
+      },
+      {
+        "id": "Q02",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "abstracts_EV004",
+          "abstracts_EV004",
+          "report_EV004",
+          "abstracts_EV001"
+        ],
+        "seconds": 9.828
+      },
+      {
+        "id": "Q03",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV007",
+          "deck_SP024",
+          "report_EV008",
+          "report_EV005"
+        ],
+        "seconds": 8.86
+      },
+      {
+        "id": "Q04",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV008",
+          "report_EV003",
+          "report_EV008",
+          "deck_SP016",
+          "pricing_2025"
+        ],
+        "seconds": 8.688
+      },
+      {
+        "id": "Q05",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "report_EV006",
+          "pricing_2025",
+          "report_EV001",
+          "deck_SP024"
+        ],
+        "seconds": 9.125
+      },
+      {
+        "id": "Q06",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2025",
+          "pricing_2026",
+          "pricing_2026",
+          "deck_SP024",
+          "deck_SP009"
+        ],
+        "seconds": 8.844
+      },
+      {
+        "id": "Q07",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2026",
+          "pricing_2025",
+          "sop_booth_logistics",
+          "report_EV001"
+        ],
+        "seconds": 8.75
+      },
+      {
+        "id": "Q08",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "report_EV003",
+          "report_EV003",
+          "report_EV008"
+        ],
+        "seconds": 8.687
+      },
+      {
+        "id": "Q09",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_registration_desk",
+          "report_EV001",
+          "sop_venue_setup",
+          "pricing_2026"
+        ],
+        "seconds": 9.453
+      },
+      {
+        "id": "Q10",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "pricing_2025",
+          "pricing_2026",
+          "pricing_2026",
+          "report_EV008"
+        ],
+        "seconds": 9.094
+      },
+      {
+        "id": "Q11",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_virtual_streaming",
+          "report_EV010",
+          "report_EV011",
+          "report_EV007",
+          "sop_registration_desk"
+        ],
+        "seconds": 9.109
+      },
+      {
+        "id": "Q12",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP016",
+          "report_EV006",
+          "report_EV008",
+          "report_EV003",
+          "report_EV009"
+        ],
+        "seconds": 8.954
+      },
+      {
+        "id": "Q13",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV010",
+          "abstracts_EV001",
+          "abstracts_EV006",
+          "abstracts_EV002",
+          "abstracts_EV011"
+        ],
+        "seconds": 8.562
+      },
+      {
+        "id": "Q14",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV012",
+          "abstracts_EV003",
+          "abstracts_EV007",
+          "abstracts_EV010",
+          "abstracts_EV012"
+        ],
+        "seconds": 8.375
+      },
+      {
+        "id": "Q15",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV012",
+          "report_EV001",
+          "deck_SP014",
+          "report_EV002",
+          "abstracts_EV012"
+        ],
+        "seconds": 8.797
+      },
+      {
+        "id": "Q16",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP014",
+          "report_EV012",
+          "report_EV012",
+          "report_EV002",
+          "pricing_2026"
+        ],
+        "seconds": 9.375
+      },
+      {
+        "id": "Q17",
+        "category": "mixed",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV008",
+          "report_EV004",
+          "abstracts_EV001"
+        ],
+        "seconds": 9.422
+      },
+      {
+        "id": "Q18",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "report_EV004",
+          "abstracts_EV004",
+          "report_EV001",
+          "deck_SP009"
+        ],
+        "seconds": 8.328
+      },
+      {
+        "id": "Q19",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 0.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV006",
+          "report_EV007",
+          "abstracts_EV006",
+          "deck_SP024"
+        ],
+        "seconds": 9.109
+      },
+      {
+        "id": "Q20",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [],
+        "seconds": 6.906
+      }
+    ],
+    "structure \u00b7 dense": [
+      {
+        "id": "Q01",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV008",
+          "report_EV001",
+          "report_EV001"
+        ],
+        "seconds": 0.079
+      },
+      {
+        "id": "Q02",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "report_EV004",
+          "report_EV004",
+          "report_EV004",
+          "report_EV004"
+        ],
+        "seconds": 0.062
+      },
+      {
+        "id": "Q03",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV006",
+          "report_EV007",
+          "report_EV006",
+          "report_EV007"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q04",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV008",
+          "report_EV008",
+          "report_EV008",
+          "report_EV008",
+          "deck_SP016"
+        ],
+        "seconds": 0.062
+      },
+      {
+        "id": "Q05",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "pricing_2026",
+          "report_EV012",
+          "report_EV011"
+        ],
+        "seconds": 0.063
+      },
+      {
+        "id": "Q06",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2025",
+          "pricing_2026",
+          "pricing_2025",
+          "pricing_2026",
+          "report_EV006"
+        ],
+        "seconds": 0.062
+      },
+      {
+        "id": "Q07",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "report_EV006",
+          "report_EV007",
+          "report_EV012"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q08",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "report_EV006",
+          "report_EV007",
+          "report_EV010",
+          "report_EV005"
+        ],
+        "seconds": 0.063
+      },
+      {
+        "id": "Q09",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_registration_desk",
+          "report_EV001",
+          "report_EV012",
+          "report_EV007"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q10",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "report_EV006",
+          "report_EV003",
+          "report_EV008",
+          "report_EV007"
+        ],
+        "seconds": 0.062
+      },
+      {
+        "id": "Q11",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_virtual_streaming",
+          "report_EV007",
+          "report_EV010",
+          "report_EV011",
+          "sop_virtual_streaming"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q12",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP016",
+          "deck_SP016",
+          "deck_SP016",
+          "deck_SP016",
+          "deck_SP014"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q13",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV010",
+          "report_EV010",
+          "report_EV010",
+          "abstracts_EV005",
+          "abstracts_EV010"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q14",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV012",
+          "report_EV012",
+          "report_EV012",
+          "abstracts_EV003",
+          "abstracts_EV012"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q15",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "deck_SP014",
+          "report_EV001",
+          "report_EV001",
+          "report_EV001"
+        ],
+        "seconds": 0.031
+      },
+      {
+        "id": "Q16",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV012",
+          "report_EV012",
+          "deck_SP014",
+          "report_EV012",
+          "pricing_2026"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q17",
+        "category": "mixed",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV001",
+          "report_EV001",
+          "report_EV001"
+        ],
+        "seconds": 0.062
+      },
+      {
+        "id": "Q18",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "report_EV004",
+          "report_EV004",
+          "report_EV004",
+          "deck_SP024"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q19",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV006",
+          "report_EV007",
+          "report_EV006",
+          "report_EV006"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q20",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP014",
+          "deck_SP016",
+          "deck_SP024",
+          "deck_SP023",
+          "deck_SP009"
+        ],
+        "seconds": 0.047
+      }
+    ],
+    "structure \u00b7 hybrid": [
+      {
+        "id": "Q01",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV001",
+          "report_EV001",
+          "report_EV008"
+        ],
+        "seconds": 0.171
+      },
+      {
+        "id": "Q02",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "report_EV004",
+          "abstracts_EV004",
+          "abstracts_EV004",
+          "report_EV004"
+        ],
+        "seconds": 0.079
+      },
+      {
+        "id": "Q03",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV006",
+          "deck_SP024",
+          "report_EV006",
+          "deck_SP001"
+        ],
+        "seconds": 0.109
+      },
+      {
+        "id": "Q04",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV008",
+          "report_EV008",
+          "report_EV008",
+          "deck_SP016",
+          "sop_booth_logistics"
+        ],
+        "seconds": 0.109
+      },
+      {
+        "id": "Q05",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "deck_SP001",
+          "report_EV011",
+          "report_EV012",
+          "report_EV010"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q06",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 0.3333333333333333,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV004",
+          "pricing_2026",
+          "report_EV001",
+          "deck_SP009"
+        ],
+        "seconds": 0.109
+      },
+      {
+        "id": "Q07",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "report_EV010",
+          "report_EV006",
+          "report_EV007"
+        ],
+        "seconds": 0.11
+      },
+      {
+        "id": "Q08",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "report_EV006",
+          "report_EV007",
+          "report_EV003",
+          "report_EV009"
+        ],
+        "seconds": 0.109
+      },
+      {
+        "id": "Q09",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_registration_desk",
+          "report_EV001",
+          "sop_registration_desk",
+          "sop_booth_logistics"
+        ],
+        "seconds": 0.11
+      },
+      {
+        "id": "Q10",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "pricing_2026",
+          "pricing_2025",
+          "pricing_2026",
+          "report_EV008"
+        ],
+        "seconds": 0.109
+      },
+      {
+        "id": "Q11",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_virtual_streaming",
+          "report_EV007",
+          "report_EV010",
+          "report_EV011",
+          "sop_virtual_streaming"
+        ],
+        "seconds": 0.109
+      },
+      {
+        "id": "Q12",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP016",
+          "deck_SP016",
+          "deck_SP016",
+          "deck_SP014",
+          "report_EV008"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q13",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV010",
+          "abstracts_EV004",
+          "abstracts_EV005",
+          "report_EV010",
+          "abstracts_EV010"
+        ],
+        "seconds": 0.109
+      },
+      {
+        "id": "Q14",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV012",
+          "abstracts_EV012",
+          "abstracts_EV012",
+          "abstracts_EV012",
+          "abstracts_EV012"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q15",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP014",
+          "report_EV012",
+          "report_EV001",
+          "deck_SP016",
+          "report_EV001"
+        ],
+        "seconds": 0.11
+      },
+      {
+        "id": "Q16",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV012",
+          "deck_SP014",
+          "report_EV012",
+          "deck_SP014",
+          "deck_SP009"
+        ],
+        "seconds": 0.093
+      },
+      {
+        "id": "Q17",
+        "category": "mixed",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV008",
+          "report_EV004",
+          "report_EV001"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q18",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "report_EV004",
+          "report_EV004",
+          "report_EV004",
+          "report_EV004"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q19",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "deck_SP024",
+          "report_EV006",
+          "report_EV006",
+          "deck_SP001"
+        ],
+        "seconds": 0.078
+      },
+      {
+        "id": "Q20",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP024",
+          "deck_SP009",
+          "deck_SP023",
+          "deck_SP001",
+          "deck_SP014"
+        ],
+        "seconds": 0.094
+      }
+    ],
+    "structure \u00b7 hybrid + rerank": [
+      {
+        "id": "Q01",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV008",
+          "report_EV001",
+          "abstracts_EV001",
+          "report_EV001"
+        ],
+        "seconds": 0.875
+      },
+      {
+        "id": "Q02",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "abstracts_EV004",
+          "abstracts_EV004",
+          "abstracts_EV004",
+          "report_EV004"
+        ],
+        "seconds": 0.812
+      },
+      {
+        "id": "Q03",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV006",
+          "deck_SP001",
+          "deck_SP023",
+          "deck_SP024"
+        ],
+        "seconds": 1.25
+      },
+      {
+        "id": "Q04",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV008",
+          "deck_SP016",
+          "deck_SP009",
+          "deck_SP014",
+          "report_EV008"
+        ],
+        "seconds": 1.64
+      },
+      {
+        "id": "Q05",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2026",
+          "report_EV012",
+          "deck_SP001",
+          "report_EV006"
+        ],
+        "seconds": 1.485
+      },
+      {
+        "id": "Q06",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "deck_SP009",
+          "report_EV001",
+          "report_EV008",
+          "report_EV003"
+        ],
+        "seconds": 1.125
+      },
+      {
+        "id": "Q07",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "sop_booth_logistics",
+          "pricing_2025",
+          "pricing_2026"
+        ],
+        "seconds": 1.64
+      },
+      {
+        "id": "Q08",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "report_EV008",
+          "report_EV012",
+          "report_EV007",
+          "report_EV004"
+        ],
+        "seconds": 1.532
+      },
+      {
+        "id": "Q09",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_registration_desk",
+          "report_EV001",
+          "deck_SP014",
+          "deck_SP001"
+        ],
+        "seconds": 0.468
+      },
+      {
+        "id": "Q10",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "pricing_2025",
+          "pricing_2026",
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 1.547
+      },
+      {
+        "id": "Q11",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_virtual_streaming",
+          "report_EV007",
+          "report_EV010",
+          "report_EV011",
+          "sop_registration_desk"
+        ],
+        "seconds": 0.25
+      },
+      {
+        "id": "Q12",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP016",
+          "deck_SP014",
+          "deck_SP016",
+          "deck_SP016",
+          "deck_SP016"
+        ],
+        "seconds": 1.219
+      },
+      {
+        "id": "Q13",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV010",
+          "abstracts_EV002",
+          "abstracts_EV005",
+          "abstracts_EV012",
+          "abstracts_EV002"
+        ],
+        "seconds": 1.016
+      },
+      {
+        "id": "Q14",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV012",
+          "abstracts_EV012",
+          "abstracts_EV003",
+          "abstracts_EV007",
+          "abstracts_EV007"
+        ],
+        "seconds": 0.984
+      },
+      {
+        "id": "Q15",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV012",
+          "deck_SP014",
+          "report_EV001",
+          "deck_SP016",
+          "report_EV002"
+        ],
+        "seconds": 0.75
+      },
+      {
+        "id": "Q16",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV012",
+          "deck_SP014",
+          "report_EV012",
+          "deck_SP014",
+          "report_EV012"
+        ],
+        "seconds": 0.953
+      },
+      {
+        "id": "Q17",
+        "category": "mixed",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV008",
+          "report_EV001",
+          "report_EV001",
+          "report_EV001"
+        ],
+        "seconds": 0.953
+      },
+      {
+        "id": "Q18",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "report_EV004",
+          "report_EV004",
+          "report_EV004",
+          "deck_SP024"
+        ],
+        "seconds": 1.547
+      },
+      {
+        "id": "Q19",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV006",
+          "report_EV006",
+          "deck_SP001",
+          "deck_SP024"
+        ],
+        "seconds": 0.719
+      },
+      {
+        "id": "Q20",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [],
+        "seconds": 0.625
+      }
+    ],
+    "semantic \u00b7 dense": [
+      {
+        "id": "Q01",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV001",
+          "report_EV001",
+          "abstracts_EV001"
+        ],
+        "seconds": 0.078
+      },
+      {
+        "id": "Q02",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV004",
+          "report_EV004",
+          "report_EV004",
+          "report_EV004",
+          "report_EV004"
+        ],
+        "seconds": 0.063
+      },
+      {
+        "id": "Q03",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV006",
+          "report_EV006",
+          "abstracts_EV006",
+          "report_EV007"
+        ],
+        "seconds": 0.046
+      },
+      {
+        "id": "Q04",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV008",
+          "report_EV008",
+          "report_EV008",
+          "report_EV008",
+          "abstracts_EV008"
+        ],
+        "seconds": 0.063
+      },
+      {
+        "id": "Q05",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "pricing_2026",
+          "pricing_2026",
+          "report_EV012"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q06",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2025",
+          "pricing_2026",
+          "pricing_2025",
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 0.062
+      },
+      {
+        "id": "Q07",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "report_EV007",
+          "pricing_2026",
+          "report_EV006"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q08",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "report_EV007",
+          "report_EV006",
+          "report_EV005",
+          "report_EV003"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q09",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_registration_desk",
+          "report_EV001",
+          "sop_registration_desk",
+          "report_EV007"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q10",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "report_EV006",
+          "report_EV007",
+          "report_EV008",
+          "report_EV011"
+        ],
+        "seconds": 0.031
+      },
+      {
+        "id": "Q11",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_virtual_streaming",
+          "report_EV007",
+          "report_EV010",
+          "report_EV011",
+          "sop_virtual_streaming"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q12",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP016",
+          "deck_SP016",
+          "deck_SP016",
+          "deck_SP016",
+          "deck_SP014"
+        ],
+        "seconds": 0.031
+      },
+      {
+        "id": "Q13",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV010",
+          "report_EV010",
+          "report_EV010",
+          "report_EV010",
+          "abstracts_EV010"
+        ],
+        "seconds": 0.063
+      },
+      {
+        "id": "Q14",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV012",
+          "abstracts_EV012",
+          "report_EV012",
+          "report_EV012",
+          "report_EV012"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q15",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "abstracts_EV001",
+          "deck_SP014",
+          "report_EV001",
+          "report_EV001"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q16",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV012",
+          "report_EV012",
+          "deck_SP014",
+          "report_EV012",
+          "abstracts_EV012"
+        ],
+        "seconds": 0.046
+      },
+      {
+        "id": "Q17",
+        "category": "mixed",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV001",
+          "abstracts_EV001",
+          "report_EV001"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q18",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "abstracts_EV004",
+          "report_EV004",
+          "report_EV004",
+          "report_EV004"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q19",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV006",
+          "abstracts_EV006",
+          "report_EV007",
+          "report_EV006"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q20",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP014",
+          "pricing_2025",
+          "pricing_2026",
+          "deck_SP016",
+          "deck_SP024"
+        ],
+        "seconds": 0.094
+      }
+    ],
+    "semantic \u00b7 hybrid": [
+      {
+        "id": "Q01",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV001",
+          "report_EV001",
+          "abstracts_EV001"
+        ],
+        "seconds": 0.25
+      },
+      {
+        "id": "Q02",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "abstracts_EV004",
+          "report_EV004",
+          "report_EV004",
+          "abstracts_EV004"
+        ],
+        "seconds": 0.062
+      },
+      {
+        "id": "Q03",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV006",
+          "deck_SP024",
+          "report_EV006",
+          "deck_SP001"
+        ],
+        "seconds": 0.078
+      },
+      {
+        "id": "Q04",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV008",
+          "report_EV003",
+          "report_EV008",
+          "report_EV008",
+          "report_EV008"
+        ],
+        "seconds": 0.063
+      },
+      {
+        "id": "Q05",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 0.0,
+          "mrr": 0.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP001",
+          "report_EV010",
+          "report_EV012",
+          "report_EV006",
+          "report_EV007"
+        ],
+        "seconds": 0.062
+      },
+      {
+        "id": "Q06",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 0.3333333333333333,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV004",
+          "pricing_2026",
+          "report_EV001",
+          "report_EV003"
+        ],
+        "seconds": 0.079
+      },
+      {
+        "id": "Q07",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "pricing_2025",
+          "report_EV010",
+          "report_EV006",
+          "report_EV007"
+        ],
+        "seconds": 0.078
+      },
+      {
+        "id": "Q08",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "report_EV006",
+          "report_EV007",
+          "report_EV003",
+          "report_EV005"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q09",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_registration_desk",
+          "report_EV001",
+          "sop_registration_desk",
+          "sop_booth_logistics"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q10",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 0.3333333333333333,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2025",
+          "pricing_2026",
+          "sop_booth_logistics",
+          "pricing_2026",
+          "report_EV003"
+        ],
+        "seconds": 0.125
+      },
+      {
+        "id": "Q11",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_virtual_streaming",
+          "report_EV007",
+          "report_EV010",
+          "report_EV011",
+          "sop_virtual_streaming"
+        ],
+        "seconds": 0.078
+      },
+      {
+        "id": "Q12",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP016",
+          "deck_SP016",
+          "deck_SP016",
+          "deck_SP014",
+          "report_EV008"
+        ],
+        "seconds": 0.094
+      },
+      {
+        "id": "Q13",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV010",
+          "abstracts_EV004",
+          "abstracts_EV005",
+          "abstracts_EV010",
+          "report_EV010"
+        ],
+        "seconds": 0.093
+      },
+      {
+        "id": "Q14",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV012",
+          "abstracts_EV012",
+          "abstracts_EV012",
+          "abstracts_EV012",
+          "abstracts_EV012"
+        ],
+        "seconds": 0.063
+      },
+      {
+        "id": "Q15",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 0.5,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP014",
+          "report_EV001",
+          "report_EV012",
+          "report_EV012",
+          "abstracts_EV001"
+        ],
+        "seconds": 0.062
+      },
+      {
+        "id": "Q16",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV012",
+          "deck_SP014",
+          "report_EV012",
+          "deck_SP014",
+          "report_EV012"
+        ],
+        "seconds": 0.063
+      },
+      {
+        "id": "Q17",
+        "category": "mixed",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV001",
+          "report_EV001",
+          "report_EV008",
+          "abstracts_EV001"
+        ],
+        "seconds": 0.047
+      },
+      {
+        "id": "Q18",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "report_EV004",
+          "abstracts_EV004",
+          "report_EV004",
+          "report_EV004"
+        ],
+        "seconds": 0.078
+      },
+      {
+        "id": "Q19",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "abstracts_EV006",
+          "report_EV006",
+          "deck_SP024",
+          "deck_SP001"
+        ],
+        "seconds": 0.125
+      },
+      {
+        "id": "Q20",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP024",
+          "deck_SP009",
+          "deck_SP001",
+          "deck_SP023",
+          "deck_SP014"
+        ],
+        "seconds": 0.109
+      }
+    ],
+    "semantic \u00b7 hybrid + rerank": [
+      {
+        "id": "Q01",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV008",
+          "report_EV001",
+          "report_EV001",
+          "report_EV001"
+        ],
+        "seconds": 0.657
+      },
+      {
+        "id": "Q02",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "abstracts_EV004",
+          "report_EV004",
+          "abstracts_EV004",
+          "abstracts_EV004"
+        ],
+        "seconds": 0.75
+      },
+      {
+        "id": "Q03",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV006",
+          "deck_SP023",
+          "deck_SP001",
+          "deck_SP024"
+        ],
+        "seconds": 1.015
+      },
+      {
+        "id": "Q04",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV008",
+          "deck_SP016",
+          "deck_SP009",
+          "report_EV003",
+          "deck_SP014"
+        ],
+        "seconds": 1.36
+      },
+      {
+        "id": "Q05",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "report_EV012",
+          "deck_SP001",
+          "report_EV006",
+          "report_EV010"
+        ],
+        "seconds": 1.171
+      },
+      {
+        "id": "Q06",
+        "category": "table_lookup",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "deck_SP009",
+          "report_EV001",
+          "report_EV008",
+          "report_EV006"
+        ],
+        "seconds": 1.125
+      },
+      {
+        "id": "Q07",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2025",
+          "pricing_2026",
+          "sop_booth_logistics",
+          "pricing_2025",
+          "pricing_2026"
+        ],
+        "seconds": 1.188
+      },
+      {
+        "id": "Q08",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "pricing_2026",
+          "report_EV008",
+          "report_EV012",
+          "report_EV001",
+          "report_EV007"
+        ],
+        "seconds": 1.25
+      },
+      {
+        "id": "Q09",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "sop_registration_desk",
+          "report_EV001",
+          "deck_SP014",
+          "deck_SP001"
+        ],
+        "seconds": 0.5
+      },
+      {
+        "id": "Q10",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_booth_logistics",
+          "pricing_2026",
+          "pricing_2025",
+          "pricing_2026",
+          "pricing_2025"
+        ],
+        "seconds": 1.281
+      },
+      {
+        "id": "Q11",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "sop_virtual_streaming",
+          "report_EV007",
+          "report_EV010",
+          "report_EV011",
+          "sop_registration_desk"
+        ],
+        "seconds": 0.266
+      },
+      {
+        "id": "Q12",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "deck_SP016",
+          "deck_SP014",
+          "deck_SP016",
+          "deck_SP016",
+          "report_EV003"
+        ],
+        "seconds": 4.562
+      },
+      {
+        "id": "Q13",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV010",
+          "abstracts_EV002",
+          "abstracts_EV005",
+          "abstracts_EV012",
+          "abstracts_EV002"
+        ],
+        "seconds": 5.547
+      },
+      {
+        "id": "Q14",
+        "category": "single_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "abstracts_EV012",
+          "abstracts_EV012",
+          "abstracts_EV003",
+          "abstracts_EV007",
+          "abstracts_EV007"
+        ],
+        "seconds": 3.735
+      },
+      {
+        "id": "Q15",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV012",
+          "deck_SP014",
+          "report_EV001",
+          "deck_SP016",
+          "report_EV002"
+        ],
+        "seconds": 0.953
+      },
+      {
+        "id": "Q16",
+        "category": "multi_doc",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV012",
+          "deck_SP014",
+          "report_EV012",
+          "deck_SP014",
+          "report_EV012"
+        ],
+        "seconds": 1.5
+      },
+      {
+        "id": "Q17",
+        "category": "mixed",
+        "scores": {
+          "hit_rate": 1.0,
+          "mrr": 1.0,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV001",
+          "report_EV008",
+          "report_EV004",
+          "report_EV001",
+          "report_EV001"
+        ],
+        "seconds": 1.375
+      },
+      {
+        "id": "Q18",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV004",
+          "report_EV004",
+          "report_EV004",
+          "report_EV004",
+          "deck_SP009"
+        ],
+        "seconds": 1.093
+      },
+      {
+        "id": "Q19",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 0.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [
+          "report_EV006",
+          "report_EV006",
+          "report_EV006",
+          "report_EV006",
+          "report_EV006"
+        ],
+        "seconds": 0.766
+      },
+      {
+        "id": "Q20",
+        "category": "unanswerable",
+        "scores": {
+          "hit_rate": null,
+          "mrr": null,
+          "refusal_accuracy": 1.0,
+          "within_8s": 1.0
+        },
+        "answer": "",
+        "doc_ids": [],
+        "seconds": 0.656
+      }
+    ]
+  }
+}

@@ -123,6 +123,10 @@ def build_chat_model(settings: Settings, purpose: str, recorder: UsageRecorder |
             # OpenRouter speaks the OpenAI API, so it is the "openai" provider with another base URL.
             return init_chat_model(model=settings.llm_model, model_provider="openai", base_url=settings.base_url,
                                    api_key=settings.api_key, default_headers={"X-Title": "ConferAtlas"}, **common)
+        if settings.llm_provider in ("nebius", "fireworks"):
+            # Also OpenAI-compatible, at the base URL from settings.
+            return init_chat_model(model=settings.llm_model, model_provider="openai", base_url=settings.base_url,
+                                   api_key=settings.api_key, **common)
         if settings.llm_provider == "google_genai":
             # Google's API uses bare ids ("gemini-2.5-flash"), so a "google/" (OpenRouter) or "gemini/" (LiteLLM)
             # prefix is dropped. Gemini 2.5 Flash thinks by default and thinking tokens count against max_tokens,
@@ -132,7 +136,7 @@ def build_chat_model(settings: Settings, purpose: str, recorder: UsageRecorder |
         return init_chat_model(settings.llm_model, model_provider=settings.llm_provider, **common)
     except ImportError as exc:
         package = {"anthropic": "langchain-anthropic", "openai": "langchain-openai",
-                   "openrouter": "langchain-openai",
+                   "openrouter": "langchain-openai", "nebius": "langchain-openai", "fireworks": "langchain-openai",
                    "google_genai": "langchain-google-genai"}.get(settings.llm_provider, "the provider package")
         raise LLMNotConfiguredError(f"The '{settings.llm_provider}' provider needs {package}. Install it with "
                                     f"`pip install {package}` and restart the app.") from exc
@@ -156,7 +160,10 @@ def missing_key_message(settings: Settings) -> str:
     var = settings.api_key_env_var
     if var is None:
         return (f"LLM_PROVIDER is set to '{settings.llm_provider}', which ConferAtlas does not support. "
-                "Use 'openrouter', 'google_genai', 'anthropic' or 'openai' in .env.")
+                "Use 'openrouter', 'google_genai', 'nebius', 'fireworks', 'anthropic' or 'openai' in .env.")
+    if settings.llm_provider in ("nebius", "fireworks") and not settings.base_url:
+        return (f"No base URL: set {settings.llm_provider.upper()}_BASE_URL in backend/.env to the OpenAI-compatible "
+                "endpoint your provider's console shows, then restart the app.")
     return f"No API key: set {var} in the .env file in the project folder (see .env.example), then restart the app."
 
 
