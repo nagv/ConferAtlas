@@ -10,7 +10,9 @@ def _isolate_from_dotenv(monkeypatch):
                 "LLM_MAX_OUTPUT_TOKENS", "LLM_TEMPERATURE", "LLM_MAX_RETRIES", "LLM_TIMEOUT_SECONDS",
                 "LLM_INPUT_PRICE_PER_MTOK", "LLM_OUTPUT_PRICE_PER_MTOK", "CONFERATLAS_REQUIRE_AUTH",
                 "CONFERATLAS_STAFF_EMAILS", "CONFERATLAS_DATA_DIR", "CONFERATLAS_PUBLIC_DEMO", "BACKEND_API_TOKEN", "BACKEND_URL",
-                "MAX_UPLOAD_MB", "AI_HTTP_TIMEOUT_S"):
+                "MAX_UPLOAD_MB", "AI_HTTP_TIMEOUT_S", "NEBIUS_API_KEY", "NEBIUS_BASE_URL", "FIREWORKS_API_KEY",
+                "FIREWORKS_BASE_URL", "EMBEDDING_PROVIDER", "EMBEDDING_MODEL", "CONFERATLAS_INDEX_DIR",
+                "LANGSMITH_TRACING", "LANGSMITH_API_KEY", "LANGSMITH_PROJECT", "LANGSMITH_ENDPOINT"):
         monkeypatch.delenv(var, raising=False)
     monkeypatch.setattr("frontend.client.load_dotenv", lambda *a, **k: None)
 

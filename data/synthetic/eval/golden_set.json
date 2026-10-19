@@ -1,0 +1,255 @@
+[
+  {
+    "id": "Q01",
+    "question": "What operational problem came up at the Chicago DevSecOps Forum 2024, and how was it handled?",
+    "category": "single_doc",
+    "answerable": true,
+    "expected_corpora": [
+      "event_reports"
+    ],
+    "expected_doc_ids": [
+      "report_EV001"
+    ],
+    "reference_answer": "The registration queue peaked at 25 minutes on the first morning; two extra badge printers were opened and a walk-in lane was added."
+  },
+  {
+    "id": "Q02",
+    "question": "What lesson did the team record after the Chicago EdTech Leaders Summit 2025?",
+    "category": "single_doc",
+    "answerable": true,
+    "expected_corpora": [
+      "event_reports"
+    ],
+    "expected_doc_ids": [
+      "report_EV004"
+    ],
+    "reference_answer": "Booth traffic dropped sharply after lunch. Recommendation: move the expo hall next to the coffee stations so attendees pass the booths between sessions."
+  },
+  {
+    "id": "Q03",
+    "question": "How many leads did Harborview Software collect at the New York Revenue Ops Conference 2025, and what was their target?",
+    "category": "table_lookup",
+    "answerable": true,
+    "expected_corpora": [
+      "event_reports"
+    ],
+    "expected_doc_ids": [
+      "report_EV006"
+    ],
+    "reference_answer": "317 leads against a target of 145."
+  },
+  {
+    "id": "Q04",
+    "question": "Which sponsor at the San Francisco DevSecOps Forum 2025 asked for attendee job titles in the lead export?",
+    "category": "single_doc",
+    "answerable": true,
+    "expected_corpora": [
+      "event_reports"
+    ],
+    "expected_doc_ids": [
+      "report_EV008"
+    ],
+    "reference_answer": "Quillon Security."
+  },
+  {
+    "id": "Q05",
+    "question": "How much does a Premier Booth cost for 2026 events?",
+    "category": "table_lookup",
+    "answerable": true,
+    "expected_corpora": [
+      "pricing"
+    ],
+    "expected_doc_ids": [
+      "pricing_2026"
+    ],
+    "reference_answer": "$51,000."
+  },
+  {
+    "id": "Q06",
+    "question": "What does the Title Sponsor package include?",
+    "category": "table_lookup",
+    "answerable": true,
+    "expected_corpora": [
+      "pricing"
+    ],
+    "expected_doc_ids": [
+      "pricing_2026",
+      "pricing_2025"
+    ],
+    "reference_answer": "Keynote introduction, logo on all signage and the event app, 10 full passes, lead retrieval for 4 staff, with a 20 x 20 ft island booth."
+  },
+  {
+    "id": "Q07",
+    "question": "If a sponsor cancels 60 days before the event, how much of the fees paid is refunded?",
+    "category": "single_doc",
+    "answerable": true,
+    "expected_corpora": [
+      "pricing"
+    ],
+    "expected_doc_ids": [
+      "pricing_2026",
+      "pricing_2025"
+    ],
+    "reference_answer": "25% of fees paid (cancellations 30 to 90 days before)."
+  },
+  {
+    "id": "Q08",
+    "question": "What happens if a Premier Booth sponsor reaches less than 70% of its lead target?",
+    "category": "single_doc",
+    "answerable": true,
+    "expected_corpora": [
+      "pricing"
+    ],
+    "expected_doc_ids": [
+      "pricing_2026"
+    ],
+    "reference_answer": "From 2026 they receive a credit of 15% of the package price toward the following year (the lead guarantee)."
+  },
+  {
+    "id": "Q09",
+    "question": "By what time must badge scanners be charged and tested?",
+    "category": "single_doc",
+    "answerable": true,
+    "expected_corpora": [
+      "operations"
+    ],
+    "expected_doc_ids": [
+      "sop_booth_logistics"
+    ],
+    "reference_answer": "By 7:00 AM on each event day."
+  },
+  {
+    "id": "Q10",
+    "question": "How soon after an event do sponsors receive their lead export, and what does it contain?",
+    "category": "single_doc",
+    "answerable": true,
+    "expected_corpora": [
+      "operations"
+    ],
+    "expected_doc_ids": [
+      "sop_booth_logistics"
+    ],
+    "reference_answer": "Within 48 hours of the event closing, as a CSV with name, company, job title, source and notes."
+  },
+  {
+    "id": "Q11",
+    "question": "What should the producer do if a stream is down for more than 5 minutes?",
+    "category": "single_doc",
+    "answerable": true,
+    "expected_corpora": [
+      "operations"
+    ],
+    "expected_doc_ids": [
+      "sop_virtual_streaming"
+    ],
+    "reference_answer": "Switch to the backup encoder and escalate to the platform vendor's on-call engineer."
+  },
+  {
+    "id": "Q12",
+    "question": "What did we propose to Quillon Security for next year?",
+    "category": "single_doc",
+    "answerable": true,
+    "expected_corpora": [
+      "sponsor_decks"
+    ],
+    "expected_doc_ids": [
+      "deck_SP016"
+    ],
+    "reference_answer": "Keep the current packages and add a sponsored breakout session at each event."
+  },
+  {
+    "id": "Q13",
+    "question": "Who presented the session \"Case study: assessment at a mid-size organization\" at the Toronto Higher Ed Futures Conference 2026?",
+    "category": "single_doc",
+    "answerable": true,
+    "expected_corpora": [
+      "session_abstracts"
+    ],
+    "expected_doc_ids": [
+      "abstracts_EV010"
+    ],
+    "reference_answer": "Ben Martin."
+  },
+  {
+    "id": "Q14",
+    "question": "Which track was the session \"Research myths, busted\" in at the Austin Clinical Innovation Congress 2026?",
+    "category": "single_doc",
+    "answerable": true,
+    "expected_corpora": [
+      "session_abstracts"
+    ],
+    "expected_doc_ids": [
+      "abstracts_EV012"
+    ],
+    "reference_answer": "The Research track."
+  },
+  {
+    "id": "Q15",
+    "question": "Compare the operational issues at the Chicago DevSecOps Forum 2024 and the Austin Clinical Innovation Congress 2026.",
+    "category": "multi_doc",
+    "answerable": true,
+    "expected_corpora": [
+      "event_reports"
+    ],
+    "expected_doc_ids": [
+      "report_EV001",
+      "report_EV012"
+    ],
+    "reference_answer": "Chicago DevSecOps Forum 2024: the registration queue peaked at 25 minutes on the first morning. Austin Clinical Innovation Congress 2026: catering ran out of vegetarian lunches on day 1."
+  },
+  {
+    "id": "Q16",
+    "question": "Which package did Brightpath Security buy at the Austin Clinical Innovation Congress 2026, and what does that package cost in 2026?",
+    "category": "multi_doc",
+    "answerable": true,
+    "expected_corpora": [
+      "event_reports",
+      "pricing"
+    ],
+    "expected_doc_ids": [
+      "report_EV012",
+      "pricing_2026"
+    ],
+    "reference_answer": "Title Sponsor, which costs $100,500 in 2026."
+  },
+  {
+    "id": "Q17",
+    "question": "What was the show-up rate at the Chicago DevSecOps Forum 2024, and what did the report recommend to improve it?",
+    "category": "mixed",
+    "answerable": true,
+    "expected_corpora": [
+      "event_reports"
+    ],
+    "expected_doc_ids": [
+      "report_EV001"
+    ],
+    "reference_answer": "80%; the report recommends that we send a reminder email 48 hours before the event, with the agenda and a calendar invite."
+  },
+  {
+    "id": "Q18",
+    "question": "What was the hotel room rate for speakers at the Chicago EdTech Leaders Summit 2025?",
+    "category": "unanswerable",
+    "answerable": false,
+    "expected_corpora": [],
+    "expected_doc_ids": [],
+    "reference_answer": "Not in the documents."
+  },
+  {
+    "id": "Q19",
+    "question": "Which catering company served the New York Revenue Ops Conference 2025, and what did it charge?",
+    "category": "unanswerable",
+    "answerable": false,
+    "expected_corpora": [],
+    "expected_doc_ids": [],
+    "reference_answer": "Not in the documents."
+  },
+  {
+    "id": "Q20",
+    "question": "What are the dates of next year's events?",
+    "category": "unanswerable",
+    "answerable": false,
+    "expected_corpora": [],
+    "expected_doc_ids": [],
+    "reference_answer": "Not in the documents."
+  }
+]

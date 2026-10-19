@@ -162,7 +162,36 @@ def chat(dataset_id: str, payload: dict) -> dict:
     return api("POST", f"/datasets/{dataset_id}/chat", json=json.loads(_key(payload)), timeout=ai_timeout_s())
 
 
+# --- documents and RAG Lab (Week 2) ---
+
+@st.cache_data(ttl=300, max_entries=4, show_spinner=False)
+def rag_documents() -> list[dict]:
+    return api("GET", "/rag/documents")
+
+
+def rag_chunks(payload: dict) -> dict:
+    """Chunks of one document for a chunking setting (cached; semantic chunking may embed text)."""
+    return _post("/rag/chunks", _key(payload))
+
+
+def rag_search(dataset_id: str, payload: dict) -> dict:
+    return api("POST", f"/datasets/{dataset_id}/rag/search", json=json.loads(_key(payload)), timeout=ai_timeout_s())
+
+
+def rag_map(payload: dict) -> dict:
+    return _post("/rag/map", _key(payload))
+
+
+def rag_build(payload: dict) -> dict:
+    """Index a chunking setting; never cached, and it can take a minute the first time."""
+    return api("POST", "/rag/build", json=json.loads(_key(payload)), timeout=ai_timeout_s())
+
+
+def rag_experiments() -> dict:
+    return api("GET", "/rag/experiments")
+
+
 def clear_caches() -> None:
-    for fn in (dataset_info, _post, _page, about):
+    for fn in (dataset_info, _post, _page, about, rag_documents):
         fn.clear()
     st.session_state.pop("_health", None)

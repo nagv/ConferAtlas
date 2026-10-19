@@ -162,6 +162,17 @@ class Limits(Contract):
     feedback_request_timeout_s: float
 
 
+class DocumentStatus(Contract):
+    """Whether document search (RAG) is ready, and with which embedding model and index."""
+
+    available: bool
+    note: str                       # what to do when it is off
+    embedding_model: str = ""
+    dimension: int = 0
+    chunks: int = 0                 # in the structure-aware index the assistant searches
+    chunk_settings: list[str] = Field(default_factory=list)   # every built chunking setting
+
+
 class Status(Contract):
     """What the frontend needs to know about the AI setup (never the key itself)."""
 
@@ -178,6 +189,7 @@ class Status(Contract):
     output_price_per_mtok: float | None
     custom_data_dir: bool
     limits: Limits
+    documents: DocumentStatus | None = None
 
 
 class DatasetInfo(Contract):
@@ -504,6 +516,28 @@ class ChartSpecModel(Contract):
     title: str
 
 
+class SourceModel(Contract):
+    """A document passage the answer can cite as [S1], [S2], ..."""
+
+    id: str
+    corpus: str
+    doc_id: str
+    chunk_id: str
+    citation: str
+    text: str
+    score: float
+
+
+class TraceStepModel(Contract):
+    """One step of how the assistant answered: its plan, a tool call, a check, or the answer."""
+
+    step: Literal["plan", "tool", "check", "answer"]
+    text: str = ""
+    tool: str = ""
+    args: dict[str, Any] = Field(default_factory=dict)
+    summary: str = ""
+
+
 class AgentAnswerModel(Contract):
     text: str
     calculations: list[ToolRecordModel] = Field(default_factory=list)
@@ -511,8 +545,150 @@ class AgentAnswerModel(Contract):
     unverified_numbers: list[str] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)
     tool_calls: int = 0
+    sources: list[SourceModel] = Field(default_factory=list)
+    trace: list[TraceStepModel] = Field(default_factory=list)
+    documents_note: str = ""     # why document search was off for this answer, if it was
 
 
 class ChatResponse(Contract):
     answer: AgentAnswerModel
     usage: list[CallRecordModel]
+
+
+# --- documents and RAG Lab (Week 2) -------------------------------------------------------------
+
+CORPUS_NAMES = ("event_reports", "pricing", "sponsor_decks", "operations", "session_abstracts")
+Corpus = Literal["event_reports", "pricing", "sponsor_decks", "operations", "session_abstracts"]
+ChunkPreset = Literal["fixed", "structure", "semantic"]
+
+
+class RetrievalSettings(Contract):
+    """The RAG Lab tuning panel: which index to search and how (``core.rag.retrieve.RetrievalConfig``)."""
+
+    chunking: ChunkPreset = "structure"
+    chunk_size: int | None = Field(None, ge=50, le=1_000)
+    overlap: int | None = Field(None, ge=0, le=400)
+    mode: Literal["dense", "bm25", "hybrid"] = "hybrid"
+    alpha: float = Field(0.5, ge=0, le=1)
+    candidates: int = Field(20, ge=1, le=50)
+    top_k: int = Field(5, ge=1, le=20)
+    rerank: bool = True
+    threshold: float = Field(0.05, ge=0, le=1)
+    dense_threshold: float = Field(0.45, ge=0, le=1)
+
+
+class RagSearchRequest(ScopeRequest):
+    question: str = Field(min_length=1, max_length=MAX_QUESTION_CHARS)
+    settings: RetrievalSettings = Field(default_factory=RetrievalSettings)
+    corpora: list[Corpus] = Field(default_factory=list, max_length=5)
+
+
+class CandidateModel(Contract):
+    chunk_id: str
+    doc_id: str
+    corpus: str
+    title: str
+    citation: str
+    text: str
+    dense: float
+    bm25: float
+    hybrid: float
+    rerank: float | None
+    rank_before: int
+    rank_after: int
+
+
+class RagSearchResponse(Contract):
+    question: str
+    candidates: list[CandidateModel]
+    hit_ids: list[str]
+    refused: bool
+    best_score: float
+    score_name: str
+    threshold: float
+    seconds: dict[str, float]
+    needs_build: bool = False
+    note: str = ""
+
+
+class DocumentInfo(Contract):
+    doc_id: str
+    corpus: str
+    source_type: str
+    title: str
+    event_id: str = ""
+    year: int | None = None
+
+
+class ChunkRequest(Contract):
+    doc_id: str = Field(min_length=1, max_length=100)
+    strategy: ChunkPreset = "structure"
+    chunk_size: int = Field(400, ge=50, le=1_000)
+    overlap: int = Field(0, ge=0, le=400)
+    contextual: bool = True
+
+
+class ChunkModel(Contract):
+    chunk_id: str
+    index: int
+    tokens: int
+    page: int
+    slide: int
+    section: str
+    header: str
+    body: str
+
+
+class ChunkResponse(Contract):
+    doc_id: str
+    title: str
+    source_type: str
+    units: int
+    chunks: list[ChunkModel]
+    corpus_tokens: list[int]        # token count of every chunk in the corpus, for the histogram
+    key: str                        # the chunking setting's name, e.g. "structure_400_ctx"
+    built: bool                     # whether this setting is in the index (searchable)
+
+
+class MapRequest(Contract):
+    chunking: ChunkPreset = "structure"
+    question: str | None = Field(None, max_length=MAX_QUESTION_CHARS)
+
+
+class MapPoint(Contract):
+    x: float
+    y: float
+    corpus: str
+    chunk_id: str
+    title: str
+    section: str
+    preview: str
+
+
+class MapResponse(Contract):
+    points: list[MapPoint]
+    explained: float
+    model: str
+    question_point: tuple[float, float] | None = None
+    nearest: list[str] = Field(default_factory=list)
+
+
+class BuildRequest(Contract):
+    chunking: ChunkPreset = "structure"
+    chunk_size: int | None = Field(None, ge=50, le=1_000)
+    overlap: int | None = Field(None, ge=0, le=400)
+
+
+class BuildResponse(Contract):
+    key: str
+    collections: list[dict[str, Any]]
+    seconds: float
+    texts_embedded: int
+
+
+class ExperimentsResponse(Contract):
+    """Evaluation results from Step 10 (scripts/run_eval.py), if any have been run."""
+
+    available: bool
+    results: list[dict[str, Any]] = Field(default_factory=list)
+    generated_at: str = ""

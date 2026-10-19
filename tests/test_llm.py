@@ -298,3 +298,60 @@ def test_openrouter_insufficient_credit_is_explained_and_not_retried():
         llm.retry_call(lambda: _raise(StatusError(402)), SETTINGS, sleep=sleeps.append)
     assert exc.value.kind == "credits" and sleeps == []  # retrying would not help
     assert "enough credit" in str(exc.value) and "LLM_MAX_OUTPUT_TOKENS" in str(exc.value)
+
+
+# --- Week 2: Nebius / Fireworks chat, embedding settings, LangSmith guard ---
+
+def test_nebius_needs_key_and_base_url(monkeypatch):
+    monkeypatch.setenv("LLM_PROVIDER", "nebius")
+    monkeypatch.setenv("LLM_MODEL", "acme/chat-model")
+    monkeypatch.setenv("NEBIUS_API_KEY", "nb-test")
+    settings = get_settings()
+    assert not settings.llm_configured and "NEBIUS_BASE_URL" in llm.missing_key_message(settings)
+    monkeypatch.setenv("NEBIUS_BASE_URL", "https://nebius.example.test/v1/")
+    settings = get_settings()
+    assert settings.llm_configured and settings.base_url == "https://nebius.example.test/v1"
+    model = llm.build_chat_model(settings, "Nebius test")
+    assert model.model_name == "acme/chat-model"
+    assert model.openai_api_base == "https://nebius.example.test/v1"
+    assert model.openai_api_key.get_secret_value() == "nb-test"
+
+
+def test_fireworks_has_a_default_base_url(monkeypatch):
+    monkeypatch.setenv("LLM_PROVIDER", "fireworks")
+    monkeypatch.setenv("FIREWORKS_API_KEY", "fw-test")
+    settings = get_settings()
+    assert settings.llm_configured and settings.base_url == "https://api.fireworks.ai/inference/v1"
+
+
+@pytest.mark.parametrize("env, configured", [
+    ({}, False),                                                            # RAG off by default
+    ({"EMBEDDING_PROVIDER": "fake"}, True),                                 # offline tests
+    ({"EMBEDDING_PROVIDER": "nebius", "EMBEDDING_MODEL": "m", "NEBIUS_API_KEY": "k"}, False),  # no base URL
+    ({"EMBEDDING_PROVIDER": "nebius", "EMBEDDING_MODEL": "m", "NEBIUS_API_KEY": "k",
+      "NEBIUS_BASE_URL": "https://nebius.example.test/v1"}, True),
+    ({"EMBEDDING_PROVIDER": "google_genai", "EMBEDDING_MODEL": "gemini-embedding-2"}, False),  # no key
+    ({"EMBEDDING_PROVIDER": "google_genai", "EMBEDDING_MODEL": "gemini-embedding-2", "GOOGLE_API_KEY": "g"}, True),
+    ({"EMBEDDING_PROVIDER": "acme", "EMBEDDING_MODEL": "m"}, False),       # unknown provider
+])
+def test_embeddings_configured(monkeypatch, env, configured):
+    for name, value in env.items():
+        monkeypatch.setenv(name, value)
+    assert get_settings().embeddings_configured is configured
+
+
+def test_index_dir_is_relative_to_project(monkeypatch):
+    from core.config import PROJECT_ROOT
+    monkeypatch.setenv("CONFERATLAS_INDEX_DIR", "data/other-index")
+    assert get_settings().index_dir == PROJECT_ROOT / "data" / "other-index"
+
+
+def test_langsmith_tracing_needs_a_key(monkeypatch):
+    from core.config import tracing_enabled
+    monkeypatch.setenv("LANGSMITH_TRACING", "true")
+    get_settings()
+    assert not tracing_enabled() and __import__("os").environ["LANGSMITH_TRACING"] == "false"
+    monkeypatch.setenv("LANGSMITH_TRACING", "true")
+    monkeypatch.setenv("LANGSMITH_API_KEY", "ls-test")
+    get_settings()
+    assert tracing_enabled()

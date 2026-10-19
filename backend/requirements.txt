@@ -14,5 +14,15 @@ langchain-anthropic>=0.3,<2.0
 langchain-openai>=0.3,<2.0      # OpenRouter (default) and OpenAI
 langchain-google-genai>=2.1,<5.0  # Google AI Studio (Gemini API, free tier)
 
+# --- RAG (Week 2) ---
+chromadb>=1.0,<2.0                 # local vector database, saved to data/index/chroma
+langchain-chroma>=1.0,<2.0
+langchain-text-splitters>=1.0,<2.0
+pymupdf>=1.26,<2.0                 # PDF text and tables (also writes the synthetic PDFs)
+python-docx>=1.1,<2.0              # Word documents
+python-pptx>=1.0,<2.0              # PowerPoint decks
+rank-bm25>=0.2.2,<1.0              # keyword (BM25) search for hybrid retrieval
+flashrank>=0.2.10,<1.0             # small CPU cross-encoder for re-ranking (no torch)
+
 # --- Config ---
 python-dotenv>=1.0

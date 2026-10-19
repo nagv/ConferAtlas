@@ -406,3 +406,436 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
 88. > push change to branch
 
     *Result: Claude committed the #87 changes (gemini/ prefix accepted, clearer "model not found" message, tests, prompt log) and pushed them to origin/main.*
+
+89. > same error
+
+    *Result: Claude checked Render's /status (provider google_genai, model gemini-2.5-flash, key configured) and made one test AI call: Google itself answers 404 for gemini-2.5-flash. Google's Gemini API release notes (18 Sep 2026) say access to the 2.5 models is now limited to accounts that used them before, and new projects should use 3.5 Flash-Lite or 3.8 Flash. So a new free AI Studio key cannot use gemini-2.5-flash; the fix is to change LLM_MODEL to a current model. Not committed.*
+
+90. > worked now
+
+    *Result: the user switched Render to LLM_MODEL=gemini-3.8-flash and the AI features work. Claude confirmed /status shows google_genai with gemini-3.8-flash and that Google calls now succeed (about 5 s each, a few hundred tokens). Not committed.*
+
+91. > would this model gemini-3.8-flash supports embedding model?
+
+    *Answer: no. gemini-3.8-flash is a chat (generation) model and does not produce embeddings. Google offers separate embedding models on the same Gemini API and API key: gemini-embedding-2 (current, multimodal, 3072 dimensions, adjustable with output_dimensionality) and the older gemini-embedding-001. In LangChain that is `GoogleGenerativeAIEmbeddings(model="gemini-embedding-2")` from the langchain-google-genai package the backend already installs. Free-tier status of the embedding model should be checked in AI Studio. ConferAtlas does not use embeddings today. Not committed.*
+
+## Session 3 (15 Oct 2026)
+
+92. > do you have the course plan adoption plan in memory for the project ConferAtlas
+
+    *Answer: retained context includes the Week 1 solution kit and project roadmap, but no separate course adoption plan was found in the checked project notes.*
+
+93. > can you check other conversations and look up
+
+    *Result: searched available conversation listings and archived chats. Found “Review six-week project plan” (01a11ef3-8f85-7022-9a92-96906daad243), which maps the course to Community Health Pulse rather than ConferAtlas: Week 1 Streamlit/CSV analytics and a bounded LangChain tool agent; Week 2 RAG/context engineering; Week 3 LangGraph multi-agent orchestration with distinct MCP/A2A exercises; Week 4 local inference and narrow fine-tuning comparison; Week 5 evaluations, tracing and monitoring; Week 6 security, privacy and adversarial testing. “Review Agentic AI Masterclass” (6a9496b0-eb04-83ea-aa87-f2607c7a6192) records the goal of developing structured AI architecture knowledge and leadership confidence. No separate ConferAtlas-specific course adoption plan was found in the conversations checked. This is recovered context, not an approved new implementation plan.*
+
+## Session 4 (15 to 16 Oct 2026): Week 2 planning and build
+
+94. > Give me the few users prompts to build this application ( think like I am building this from scratch). I need to paste them in the week 1 submisison
+
+    *Answer: Claude read this repo and docs/prompts.md and gave a cleaned-up list of the 14 Week 1 build prompts actually used, plus the iteration prompts (sponsor-count bug, stale-server error, theme, landing page, frontend/backend refactor). No files changed.*
+
+95. > you have next week's plan per course plan correct?
+
+    *Answer: summarised Module 2 (RAG and context engineering) from the course build plan: multi-format knowledge sources, a shared Document schema, chunking and embedding experiments, a 7-step retrieval ladder, a router and context engineering. Suggested Gemini embeddings and keeping RAG in the backend.*
+
+96. > https://docs.google.com/document/d/1J86kVvwlSb8EJH8mOpZE6t4XSXzS58y0ukMvmbtmkn8/edit?tab=t.0 can you read this. this is project 2 (week 2) submission guideline
+
+    *Answer: read the Week 2 handout (RAG app; one-liner and framework; n8n or LangChain track; 4 suggested use cases; deliverables: Google Doc, video of 5 minutes or less, GitHub; due Sunday 18 Oct). Drafted the ConferAtlas one-liner and framework table, chose the LangChain track and cut the Module 2 scope to a must-have list for Sunday.*
+
+97. > with the proposal for sunday, can i graphically see the chunks and fine tune etc?
+
+    *Answer: proposed a RAG Lab page (chunk viewer, tuning panel, embedding map, retrieval inspector, experiment dashboard). Clarified that tuning RAG settings fits Week 2, while model fine-tuning is Module 4.*
+
+98. > We were introduced Agentic RAG and Graph RAG part of the course
+    >
+    > https://github.com/The-Gen-Academy/Mastering-Agentic-AI-Week2-Session2
+    >
+    > do you think these concepts give value add to the week 2
+
+    *Answer: read the course repo (agentic_rag, graph_rag, tool loadout). Agentic RAG (one search tool per corpus in the existing Ask agent, with routing and decomposition) is a must for Sunday; Graph RAG is a stretch goal with an in-memory NetworkX graph; tool loadout is not needed with about 11 tools.*
+
+99. > I have access to some of these tools part of course.. any of these things expediate or make things prettier
+    >
+    > https://tga-cohort-credits-hub.vercel.app/#tools
+
+    *Answer: reviewed the 17 cohort tools. Useful now: LangSmith (tracing and eval experiments), Nebius (embeddings and generation without free-tier limits), Fireworks (backup). Pinecone is optional but its sign-up deadline is 16 Oct, 5 PM Pacific. LlamaIndex, Tavily, Brev, Langfuse and mem0 are for later modules.*
+
+100. > yes.. create a week 2 build prompts and also keep storing the chats against in to repo as we progress. Also, give me step by step instructions for building. Also, explain me each step while you are building.
+     > Where ever setup required in external system or Chroma, give me detailed instructions so that I can try my self
+
+     *Result: restored the prompt-log rule in CLAUDE.md, created the `week2-rag` branch, and added `docs/week2/build-prompts.md` (11 prompts plus a Graph RAG stretch) and `docs/week2/build-guide.md` (architecture, schedule, external setup for Pinecone, Nebius, LangSmith, Chroma and Fireworks, and what each build step changes, why, and how to check it). Then built Step 1: RAG packages (Chroma, text splitters, PyMuPDF, python-docx, python-pptx, BM25, FlashRank) in backend/requirements.txt; Nebius and Fireworks as OpenAI-compatible chat providers; embedding provider, model and index folder settings; LangSmith tracing switched off unless its key is set; backend/.env.example documented; data/index/ ignored by Git. 11 new settings tests; the full suite passes (555). Not committed.*
+
+101. > b/w did you update the plan
+
+     *Result: added a "Week 2 delivery plan" section to Module 2 of the course build plan doc: one-liner, track, changes from the original plan (Agentic RAG instead of a router, RAG Lab, the new stack, Graph RAG as a stretch), a priority table and the schedule.*
+
+102. > explain me step 2 on base url and testing
+
+     *Answer: explained what the Nebius base URL is and how to test the key, URL and embedding model. Fixed the guide's test step: the curl example doubled `/v1` and does not run as written in Windows PowerShell, so it was replaced by a one-line Python check that reads the key from backend/.env. Not committed.*
+
+103. > i got key and trying to tesing this
+     >
+     > ```
+     > curl 'https://api.tokenfactory.nebius.com/v1/chat/completions' -X 'POST' -H 'Content-Type: application/json' -H 'Accept: */*' -H "Authorization: Bearer $NEBIUS_API_KEY" --data-binary '{"model":"MODEL_ID","messages":[{"role":"system","content":"SYSTEM_PROMPT"}]}'
+     > ```
+     >
+     > whats model id
+
+     *Answer: MODEL_ID is a placeholder for a model name from the Nebius catalogue. Gave a command that lists every model the key can use, from backend/.env, with embedding models marked. Recorded the confirmed base URL (https://api.tokenfactory.nebius.com/v1) in the build guide. Not committed.*
+
+104. > its confusing... give me full instructions of setting up nebius. start from model selection etc per plan. dont assume anything is already available
+
+     *Result: found that only the project-root `.env` exists (no backend/.env; the backend reads the root file as a fallback), so the instructions use that file. Added `scripts/check_nebius.py`, which checks the key and base URL, lists the models grouped as embedding and chat, and tests an embedding and a chat call with plain-English errors, without printing the key (checked: a dummy key reaches Nebius and is rejected as "auth"). Rewrote section 0.2 of docs/week2/build-guide.md as steps A to F: get a key, add it to .env, list models, choose the two models, test, and when to switch chat to Nebius. Not committed.*
+
+105. > step 8 return this
+     >
+     > *(pasted the checker's model list: one embedding model, Qwen/Qwen3-Embedding-8B, and 27 chat models)*
+
+     *Answer: chose Qwen/Qwen3-Embedding-8B for embeddings (the only one available), Qwen/Qwen3-30B-A3B-Instruct-2507 for answers (an Instruct, non-thinking model with about 3B active parameters, so fast and cheap, with tool calling), and Qwen/Qwen3-235B-A22B-Instruct-2507 as the eval judge (a larger model than the one being graded). Gave the .env lines and the test commands.*
+
+106. > how can i select 2 models
+
+     *Answer: models are not selected in the Nebius console; each job reads its own setting in `.env`. EMBEDDING_MODEL holds the embedding model, LLM_PROVIDER plus LLM_MODEL the answer model, and a new EVAL_JUDGE_MODEL the judge (documented in backend/.env.example; the eval script in Step 10 reads it). Not committed.*
+
+107. > how to select chat model
+
+     *Answer: explained the two places a chat model is "selected": in the app, by editing the LLM_PROVIDER and LLM_MODEL lines in .env and restarting; and in the checker, by passing the model name after --chat. The Nebius console's own model picker (Playground) is only for trying models in the browser and does not affect the app.*
+
+108. > this is the reply
+     >
+     > *(pasted the checker output: key and base URL found, EMBEDDING_MODEL Qwen/Qwen3-Embedding-8B, embedding test OK with 4096 dimensions in 0.3 s, chat test OK with Qwen/Qwen3-30B-A3B-Instruct-2507 in 0.3 s)*
+
+     *Answer: Nebius setup confirmed working. Next: test the judge model, then set up LangSmith (guide section 0.3).*
+
+109. > Test the judge model response
+     >
+     > *(pasted the checker output: embedding test OK in 0.2 s; chat test OK with Qwen/Qwen3-235B-A22B-Instruct-2507 in 0.5 s)*
+
+     *Answer: judge model confirmed. Nebius setup is complete; next is LangSmith (guide section 0.3) and Step 2 of the build.*
+
+110. > are we using 3 embedding models?
+
+     *Answer: no. One embedding model (Qwen/Qwen3-Embedding-8B) and two chat models (answers and judge). BM25 is a keyword index, not an embedding model. The original Module 2 plan's three-way embedding comparison (hosted dense, local dense, sparse) is in the "after Week 2" list.*
+
+111. > so, for prod we will use only 1 embedding model?
+
+     *Answer: yes. Questions and documents must be embedded by the same model, because vectors from different models are not comparable. Changing models means re-embedding the corpus, so the index will record which model built it (in the collection name and metadata) and rebuild when the model changes. The model id is pinned in .env, and there is no automatic fallback to another embedding model at query time; if the provider is down, document search reports the outage while the dashboards keep working.*
+
+112. > is this a requirement of checking multiple model in week 2?
+
+     *Answer: no. The Week 2 handout asks only to name the embedding model and say why (framework field "Chunking + embedding"), with a tip to match chunk size to the model's capacity. The comparisons it asks for (in suggested use case 2, which ConferAtlas borrows) are chunking strategies and re-ranking impact.*
+
+113. > is the chunking model selected is good
+
+     *Answer: there is no separate chunking model: the semantic chunker reuses Qwen3-Embedding-8B, and the other strategies are rules. The plan is a good fit: structure-aware chunks of about 400 tokens suit structured reports, SOPs and slides, are far below the model's input limit, and stay focused enough to retrieve precisely; tables and slides are kept whole. Added two refinements: queries get Qwen3-Embedding's instruction prefix (documents do not), and the final chunk size is chosen by the Step 10 experiment rather than assumed.*
+
+114. > i mean embedding model
+
+     *Answer: Qwen3-Embedding-8B is a strong choice: a top-ranked open embedding model on the MTEB benchmarks at release, 32K-token input, instruction-aware queries, and fast on Nebius (0.2-0.3 s). Its 4096 dimensions cost little at this corpus size (about 16 KB per chunk). Caveats: no other embedding model is available on the credits, and changing it later means re-embedding.*
+
+115. > yes..before that summarize what's step 1.. is it setting up nebius and embeding model from the same. is this correct?
+
+     *Answer: not quite. Step 0 is the external setup the user does (Nebius key, models and tests, done; LangSmith, pending; Chroma needs no account). Step 1 was the code preparation Claude did (packages and settings so the app can use Nebius, embeddings, Chroma and LangSmith). Then built Step 2: `core/docgen.py` generates 36 documents in 5 corpora from the seeded CSVs (12 post-event report PDFs with a sponsor results table and repeated headers and footers, 2 pricing brochure PDFs with package and add-on tables, 6 sponsor partnership-review PPTX decks with speaker notes, 4 operations SOP Word documents, 12 Markdown session-abstract files), a manifest and a 20-question golden set (single-document, table lookup, multi-document, mixed and 3 unanswerable questions). Every figure comes from core.analysis; venue issues, lessons, sponsor requests, prices and SOP rules exist only in the documents. scripts/generate_data.py now also writes the documents (`--no-docs` skips them). Found that PDF text extracts with typographic ligatures ("ﬁ" in "confirmed"), which Step 3's cleaner must normalise. 7 new tests in tests/test_docgen.py. Not committed.*
+
+116. > did you update the plan document with latest design choice? if not, update the Week 2 adoption plan agreed upon
+
+     *Result: the plan doc had the Week 2 scope and stack but not the later decisions. Added to its "Week 2 delivery plan" section: a design decisions table (Qwen3-Embedding-8B with 4096 dimensions as the single embedding model and why; query instructions; Qwen3-30B-A3B-Instruct-2507 for answers; Qwen3-235B-A22B-Instruct-2507 as eval judge; no embedding comparison in Week 2; chunking; hybrid retrieval with FlashRank; Chroma; settings and tracing), the built corpus and golden set, and progress through Step 2. The Stack bullet now says one embedding model, with Gemini or Fireworks as the chat fallback only.*
+
+## Session 5 (17 Oct 2026)
+
+117. > did you update the week 2 plan document. give me the document
+
+     *Answer: yes (entry 116). Opened the course build plan doc, whose Module 2 section holds the Week 2 delivery plan, and pointed to docs/week2/build-guide.md and docs/week2/build-prompts.md in the repo.*
+
+118. > summarize Friday tasks in simple words
+
+     *Answer: summarised Friday's plan (Steps 0 to 5) in plain words, with status: Steps 0 to 2 done except the LangSmith key; Steps 3 to 5 (read the documents, cut them into chunks, build the search index) still to do and now carried into Saturday.*
+
+119. > whats langsmith is used for ? what kind of key i need to create in langsmith (Personal access token/Service key/Tracing only)
+
+     *Answer: LangSmith records each AI run step by step (tracing) and runs and compares the golden-set evaluation (datasets and experiments). Recommended a Personal Access Token for local use, because the evaluation needs more than tracing, and a separate Tracing-only key for Render (least privilege); a Service key is for shared team systems. Updated guide section 0.3 to match. Not committed.*
+
+120. > what to select for workspace
+
+     *Answer: select the default workspace of the organisation that holds the $100 credit (on a personal account it is usually the only one, under the Personal organisation). Traces, datasets and experiments land in the workspace the key belongs to. Don't create a new workspace for this project.*
+
+121. > it says Default workspace as Workspace 1
+
+     *Answer: select Workspace 1, then create the Personal Access Token and add the three LANGSMITH_* lines to .env.*
+
+122. > whats purpose of LANGSMITH_PROJECT .what value to put here
+
+     *Answer: LANGSMITH_PROJECT names the folder in LangSmith where traces are stored (created automatically on the first trace; without it traces go to "default"). Use conferatlas-week2 locally; later use a separate name such as conferatlas-prod on Render so demo and live traces stay apart.*
+
+123. > i put this project name as conferatlas
+
+     *Answer: that works; the name only labels where traces are stored. Changed the guide and backend/.env.example from conferatlas-week2 to conferatlas to match. Not committed.*
+
+124. > yes..start with step 3
+
+     *Result: built Step 3. `core/rag/schema.py` defines the shared Document (a LangChain Document whose metadata always has the same 13 scalar keys: doc_id, corpus, source_type, title, source_path, event_id, event_type, city, year, sponsor_id, page, slide, section) and the citation format. `core/rag/loaders.py` loads PDFs page by page (headings found by font size, tables as Markdown tables without repeating their text, repeated headers, footers and page numbers removed), Word documents by heading section (numbered steps, page header skipped), slides one by one (title, bullets, speaker notes) and Markdown by section; `clean_text` applies Unicode NFKC (fixes the "fi" ligature), joins hyphenated line breaks and collapses spaces. The 36 documents load as 210 units in about 4 s. Fixed two problems found by reading the output: wrapped table-header cells detected as tiny extra tables (now dropped), and the Step 2 generator lower-casing acronyms in session titles ("ai & ml", now "AI & ML"; corpus regenerated). A sentence split by a PDF page break is left for Step 4's chunker. 11 new tests in tests/test_rag_loaders.py. Not committed.*
+
+125. > start with Step 4
+
+     *Result: built Step 4. `core/rag/chunking.py` has three strategies with a shared ChunkConfig (and presets for the evaluation): fixed token windows of 500 with 50 overlap (the baseline; it cuts through sentences and tables), structure-aware chunks of up to 400 tokens (one per section, heading, Word section or slide; joined across PDF page breaks; long sections split between paragraphs and big tables between rows with the header repeated) and semantic chunks (split where embeddings of neighbouring sentences are least similar; needs an embedding function, checked with the real model in Step 5). Every chunk gets a contextual header ("Document | Section | Page"), kept in its metadata too, plus chunk_id, strategy and token count. Token counts use tiktoken cl100k with a 4-characters-per-token fallback. On the corpus: fixed 61 chunks (median 374 tokens), structure 250 (median 85). Fixed by reading the output: short headed sections were merging into the next one (now only heading-less intros merge, and are labelled with the section they join); "DevOps" was lower-cased in generated session titles (generator fixed, corpus regenerated). 14 new tests in tests/test_rag_chunking.py. Not committed.*
+
+126. > yes proceed with Step 5
+
+     *Result: built Step 5. `core/rag/embeddings.py` builds the configured embedding model (Nebius, Fireworks or OpenAI through the OpenAI embeddings API with plain-text input, Google, or an offline hashed "fake" model for tests), adds Qwen3-Embedding's task instruction to questions only, sends texts in batches of 64 and caches every vector on disk by model and text. `core/rag/index.py` stores chunks in Chroma (cosine distance), one collection per corpus, chunking setting and model, with the model and vector size in each collection's metadata; builds are incremental (a hash per document: unchanged skipped, changed replaced, missing removed) and a new model replaces the old collections. `scripts/build_index.py` builds one or all settings, shows status or resets. Real build with Qwen3-Embedding-8B: 15 collections, 1,684 texts in about 3.5 minutes; rebuilds take seconds. Findings: a sample search found the right document for SOP and pricing questions, but pure vector search missed the "which sponsor asked for job titles" sentence (motivation for Step 6's hybrid search and re-ranking); Nebius embedding latency varies from 0.2 s to about 7 s per call, with the plain OpenAI client too, so the delay is the provider's; real semantic chunks showed three bugs, now fixed (a heading split from its text, Word sections treated as one heading, step numbers split from their step) plus tiny slide fragments (a topic change can no longer end a chunk under 60 tokens). 12 new tests in tests/test_rag_index.py and 2 in tests/test_rag_chunking.py. Not committed.*
+
+127. > can i see vectors created in UI
+
+     *Result: Chroma has no built-in UI, so added a quick map now (the interactive version is planned for RAG Lab in Step 9). `core/rag/projection.py` flattens the 4096-number vectors to 2D with PCA (NumPy only) and can place a question on the same map; `scripts/plot_embeddings.py` writes `data/index/embedding_map.html`, one point per chunk with colour and shape by corpus (colours from the validated reference palette; shapes added because three colours are below 3:1 contrast), hover text with document, section and text, and with --question a star for the question and rings on its five nearest chunks by real cosine distance. Without the event name, "Which sponsor asked for attendee job titles in the lead export?" now ranks the San Francisco report's sponsor-results chunk first. Moved the ring rank numbers into the hover text after seeing them overlap. 2 new tests; the full suite passed before them (598). The map test failed about one run in three with Chroma's "Nothing found on disk" when vectors were read straight after a build in the same process (as the backend will do), so VectorIndex.get now retries that read briefly; 5 runs in a row then passed. Not committed.*
+
+128. > are these are metadata related to all document types being indexed ?
+     >
+     > *(pasted the map legend: event reports, pricing, sponsor decks, SOPs, session abstracts)*
+
+     *Answer: yes, all five document types are indexed (72, 7, 36, 16 and 119 structure-aware chunks), but the type is only one metadata field (corpus). Showed the 19 fields every chunk stores, read from the real index for one chunk of each type, and which fields are empty or 0 for types they don't apply to.*
+
+129. > whats built so far
+
+     *Answer: summarised Week 2 progress: setup (Nebius, LangSmith, Chroma) and Steps 1 to 5 done (settings, 36-document corpus and golden set, loaders, three chunking strategies, embeddings and a 15-collection Chroma index, plus the embedding map); Steps 6 to 11 still to do; nothing committed yet on the week2-rag branch.*
+
+130. > dont cut anything in the plan
+
+     *Result: everything stays in scope for Sunday, including the embedding map and Graph RAG. The plan doc's priority row "Stretch" is now "Must (no cuts, agreed Oct 17)" and its Graph RAG bullet says it is in scope; the build guide's "drop in this order" sentence was replaced, and the Graph RAG prompt in build-prompts.md is now Prompt 12. The "After Week 2" items (Excel, web and image loaders, embedding-type comparison, advanced retrieval techniques, role-aware context, Neo4j) remain as agreed earlier. Not committed.*
+
+131. > i mean original plan thought through
+
+     *Result: interpreted as "keep the full original Module 2 plan". Plan doc: the "After Week 2" row (Excel, web and image loaders; embedding-type comparison; self-query, HyDE, parent-document retrieval, corrective RAG; role-aware context; Neo4j) is now "Must (original Module 2 plan, no cuts, agreed Oct 17)", the intro no longer says the full scope doesn't fit, and the embedding-comparison decision now says it is in Week 2. Build guide: new schedule, section 0.6 (Ollama setup for the local embedding model), and new or expanded steps 2b (Excel, web and image sources), 3b (their loaders), 5b (embedding comparison), 6 (the full 7-rung retrieval ladder plus refusal), 7 (role-aware context), 9, 10 and 12 (Graph RAG). Stopped when the user said "wait"; build-prompts.md not yet updated for the new steps. Not committed.*
+
+132. > wait
+
+     *Stopped all work and waited for the user.*
+
+133. > my point is you planned graphRAG post Sunday. where is that plan. stick to exact plan.. dont deviate
+
+     *Result: the agreed plan already had it: Graph RAG with an in-memory NetworkX graph as a Week 2 stretch item, and Neo4j Graph RAG (with Excel, web and image loaders, the embedding-type comparison, self-query, HyDE, parent-document retrieval, corrective RAG and role-aware context) after Week 2, in the plan doc's "Week 2 delivery plan" table and Graph RAG bullet. Restored the plan doc and the build guide to that exact plan, keeping only "nothing cut" on the stretch items: the "After Week 2" row, intro and embedding-comparison decision are back as they were; the guide's schedule, Steps 6, 7, 9 and 10 are back to the agreed scope and Steps 2b, 3b and 5b are removed. Step 12 (NetworkX Graph RAG, prompt 12) stays, as it is part of the plan. Not committed.*
+
+134. > why does ollama came into picture. as i know this is not in scope
+
+     *Answer: it should not have. It was added only for the embedding-model comparison, which is in the "After Week 2" list. Removed the Ollama setup section (0.6) from the guide.*
+
+135. > dont change the plan for tomorrow until unless i explicitly calle out
+
+     *Answer: agreed; the plan will not change unless the user explicitly asks. Saved as a standing rule in Claude's memory.*
+
+136. > summarize the whole plan of tmorow's build plan with visual/image
+
+     *Answer: showed Sunday's agreed plan as a diagram (Step 10 evaluation, Step 12 Graph RAG with NetworkX, Step 11 tests, docs and deployment, then the submission, each with its "done when" check) and summarised each step. No plan changes.*
+
+137. > Step 12 as we agreed out of scope for tomorrow, correct?
+
+     *Answer: not quite as written. The agreed plan lists NetworkX Graph RAG as a "Stretch" item (do it only if the must-haves are done) and Neo4j Graph RAG as after Week 2. Claude had then wrongly turned "don't cut anything" into "kept in scope" and put Step 12 into Sunday's schedule as a firm step. Asked the user to confirm before changing the plan.*
+
+138. > Back to the exact original
+
+     *Result: restored the exact original wording. Plan doc: the priority row is "Stretch" again and the Graph RAG bullet says "a stretch goal". Build guide: Sunday is Steps 10 to 11 again, the "If time runs short, drop in this order: the embedding map, semantic chunking, Graph RAG (stretch)" line is back, Steps 6, 9 and 10 have their original text, and the Step 12 section is removed. build-prompts.md: the Graph RAG prompt is "Stretch: Graph RAG" again. Not committed.*
+
+139. > summarize(very brief) whats acheived so far  and let me know whats left
+
+     *Answer: brief status: setup and Steps 1 to 5 done (plus the embedding map script); Steps 6 to 9 left for Saturday, Steps 10 to 11 and the submission for Sunday, with Graph RAG and the RAG Lab embedding map as stretch items.*
+
+140. > can you implement today's tasks
+
+     *Result: built Steps 6 to 9. Step 6: `core/rag/retrieve.py` searches dense (Chroma, cosine), BM25 or hybrid (scaled scores mixed by alpha), applies sidebar filters (documents without an event always pass), re-ranks the top 20 with FlashRank (ms-marco-MiniLM-L-12-v2, a 21 MB CPU model cached in data/index/flashrank) to the top 5, and refuses below a threshold; every candidate keeps its dense, BM25, hybrid and re-rank scores and ranks. Measured on the 17 answerable golden questions (right document first / in top 5): dense 17/17 and 17/17, BM25 14/17 and 17/17, hybrid 16/17 and 17/17, hybrid plus re-ranking 17/17 and 17/17; off-topic questions refused by hybrid plus re-ranking 3 of 3. For "which sponsor asked for attendee job titles", the answer chunk moves from third (dense) to first (hybrid, re-ranked). Findings: per-corpus BM25 indexes made hybrid worse (12/17) because scores weren't comparable, fixed with one shared index; retrieval scores cannot detect unanswerable questions about real events (the hotel-rate question re-ranks at 0.99), so the answer step must check that the evidence answers the question; the Chroma "Nothing found on disk" read error also hit searches, so queries are retried too. 11 new tests in tests/test_rag_retrieve.py. Step 7: `core/rag/agent_tools.py` gives the Ask agent one search tool per corpus (descriptions say what each holds and when to use it), numbers every passage as a source (S1, S2, ...) for [S#] citations, marks results as quoted text never to be followed, and records LangSmith retriever steps; `core/ai/portfolio_agent.py` adds the document rules (plan the parts, one tool per part, cite, refuse when the evidence doesn't answer), sources and a trace (plan, tool calls with summaries, checks, answer). Live tests with Qwen3-30B-A3B on Nebius led to three fixes: the model sometimes answered without any tool (now one reminder in code; off-topic questions are then refused), it took a sponsor's package from the price list (now sponsor and event facts must come from a result about them; the Brightpath answer became correct: Title Sponsor, $100,500), and it padded answers (bullets only for stated facts; the Week 1 "2-4 bullets" rule softened). The tool-call limit stays 6. Step 8: `backend/services/documents.py` keeps one warm retriever, reports document status, turns document search off for uploaded datasets and narrows it to the filtered events; chat answers carry sources, trace and a documents note; new contracts in shared/models.py; endpoints /rag/documents, /rag/chunks, /rag/map, /rag/build, /rag/experiments and /datasets/{id}/rag/search; the Ask page shows Sources and How this was answered, plus document starters, only when document search is on (parity snapshots unchanged). Step 9: `frontend/views/rag_lab.py` (in the navigation under AI assistants) with Chunks, Search (tuning panel, score chart with refusal line, candidates table, on-demand build), Embedding map and Experiments tabs; checked in the running app with the real index. Chroma's "Nothing found on disk" read error came back in page tests after building a new setting, so reads now retry for longer and reopen the client from the third attempt (12 RAG page and API tests passed 5 runs in a row). Found that the local app shows "Missing or invalid API token" on every page because the root .env sets BACKEND_API_TOKEN and frontend/.env doesn't exist (pre-existing; fix given to the user). Added .claude/launch.json to run the app for previews. 9 tests in tests/test_agentic_rag.py, 8 in tests/test_rag_api.py, 4 in tests/test_rag_pages.py; the full suite passes (632). Not committed.*
+
+141. > proceed with Step 10
+
+     *Result: `core/rag/evaluate.py` defines retrieval targets (no LLM) and agent targets (end to end), evaluators with LangSmith's (inputs, outputs, reference_outputs) signature (hit rate, MRR, refusal accuracy, routing accuracy, within 8 s, and an LLM judge for faithfulness, relevance and correctness), local running, summaries and a Markdown table; `scripts/run_eval.py` runs 9 retrieval settings (3 chunkings x dense / hybrid / hybrid + re-rank) and 4 agent settings, uploads the golden set as a LangSmith dataset and logs each setting as an experiment, and writes docs/week2/eval_results.json (RAG Lab Experiments tab) and eval_results.md. Findings while building it: the real cause of Chroma's "Nothing found on disk" error was its default sync threshold of 1,000 vectors, so none of the small collections was ever written to disk and a collection dropped from Chroma's in-memory cache could not be reloaded (reproduced with 16 small collections: 2 failures with the default, 0 with sync_threshold 2); collections are now created with sync_threshold 2 and rebuilt once from the vector cache (0 texts re-embedded), Chroma calls are serialised per index folder, and the earlier client-reopen workaround (which crashed under parallel reads) was removed. The agent took Harborview's leads at one event from the all-events sponsor_outcomes totals; a rule now sends per-event sponsor results to that event's report. On eval day Nebius's Qwen models took 5-35 s per call, so with the user's approval (the models are billed from the Nebius credit) answers use deepseek-ai/DeepSeek-V4-Flash-0731 and the judge zai-org/GLM-5.3 (a different model family); a 3-question smoke run scored 100% on every metric with a 3.5 s median. Plan doc design decisions and backend/.env.example updated. The first full run exposed two measurement bugs: the reasoning judge (GLM-5.3) often returned no grade within 600 output tokens, leaving only 10-14 of 20 answers graded, and refusals were detected by one exact sentence although DeepSeek words them differently. Fixed with a 2,000-token judge budget, a JSON-from-text fallback, one retry, a 'Judged' count in the results (a missing grade is never averaged in) and wording-based refusal detection; a hung request (54 minutes on one question) led to a 3-minute limit per evaluated answer, and --merge reruns one setting. Final results (docs/week2/eval_results.md; LangSmith dataset conferatlas-golden-20q-e394c55f): production (structure-aware, hybrid, re-ranked) hit rate 100%, MRR 1.00, routing 100%, faithfulness 100%, relevance 100%, correctness 99%, refusal 95%, 95% under 8 s (median 2.5 s); fixed 500-token chunks worst (refusal 70%, relevance and correctness 81%, median 6.1 s) because sources are capped at 1,200 characters and the answer was cut off; re-ranking lifts MRR from 0.96 to 1.00. Q20 (dates of next year's events) proved ambiguous because the data has 2026 events; recorded, not changed. RAG Lab page tests no longer read the real results file, plus a test for the Experiments tab. 15 tests in tests/test_rag_evaluate.py. A full test run had 3 failures and took 35 minutes because a second pytest process was running the RAG page tests at the same time; run alone, the full suite passes (648 in 5 min 44 s). Not committed.*
+
+142. > *(answer to "Which models should Step 10 use?")* is the suggested fast model is free or its comes part of Nebius's credit (I have $25 credit in Nebius)
+     > if yes, proceed with recommendation
+
+     *Answer: not free; billed from the Nebius balance, so the $25 credit covers it (an estimated 1.5 million tokens, about $1-2 for the full run; exact prices are on the Nebius console's pricing page). Proceeded with the recommendation.*
+
+143. > is everything is taken care of
+
+     *Answer: not yet. Step 10 is built and its results are in, but the last full test run had 3 failures (all RAG tests pass on their own, so it is an interaction in the full suite) and a rerun was still in progress; Step 11 and the submission remain.*
+
+144. > submission is due tomorrow. not today.. I want to know what all left
+
+     *Answer: corrected the date (today is Saturday 17 October; the submission is due Sunday 18 October, 11:59 PM Pacific). Steps 0 to 10 are done (Step 10 a day early) and the embedding map stretch item is built into RAG Lab; left: Step 11 (README, startup index build on Render, deployment of backend and frontend), commit and merge, the user's .env changes and Render settings, the Graph RAG stretch item, and the submission (Google Doc, video, form).*
+
+145. > only do this in Step 11
+     > README: add the Week 2 features, setup (Nebius, LangSmith, Chroma), how to build the index and run the evaluation, and the results.
+
+     *Result: README only. Added a Week 2 paragraph to the intro and a new "Document search (RAG)" section: the corpus, a pipeline diagram and how each part works, Setup (backend/.env lines for Nebius, embeddings and LangSmith, the Nebius checker, Chroma notes and tracing privacy), Build the index, Run the evaluation, and Results (the end-to-end table and the main findings). Also updated: the Ask the portfolio feature row and a new RAG Lab row, the backend configuration table (Nebius, Fireworks, embedding, index, judge and LangSmith settings), the endpoints table, the project tree, AI guardrails (document search), the Data section (documents and golden set), the Testing table (RAG tests), Troubleshooting (document search off, index not built, slow Nebius models) and the Roadmap (RAG done, what's next; evals). Checked that the commands run. The other Step 11 items (startup index build, deployment) were not done, as asked. Not committed.*
+
+146. > can i test everything in local now
+
+     *Answer: yes, after two edits: backend/.env still sets LLM_PROVIDER=openrouter / google/gemini-2.5-flash (switch to nebius and deepseek-ai/DeepSeek-V4-Flash-0731), and frontend/.env is missing, so the frontend can't send the BACKEND_API_TOKEN that the root .env sets. The index is built (15 collections) and ports 8000 and 8501 are free. Gave start steps and a test checklist per page.*
+
+147. > fixed it
+     > fixed .env
+
+     *Answer: checked the edits without printing secrets (answer model and whether the frontend and backend tokens match).*
+
+## Session 6 (18 Oct 2026)
+
+148. > what else is missing for Week 2 submission
+
+     *Answer: listed what is left on submission day: local testing of the app, the rest of Step 11 (startup index build on Render and deploying backend and frontend), committing the week2-rag branch and merging to main, and the submission itself (Google Doc, video of 5 minutes or less, GitHub link, form, due 11:59 PM Pacific). Graph RAG remains an optional stretch item.*
+
+149. > Draft a good doc for submission
+
+     *Result: created the Google Doc "ConferAtlas: Week 2 RAG Project" in the user's Drive (https://docs.google.com/document/d/1uNh83g87S0X68NijcUukSr_THzrbX8YD_wnRLhxFqRA/edit) with the sections the handout asks for: summary, one-liner, the RAG framework table, what was built, architecture and stack, datasets and golden set, evaluation (retrieval and end-to-end tables, what they show), iterations, learnings, prompts and agent and judge instructions, how AI coding tools were used, limitations and links (video link left to add). Checked the rendered PDF and fixed the layout in place: column widths, bold table headers, space after tables, headings kept with their text, and the end-to-end table's Routing column moved into the text (100% everywhere) with shorter headers so no header word breaks.*
+
+150. > Explain me step by step though code on how these things for implemented. Also, I want to understand what's new addition compared to Week 1. Week 1 already has an agent with LLM and pre defined tools
+     >
+     > *(quoted the one-liner from the plan doc)*
+
+     *Answer: walked through the one-liner's parts in code order (documents, loaders, chunking, embeddings and index, retrieval, the agent's search tools, the API and pages, the evaluation) with file and line references, and compared Week 1's agent with Week 2's.*
+
+151. > where can i see the chunks created?
+
+     *Answer: three places: the RAG Lab page's Chunks tab (and the kept chunks on the Search tab), the stored chunks in Chroma via the commands in build-guide section 0.4, and a command that prints one document's chunks for a strategy.*
+
+152. > whats Agentic RAG role here. explain this in detail
+
+     *Answer: explained naive RAG versus agentic RAG and the decisions the agent makes in ConferAtlas (whether to search, which collection, what query, how many searches, whether the evidence answers, how to combine figures and documents), with real traced examples from the live tests and evaluation, what is enforced in code versus left to the model, the trade-offs, and how it relates to the course's agentic RAG session.*
+
+153. > how each chunk is stored? Is it Landgraph Document holding each chunk?
+
+     *Answer: chunks are LangChain Documents (langchain_core.documents.Document: page_content plus a metadata dict) while they are built in memory, not LangGraph; in Chroma each chunk is stored as one record with an id, the text, its 4096-number embedding and the metadata. Showed a real stored record.*
+
+154. > i mean lang chain
+     > can you give me an exampel chunk created
+
+     *Answer: yes, each chunk is a LangChain Document while it is built; showed a real chunk (the booth-logistics SOP's Lead retrieval section) as a Document and as the record Chroma stores.*
+
+155. > 2 questions.. how does metadata fields generated. also where does BM25 comes to play. does it have role when doing chucking also? or only when we are doing the search. morve over where is keyword based index is generated and stored
+
+     *Answer: metadata is added in four stages (the generator's manifest, the loaders, the chunker, the index build); BM25 plays no part in chunking and is used only at search time; its keyword index is built in memory from the chunk texts stored in Chroma on the first search after the backend starts, kept per chunking setting, rebuilt when the chunk counts change, and never written to disk.*
+
+156. > exaplain again.. on server start, system reads each chunk and create a mapping? i.e keyword to chunk mapping? also when get_score is calculated? isn't this expensive if our RAG is too big and has 1000's of chunks?
+
+     *Answer: the keyword index is built lazily on the first search, not at server start; rank_bm25 stores per-chunk word counts, chunk lengths and word rarity (idf), not a keyword-to-chunk (inverted) index, and get_scores runs on every search and touches every chunk. Measured on the real chunks: 250 chunks build in milliseconds and score in well under a millisecond; 10,000 and 100,000 chunks were timed too. For large corpora the answer is an inverted-index engine (BM25S, SQLite FTS5, OpenSearch or Elasticsearch) or sparse vectors.*
+
+157. > fix this flaw
+
+     *Result: `tokenize` in core/rag/retrieve.py now trims "." and ":" from the edges of each word only, so "2024:" in a heading matches "2024" in a question while "7:00" and "4.5" stay whole; 5 new tests (16 retrieval tests pass). Reran the retrieval experiments (no LLM, merged into the saved results): production (structure-aware, hybrid, re-ranked) unchanged at MRR 1.00; hybrid without re-ranking got worse (structure 0.96 to 0.93, semantic 0.92 to 0.83, fixed 0.96 to 0.92) because header words (event names and years) now match across events; fixed with re-ranking improved 0.93 to 0.97. README and the Google Doc not yet updated; offered keeping the fix and updating the docs, or also scoring BM25 on the chunk body only. Not committed.*
+
+158. > question on chunking strategy.  I see Structure Aware, Fixed size and Semantic. which one is good. explain each
+
+     *Answer: explained fixed-size, structure-aware and semantic chunking with ConferAtlas examples, their trade-offs and measured results, and why structure-aware is the production choice for this corpus.*
+
+159. > Question. Assume i want to this idea to source code with combination of coding and documentation and some JSON files, what would be the best strategy
+
+     *Answer: recommended a different chunker per content type (syntax-aware chunks per function or class for code, structure-aware by heading for documentation, per-object or per-key-path chunks for JSON), code-aware metadata and contextual headers, hybrid search with a code-aware keyword tokenizer, separate collections plus code tools (find symbol, read file) for the agent, parent-document retrieval, and per-file incremental re-indexing on each commit; mapped each to what would change in ConferAtlas's pipeline.*
+
+160. > is ConferAtlas's using different strategy for different document type?
+
+     *Answer: partly. Loading is different per type (one loader per format, each turning its file's structure into the same Markdown-like units); chunking applies one chosen strategy to every type, and the structure-aware strategy adapts to each type's structure with a few type-specific rules (PDF page-break joining, slides never merged, tables split by rows). There is no setting that picks a different strategy per document type.*
+
+161. > would there be any different in chucking strategy when we want to use hybrid search (based on Keywords and Semantic)
+
+     *Answer: the same chunks usually serve both, but the two sides pull differently: dense search wants focused, one-topic chunks, while BM25 is sensitive to chunk length and to words repeated in every chunk (the contextual header is good for dense but adds noise to BM25, as the tokenizer fix just showed). Gave practical rules (one topic per chunk, moderate size, keep tables whole, tokenize numbers and names well, consider indexing the header for dense only) and when separate granularities with a parent mapping are worth it.*
+
+162. > how does reranking works
+
+     *Answer: explained bi-encoders (embeddings, compared by distance) versus the cross-encoder re-ranker (FlashRank ms-marco-MiniLM-L-12-v2 reads the question and each passage together and outputs a relevance score), the two-stage design (fast search for the top 20, then re-rank to the top 5), where it is in the code, the cost, a real example, and its limits (relevance is not answerability; a 512-token input limit).*
+
+163. > so as i understood reranking dont change anything in the checks sent to LLM. it simply reorder the chucks from vector search in priority based on relevance (checking user question and chucks seceleted) is this correct
+
+     *Answer: mostly right: re-ranking never changes a chunk's text. Three corrections: it also selects (only the top few of the 20 candidates reach the LLM, so it changes which chunks are sent, not just their order), the candidates come from hybrid search (vectors and BM25), not vector search alone, and its score decides the refusal (below the threshold nothing is sent).*
+
+164. > explain me little bit on Agentic RAG which got implemented. How its different from Traditional RAG? Did you implement multiple tools and agent is deciding routing? 
+     > is this following the logic similar to the one taught here 
+     >
+     > https://github.com/The-Gen-Academy/Mastering-Agentic-AI-Week2/blob/main/Week2-Session2/agentic_rag/agentic_rag_tutorial.ipynb
+
+     *Answer: yes, it follows the course notebook: one search tool per corpus (five) with descriptive docstrings, the LLM routes, and a prompt nudge makes it plan and call one tool per part (decomposition), with source citations. Differences: the same agent also has the six Week 1 numeric tools, hybrid search with re-ranking and a refusal threshold instead of plain top-k, [S#] citations tracked in code, a hand-written tool loop instead of create_agent (so there is a tool-call limit, a no-tool nudge, a number check and a visible trace).*
+
+165. > explain little bit on this
+     >
+     > One Chroma collection per corpus
+     >
+     > is it like multiple chunks per document type each again has vectorized? i am trying to visulaize how these are stored in vector DB?
+
+     *Answer: one Chroma database on disk (data/index/chroma) holds 15 collections, one per corpus x chunking strategy (5 x 3); each collection is a table of chunk rows (id, text, 4096-number vector, metadata). Each chunk is embedded once; nothing is vectorized twice within a collection, and only the production structure collections (250 chunks) are searched by the agent.*
+
+166. > structure shared.. can i say each row is a chuck
+     > eg: event_reports__structure_400 table contains chucks for the document sourced from event_reports__structure and total chucks are 72
+     > Same for pricing__structure_400…
+     > Without Agenti RAG, we would have one table for all
+
+     *Answer: yes, each row is one chunk, and the table holds the structure-chunked pieces of the 12 report PDFs in the event_reports folder (72 rows). Naive RAG usually uses one table, but that's a design habit, not a rule: one table with a corpus metadata filter could also support routing.*
+
+167. > Also for given user query, we would end up calling multiple tables, correct?
+
+     *Answer: only when the question needs it: a single-intent question searches one table (one tool call), a compound question one table per part (up to 6 tool calls in total); the RAG Lab Search tab and no-routing evaluation search all five tables at once.*
+
+168. > where is the week 2 changes are in the application from UI. AI Insights and RAG Lab?
+
+     *Answer: Week 2 shows up in two places under the AI section: Ask the portfolio (document search, Sources, How this was answered, document starter questions) and the new RAG Lab page (Chunks, Search, Embedding map, Experiments). AI insights is unchanged from Week 1.*
+
+169. > give me some good question which uses Agentic RAG flow
+
+     *Answer: demo questions grouped by flow (routing to each corpus, decomposition across corpora, documents plus Week 1 numbers, refusal), taken from the golden set and starters, with what to look for in "How this was answered".*
+
+170. > if we want to have stretched goal of having Graph RAG, where does it fits
+
+     *Answer: as one more tool beside the five search tools and six numeric tools (the agent routes relationship questions to it), with a NetworkX graph built from the CSV keys and document metadata plus a few extracted relations. Explanation only; the plan is unchanged (stretch, optional; Neo4j after Week 2).*
+
+171. > if I want to use Jev for the implementation done so far, where does it fit. Can selecting Corpora by agent be done by Jev?
+
+     *Answer: yes, corpus selection fits Jev well (one Noul per corpus, so several corpora can apply, plus a "none of these" outcome), run before the agent to narrow its tools; other fits: out-of-scope/refusal check, picking a small or large answer model, re-ranking, and a citation check. Decomposition, sub-query writing and dependent hops stay with the LLM agent. Not in the Week 2 plan; explanation only.*
+
+172. > ok.. lets go back to week 2 submission goals. anything are we missing for submission apart from video
+
+     *Answer: open items besides the video: the tokenizer decision and the stale hybrid numbers in the README and Google Doc, a full test-suite run after the tokenizer fix, Step 11's startup index build and Render deploy (not done), commit, merge to main and push, the video link in the Google Doc, the form, and updating the plan doc's progress.*
+
+173. > run full test suite
+
+173. > run full test suite
+
+     *Result: stopped by the user before it ran.*
+
+174. > Eloborate this 
+     >
+     > Decide on the tokenizer fix (keep it, or have BM25 index only the chunk body)
+
+     *Answer: explained the fix (trimming "." and ":" from word edges so "2024:" in a heading matches "2024"), why hybrid-without-re-ranking scores dropped (every chunk of a report repeats the same header words, so BM25 now ranks sibling chunks and same-year/city documents alike), the two options with trade-offs, and recommended keeping the fix.*
+
+175. > go with option 1
+
+     *Result: kept the tokenizer fix; updated the hybrid numbers in the README and the Google Doc (retrieval table, re-ranking line) and added the tokenizer learning to both; full test suite: 653 passed.*
+
+176. > what it means to run this in Render. where does Chroma DB lives in CI/CD
+
+     *Answer: there is no CI pipeline (no GitHub Actions); Render rebuilds the backend Docker image from GitHub on each deploy. Chroma is an embedded, file-based database inside the backend container (data/index, git-ignored, so not in the image), and Render's free disk is wiped on every deploy and restart, so the index must be rebuilt at startup (planned Step 11; production collections only, about 250 Nebius embedding calls, under a cent) or kept elsewhere (persistent disk, committed index, Chroma Cloud or Pinecone).*
+
+177. > is the Demo link is requirement for Week 2? or just git
+
+     *Answer: the submission checklist taken from the Week 2 handout lists the Google Doc, a video of 5 minutes or less, GitHub (merged to main) and the form, with no live demo link; the handout itself is the final word.*
+
+178. > would option 2 works with the free tier of Render. I am not expecting the documents change frequently 
+     >
+     > 2. Commit the index to git
+
+     *Answer: yes, it works on the free tier (the Dockerfile already copies data/, and Docker images aren't size-limited the way the disk is wiped), with conditions: commit a fresh production-only index (about 10 to 25 MB, not the 74 MB working folder with 15 collections and leftover folders), keep the Nebius key on Render because every question is still embedded at query time, keep the same embedding model and a compatible chromadb version, and rebuild and commit when documents change. Memory (512 MB) remains the main risk.*
+
+179. > keep the deploy option on hold until submission
+     >
+     > this is week 2 deliverables 
+     >
+     > > Project documentation
+     > > Submit a Google Doc explaining what you built. 
+     > > Include: project overview, datasets used, prompts or agent instructions you used, iterations you tried, and any learnings or observations from the workflow.
+     > > Video demo
+     > > Submit a video (5 minutes or less) where you walk through your application, explain what you built, describe how you used AI coding tools, and demonstrate the final result live.
+     > > Project assets
+     > > Upload your code or workflow JSON project assets to GitHub and share a link in the form below
+
+     *Answer: deploy on hold. Mapped the three deliverables: the Google Doc already covers all five required parts (video link still to add); the video can run on localhost; GitHub needs the commit, merge to main and push. No demo link required.*
+
+180. > which branch you are on
+
+     *Answer: `week2-rag`, at the same commit as `main` (509bc54); all Week 2 work is uncommitted.*
+
+181. > commit and push the changes to branch
+
+     *Result: checked the staged changes for secrets (placeholders only; `.env` and `data/index/` stay ignored), committed the Week 2 RAG work on `week2-rag` and pushed the branch to GitHub. Not merged to main.*

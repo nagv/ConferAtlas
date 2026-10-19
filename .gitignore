@@ -13,3 +13,6 @@ __pycache__/
 # Per-app settings and local Docker overrides
 frontend/.streamlit/secrets.toml
 compose.override.yaml
+
+# Vector index (rebuilt by scripts/build_index.py)
+data/index/
