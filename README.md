@@ -174,18 +174,30 @@ The 20 golden questions (`data/synthetic/eval/golden_set.json`) cover single-doc
 
 End to end (all 20 questions; hit rate and MRR over the 17 answerable ones):
 
-| Setting | Hit rate | MRR | Routing | Refusal | Faithfulness | Relevance | Correctness | Judged | ≤ 8 s | Median s |
-|---|---|---|---|---|---|---|---|---|---|---|
-| **structure · hybrid + re-rank (production)** | 100% | 1.00 | 100% | 95% | 100% | 100% | 99% | 19/20 | 95% | 2.53 |
-| structure · dense | 100% | 1.00 | 100% | 95% | 98% | 100% | 100% | 19/20 | 100% | 1.88 |
-| semantic · hybrid + re-rank | 100% | 1.00 | 100% | 95% | 98% | 100% | 99% | 19/20 | 100% | 2.97 |
-| fixed · hybrid + re-rank | 100% | 1.00 | 100% | 70% | 95% | 81% | 81% | 16/20 | 65% | 6.06 |
+| Setting | Hit rate | MRR | Routing | Refusal | Faithfulness | Relevance | Correctness | Judged | Withheld | ≤ 8 s | Median s |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| **structure · hybrid + re-rank (production)** | 100% | 1.00 | 100% | 95% | 98% | 100% | 100% | 19/20 | 0% | 90% | 3.57 |
+| structure · dense | 100% | 1.00 | 100% | 95% | 97% | 100% | 100% | 19/20 | 0% | 100% | 2.24 |
+| semantic · hybrid + re-rank | 100% | 1.00 | 100% | 95% | 98% | 100% | 99% | 19/20 | 0% | 95% | 3.12 |
+| fixed · hybrid + re-rank | 100% | 1.00 | 100% | 70% | 94% | 82% | 82% | 17/20 | 0% | 55% | 7.04 |
+
+These are from the rerun with the final answer check. Withheld is how often the check withheld claims; it removed none of these answers, and the scores match the run before it (production then: 100% faithfulness, 99% correctness, median 2.53 s; the latency difference is the provider on the day).
+
+**Where the misses come from** (retrieval and final-answer quality measured separately, on the answerable questions the judge graded; an answer counts as right at 75% correctness or more):
+
+| Setting | Retrieval right, answer right | Retrieval right, answer wrong (answer stage) | Retrieval missed, answer wrong (retrieval stage) | Correctness when retrieval was right |
+|---|---|---|---|---|
+| structure · hybrid + re-rank (production) | 17/17 | 0 | 0 | 100% |
+| structure · dense | 17/17 | 0 | 0 | 100% |
+| semantic · hybrid + re-rank | 17/17 | 0 | 0 | 99% |
+| fixed · hybrid + re-rank | 12/15 | 3 | 0 | 80% |
 
 Retrieval only: MRR rises from 0.87 (fixed, dense) and 0.93 (structure-aware, hybrid) to 1.00 with re-ranking, at about 1 s per search. What the numbers taught us:
 
 - **Re-ranking puts the answer first.** For "which sponsor asked for attendee job titles", dense search ranked the answer chunk third; hybrid search and re-ranking put it first.
 - **A correct tokenizer fix lowered hybrid search alone.** BM25 kept punctuation on words, so "2024:" in a heading never matched "2024" in a question. Fixing it made the headers count, but every chunk of a report repeats the same header words, so sibling chunks now tie: hybrid MRR without re-ranking fell from 0.96 to 0.93 (structure-aware) and 0.92 to 0.83 (semantic). Re-ranking reads the question and chunk together and absorbs it (still 1.00), which is one more reason it stays on.
-- **Chunk size has to fit the context per source.** Fixed 500-token chunks were cut by the 1,200-character limit on each source given to the model, so the answer was often missing and the agent refused.
+- **Chunk size has to fit the context per source.** Fixed 500-token chunks were cut by the 1,200-character limit on each source given to the model, so the answer was often missing and the agent refused. The stage breakdown confirms it: all 3 fixed-chunk misses happened after the right document was retrieved, so the problem is in the answer stage (what the model is given), not in search.
+- **Withhold, don't warn.** After the tool reminder and the one rewrite, the final check withholds an answer that used no tool, claims made when every search came back empty, and each sentence with an untraced figure or a citation that was never retrieved. On the golden set it withheld nothing, so it cost no correct answers; its tests cover each case it acts on.
 - **Retrieval scores can't detect an unanswerable question about a real event** (a related chunk always scores well), so the agent also checks that the evidence actually answers; that took refusal accuracy from 85-90% (retrieval alone) to 95%.
 - **One golden question was ambiguous:** "the dates of next year's events" was meant to be unanswerable, but the data has 2026 events, which the agent listed with citations.
 - **Evaluate the evaluator:** the reasoning judge first left up to half the answers ungraded; the "Judged" column shows how many were graded, so a missing grade can't hide in an average.
