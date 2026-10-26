@@ -51,7 +51,9 @@ def _show_extras(answer: AgentAnswerModel, scope: str, index: int) -> None:
         table = tables.get(spec.source_id)
         if table is not None and not table.empty:
             plot(st, chart_from_spec(spec, table), key=f"ask_chart_{index}_{spec.chart_id}")
-    if answer.unverified_numbers:
+    if answer.withheld:  # the final check removed unsupported claims instead of showing them
+        st.info("**Withheld by the final check.** " + " ".join(answer.withheld), icon=":material/shield:")
+    elif answer.unverified_numbers:
         st.warning("These figures could not be traced to a calculation, so treat them with caution: "
                    + ", ".join(answer.unverified_numbers), icon=":material/report:")
     for warning in answer.warnings:

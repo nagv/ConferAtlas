@@ -548,6 +548,7 @@ class AgentAnswerModel(Contract):
     sources: list[SourceModel] = Field(default_factory=list)
     trace: list[TraceStepModel] = Field(default_factory=list)
     documents_note: str = ""     # why document search was off for this answer, if it was
+    withheld: list[str] = Field(default_factory=list)   # why the final check withheld claims, if it did
 
 
 class ChatResponse(Contract):

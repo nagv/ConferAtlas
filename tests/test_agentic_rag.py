@@ -100,6 +100,29 @@ def test_an_answer_without_tools_gets_one_reminder(kit):
     assert "without calling any tool" in reminder.content
 
 
+def test_an_answer_still_without_tools_after_the_reminder_is_withheld(kit):
+    model = FakeToolModel(AIMessage(content="Paris."), AIMessage(content="Paris, of course."))
+    answer = pa.ask_portfolio("What is the capital of France?", kit, model=model)
+    assert answer.text == pa.WITHHELD_NO_TOOLS and "Paris" not in answer.text
+    assert answer.tool_calls == 0 and "no tool" in answer.withheld[0]
+
+
+def test_claims_are_withheld_when_every_search_came_back_empty(kit, monkeypatch):
+    monkeypatch.setattr(kit.documents, "search", lambda corpus, query: {
+        "corpus": corpus, "query": query, "found": False, "note": "Nothing relevant was found."})
+    model = FakeToolModel(tool_call("search_event_reports", {"query": "Atlantis Summit 2030 venue"}),
+                          AIMessage(content="It was held at the Grand Hall."))
+    answer = pa.ask_portfolio("Where was the Atlantis Summit 2030?", kit, model=model)
+    assert answer.text == pa.WITHHELD_NOT_FOUND and "empty" in answer.withheld[0]
+
+
+def test_a_citation_to_a_source_that_was_never_retrieved_is_withheld(kit):
+    model = FakeToolModel(tool_call("search_operations", {"query": "badge scanners charged and tested"}),
+                          AIMessage(content="Scanners are tested by 7:00 AM [S1]. Parking is free [S7]."))
+    answer = pa.ask_portfolio("When are scanners tested?", kit, model=model)
+    assert "[S1]" in answer.text and "[S7]" not in answer.text and "S7" in answer.withheld[0]
+
+
 def test_week1_behaviour_is_unchanged_without_documents(tiny_tables):
     kit = pa.PortfolioToolkit(filter_dataset(tiny_tables))
     model = FakeToolModel(AIMessage(content="Hello."))

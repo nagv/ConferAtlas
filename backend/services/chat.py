@@ -31,4 +31,5 @@ def ask(ds: StoredDataset, req: ChatRequest, recorder: UsageRecorder) -> dict:
         "trace": [{"step": s["step"], "text": s.get("text", ""), "tool": s.get("tool", ""),
                    "args": json_safe(s.get("args", {})), "summary": s.get("summary", "")} for s in answer.trace],
         "documents_note": docs_note,
+        "withheld": list(answer.withheld),
     }

@@ -117,7 +117,8 @@ question ─▶ Ask agent ─▶ numeric tools (Week 1)  +  one search tool per 
 - **Chunking** has three strategies for comparison: fixed 500-token windows with 50 overlap, structure-aware chunks of up to 400 tokens (one per section; the default) and semantic chunks. Each chunk starts with a header naming its document, section and page.
 - **Index:** one Chroma collection per document collection and chunking setting, built with Qwen3-Embedding-8B (4096 dimensions) on Nebius. Rebuilds re-embed only changed documents, and every vector is cached on disk.
 - **Search:** dense (cosine) and BM25 keyword scores, mixed 50/50, the top 20 re-ranked by a small CPU cross-encoder (FlashRank) to the top 5; the sidebar filters narrow it to the selected events. Below the threshold, nothing is returned.
-- **Agentic RAG:** the agent routes each part of a question to a numeric tool or the right search tool, cites what it uses, and must refuse when the evidence doesn't answer. Retrieved text is treated as quoted data, never as instructions. Document search is off for uploaded datasets, because the documents describe the demo events.
+- **Agentic RAG:** the agent routes each part of a question to a numeric tool or the right search tool, cites what it uses, and must refuse when the evidence doesn't answer. Retrieved text is treated as quoted data, never as instructions.
+- **Final answer check (in code):** after the one tool reminder and the one rewrite for untraced figures, whatever is still unsupported is withheld rather than shown with a warning: each sentence with a figure no tool returned or a citation that was never retrieved, a non-refusal when every search came back empty, and an answer that used no tool at all. The Ask page says what was withheld and why, and the evaluation reports retrieval and final-answer quality separately (where the misses come from). Document search is off for uploaded datasets, because the documents describe the demo events.
 
 ### Setup
 
