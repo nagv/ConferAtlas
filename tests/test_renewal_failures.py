@@ -75,6 +75,7 @@ def test_the_tool_budget_stops_the_run_without_a_retry(tiny_tables, storage, mon
     status = _run(filter_dataset(tiny_tables), opening(), storage).start("Prepare a renewal pack for Acme.")
     assert "used all 2 tool calls" in status["error"] and status["done"] and not status["can_retry"]
     assert status["packs"][0]["status"] == "failed" and not status["pending"]
+    assert status["packs"][0]["feedback"][-1].startswith("Not prepared: The run used all 2 tool calls")
 
 
 def test_the_step_limit_stops_the_run_and_keeps_the_packs(tiny_tables, storage, monkeypatch):

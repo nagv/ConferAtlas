@@ -54,8 +54,13 @@ class RenewalWorkspace:
     """Tools and state for one run. ``documents`` is a ``core.rag.agent_tools.DocumentSearch`` or None."""
 
     def __init__(self, tables: an.Tables, history: an.Tables | None = None, scope: str = "all data",
-                 documents=None, skill: Skill | None = None):
+                 documents=None, skill: Skill | None = None, max_sponsors: int | None = None,
+                 allowed: list[str] | None = None):
+        """``max_sponsors`` and ``allowed`` hold the person's request in code: how many sponsors the run may
+        take on, and (when sponsors were named) exactly which ones, whatever the model asks for."""
         self.t = tables
+        self.max_sponsors = min(max_sponsors or MAX_SPONSORS, MAX_SPONSORS)
+        self.allowed = sorted(allowed) if allowed else None
         self.history = history if history is not None else tables
         self.scope = scope
         self.documents = documents
@@ -96,15 +101,20 @@ class RenewalWorkspace:
             cards = cards[cards["tier"] == tier]
         if sponsor:
             cards = cards[cards["sponsor"].str.lower().str.contains(re.escape(sponsor.lower()))]
+        if self.allowed:
+            cards = cards[cards["sponsor"].str.lower().isin({a.lower() for a in self.allowed})]
         if cards.empty:
             return {"error": "No sponsors match in the current selection.", "tier": tier, "sponsor": sponsor}
-        room = MAX_SPONSORS - len(self.packs)
+        room = self.max_sponsors - len(self.packs)
         cards = cards.sort_values("attainment", na_position="last").head(max(0, min(top_n, room)))
         for row in cards.itertuples(index=False):
             self.packs.setdefault(row.sponsor, SponsorPack(row.sponsor_id, row.sponsor))
         rows = cards[["sponsor", "tier", "events", "leads", "leads_target", "attainment", "renewal_status"]]
         result = _clean({"scope": self.scope, "sponsors": rows.to_dict("records"),
-                         "note": f"At most {MAX_SPONSORS} sponsors per run."})
+                         "note": f"This run is limited to {self.max_sponsors} sponsor"
+                                 f"{'' if self.max_sponsors == 1 else 's'}"
+                                 + (f" ({', '.join(self.allowed)})" if self.allowed else "")
+                                 + "; these are all it may prepare."})
         assert_no_raw_records(result)
         return result
 
@@ -193,7 +203,8 @@ class RenewalWorkspace:
         """Everything a run has gathered, JSON-safe: packs, numbered sources and tool counts."""
         packs = [{**{k: v for k, v in vars(p).items() if k != "review"},
                   "review": p.review.model_dump() if p.review else None} for p in self.packs.values()]
-        return _clean({"packs": packs, "sources": [vars(s) for s in self.sources()], "calls": dict(self.calls)})
+        return _clean({"packs": packs, "sources": [vars(s) for s in self.sources()], "calls": dict(self.calls),
+                       "max_sponsors": self.max_sponsors, "allowed": self.allowed})
 
     def restore(self, snapshot: dict) -> None:
         from core.rag.agent_tools import Source
@@ -205,6 +216,8 @@ class RenewalWorkspace:
         if self.documents is not None:
             self.documents.sources[:] = [Source(**s) for s in snapshot.get("sources", [])]
         self.calls = Counter(snapshot.get("calls", {}))
+        self.max_sponsors = snapshot.get("max_sponsors", self.max_sponsors)
+        self.allowed = snapshot.get("allowed", self.allowed)
 
     def _isolated(self, func):
         """An unexpected error in one tool fails that sponsor only: the agent gets the error and moves on.

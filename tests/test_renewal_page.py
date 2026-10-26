@@ -62,8 +62,9 @@ def desk(tmp_path, monkeypatch):
     monkeypatch.setattr(renewals, "_runs", {})
     script = {"replies": _script([say("Approved.")])}
 
-    def fake_build(ds, req, recorder):
-        workspace = RenewalWorkspace(ds.tables, history=ds.tables, documents=FakeDocs())
+    def fake_build(ds, req, recorder, max_sponsors=None, allowed=None):
+        workspace = RenewalWorkspace(ds.tables, history=ds.tables, documents=FakeDocs(), max_sponsors=max_sponsors,
+                                     allowed=allowed)
         return workspace, ScriptedModel(replies=list(script["replies"])), "test:scripted"
 
     monkeypatch.setattr(renewals, "_build", fake_build)
@@ -81,10 +82,18 @@ def _until(at, text: str):
 
 
 def _start(at):
-    at.radio(key="rn_how").set_value("Named sponsors")
+    at.radio(key="rn_how").set_value("Named sponsors").run()  # only now is the sponsor picker shown
     at.multiselect(key="rn_sponsors").set_value([SPONSOR])
-    at.button[0].click()  # the form's submit button
+    _generate(at).click()
     return at.run()
+
+
+def _generate(at):
+    return next(b for b in at.button if b.label == "Generate renewal packs")
+
+
+def _keys(widgets) -> set:
+    return {w.key for w in widgets}
 
 
 def test_without_an_api_key_the_page_explains(monkeypatch):
@@ -142,7 +151,32 @@ def test_edit_is_saved_as_the_final_pack(desk):
 
 def test_named_sponsors_need_a_choice(desk):
     at = _page("renewals").run()
-    at.radio(key="rn_how").set_value("Named sponsors")
-    at.button[0].click()
+    at.radio(key="rn_how").set_value("Named sponsors").run()
+    _generate(at).click()
     at.run()
     assert "Pick at least one sponsor" in at.warning[0].value
+
+
+def test_each_way_of_choosing_shows_only_its_own_controls(desk):
+    at = _page("renewals").run()
+    assert {"rn_tier"} <= _keys(at.selectbox) and "rn_limit" in _keys(at.slider)
+    assert "rn_sponsors" not in _keys(at.multiselect)
+    at.radio(key="rn_how").set_value("Named sponsors").run()
+    assert "rn_sponsors" in _keys(at.multiselect)
+    assert "rn_tier" not in _keys(at.selectbox) and "rn_limit" not in _keys(at.slider)
+
+
+def test_activity_names_each_search_and_merges_identical_steps():
+    from frontend.views.renewals import _activity_lines
+
+    def event(tool, detail="", sponsor="", agent="package-advisor"):
+        return {"agent": agent, "tool": tool, "detail": detail, "sponsor": sponsor}
+
+    lines = _activity_lines([event("search_pricing", "2026 package prices"),
+                             event("search_pricing", "payment terms"),
+                             event("read_file"), event("read_file"),
+                             event("save_draft", sponsor="Acme", agent="writer")])
+    assert lines == ["- **Package advisor** searched pricing “2026 package prices”",
+                     "- **Package advisor** searched pricing “payment terms”",
+                     "- **Package advisor** read a file (×2)",
+                     "- **Writer** saved a draft Acme"]

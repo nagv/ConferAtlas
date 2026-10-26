@@ -181,8 +181,10 @@ class RenewalRun:
         self.done = not self.pending and not self.can_retry
         if self.done:
             for pack in self.workspace.packs.values():
-                if pack.status not in ("approved", "needs_edit", "failed"):
-                    pack.status = "failed" if self.error or not pack.draft else pack.status
+                if pack.status not in ("approved", "needs_edit", "failed") and (self.error or not pack.draft):
+                    pack.status = "failed"  # always with the reason, so the page can say why
+                    pack.feedback.append(f"Not prepared: {self.error}" if self.error else
+                                         "Not prepared: the run ended before a draft was written for this sponsor.")
         self._save()
         return self.status()
 

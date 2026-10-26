@@ -106,11 +106,27 @@ def test_list_sponsors_filters_by_tier_and_adds_to_run(ws):
     assert set(ws.packs) == {"Acme"}
 
 
-def test_list_sponsors_sorts_lowest_attainment_first_and_caps_the_run(ws, monkeypatch):
-    monkeypatch.setattr(rt, "MAX_SPONSORS", 1)
+def test_list_sponsors_sorts_lowest_attainment_first_and_caps_the_run(ws):
+    ws.max_sponsors = 1
     result = ws.list_sponsors()
     assert [s["sponsor"] for s in result["sponsors"]] == ["Brio"]  # 1/2 leads before Acme's 6/6
     assert ws.list_sponsors()["sponsors"] == [] and set(ws.packs) == {"Brio"}
+
+
+def test_the_persons_choice_limits_the_run_whatever_the_model_asks(tiny_tables, skill):
+    # "the 1 gold sponsor": the model asked for 5 (the default) and used to get all of them
+    one = RenewalWorkspace(filter_dataset(tiny_tables), history=tiny_tables, documents=FakeDocs(), skill=skill,
+                           max_sponsors=1)
+    assert len(one.list_sponsors(top_n=5)["sponsors"]) == 1 and len(one.packs) == 1
+    assert "limited to 1 sponsor" in one.list_sponsors()["note"]
+    # named sponsors: only those, even if the model searches more widely
+    named = RenewalWorkspace(filter_dataset(tiny_tables), history=tiny_tables, documents=FakeDocs(), skill=skill,
+                             max_sponsors=1, allowed=["Acme"])
+    assert [s["sponsor"] for s in named.list_sponsors()["sponsors"]] == ["Acme"]
+    assert "error" in named.list_sponsors(sponsor="Brio")
+    restored = RenewalWorkspace(filter_dataset(tiny_tables), documents=FakeDocs(), skill=skill)
+    restored.restore(named.snapshot())
+    assert restored.max_sponsors == 1 and restored.allowed == ["Acme"]  # the limit survives a restart
 
 
 def test_list_sponsors_reports_no_match(ws):

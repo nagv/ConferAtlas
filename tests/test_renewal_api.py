@@ -26,8 +26,9 @@ def desk(install_api, tiny_tables, tmp_path, monkeypatch):
     monkeypatch.setattr(renewals, "_runs", {})
     script = {"replies": []}
 
-    def fake_build(ds, req, recorder):
-        workspace = RenewalWorkspace(ds.tables, history=ds.tables, documents=FakeDocs())
+    def fake_build(ds, req, recorder, max_sponsors=None, allowed=None):
+        workspace = RenewalWorkspace(ds.tables, history=ds.tables, documents=FakeDocs(), max_sponsors=max_sponsors,
+                                     allowed=allowed)
         return workspace, ScriptedModel(replies=list(script["replies"])), "test:scripted"
 
     monkeypatch.setattr(renewals, "_build", fake_build)

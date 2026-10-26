@@ -46,7 +46,8 @@ def load_golden(data_dir: str | Path) -> list[dict]:
 
 def run_sponsor(sponsor: str, tables, history, documents, model, checkpointer, store, max_rounds: int = 4) -> dict:
     """One run for one sponsor, approving every pack it sends for approval (at most ``max_rounds`` times)."""
-    workspace = RenewalWorkspace(tables, history=history, scope="all events on record", documents=documents)
+    workspace = RenewalWorkspace(tables, history=history, scope="all events on record", documents=documents,
+                                 max_sponsors=1, allowed=[sponsor])
     run = RenewalRun(workspace, model, checkpointer, store)
     started = time.perf_counter()
     status = run.start(f"Prepare a renewal pack for {sponsor}.")

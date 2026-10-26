@@ -66,14 +66,15 @@ def request_text(req: RenewalStartRequest) -> str:
     return f"Prepare {packs} for the {group} with the lowest lead attainment."
 
 
-def _build(ds: StoredDataset, req, recorder: UsageRecorder) -> tuple[RenewalWorkspace, object, str]:
+def _build(ds: StoredDataset, req, recorder: UsageRecorder, max_sponsors: int | None = None,
+           allowed: list[str] | None = None) -> tuple[RenewalWorkspace, object, str]:
     settings = get_settings()
     if not settings.llm_configured:
         raise LLMNotConfiguredError(missing_key_message(settings))
     state, tables = scoped(ds, req)
     docs, _ = documents.document_search(ds, tables)
     workspace = RenewalWorkspace(tables, history=ds.tables, scope=scope_text(state, ds.tables, req.today, default="all events on record"),
-                                 documents=docs)
+                                 documents=docs, max_sponsors=max_sponsors, allowed=allowed)
     model = build_chat_model(replace(settings, llm_max_output_tokens=MAX_OUTPUT_TOKENS), "Renewal desk",
                              recorder=recorder, timeout_s=TIMEOUT_S)
     return workspace, model, f"{settings.llm_provider}:{settings.llm_model}"
@@ -94,12 +95,14 @@ def _launch(live: _Live, step, *args) -> None:
 
 def start(ds: StoredDataset, req: RenewalStartRequest) -> dict:
     recorder = UsageRecorder()
-    workspace, model, model_id = _build(ds, req, recorder)
+    max_sponsors = len(req.sponsors) or req.limit   # the person's choice, enforced by the tools
+    workspace, model, model_id = _build(ds, req, recorder, max_sponsors, req.sponsors or None)
     checkpointer, store = storage()
     run = RenewalRun(workspace, model, checkpointer, store)
     run.request = request_text(req)
     store.put(META_NAMESPACE, run.thread_id, {"dataset_id": ds.id, "filters": req.filters.model_dump(mode="json"),
-                                              "today": req.today.isoformat(), "model": model_id})
+                                              "today": req.today.isoformat(), "model": model_id,
+                                              "max_sponsors": max_sponsors, "allowed": req.sponsors or None})
     live = _Live(run, recorder, model_id)
     with _registry_lock:
         _runs[run.thread_id] = live
@@ -122,7 +125,8 @@ def _live(run_id: str, get_dataset) -> _Live:
 
     req = ScopeRequest(filters=Filters(**meta.value["filters"]), today=date.fromisoformat(meta.value["today"]))
     recorder = UsageRecorder()
-    workspace, model, model_id = _build(get_dataset(meta.value["dataset_id"]), req, recorder)
+    workspace, model, model_id = _build(get_dataset(meta.value["dataset_id"]), req, recorder,
+                                        meta.value.get("max_sponsors"), meta.value.get("allowed"))
     live = _Live(RenewalRun.load(run_id, workspace, model, checkpointer, store), recorder, model_id)
     with _registry_lock:
         return _runs.setdefault(run_id, live)

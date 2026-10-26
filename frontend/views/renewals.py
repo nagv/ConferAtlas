@@ -56,22 +56,28 @@ def _record_new_usage(run: dict) -> None:
 
 def _start_form(data: dict) -> None:
     names = [name for _, name in data["options"]]
+    # Outside the form, so choosing one way shows only its own controls.
+    how = st.radio("Prepare packs for", ["A sponsor tier", "Named sponsors"], horizontal=True, key="rn_how")
+    by_tier = how == "A sponsor tier"
     with st.form("rn_start"):
-        how = st.radio("Prepare packs for", ["A sponsor tier", "Named sponsors"], horizontal=True, key="rn_how")
-        col1, col2 = st.columns(2)
-        tier = col1.selectbox("Tier", TIERS, index=1, key="rn_tier")
-        limit = col2.slider("How many sponsors (lowest lead attainment first)", 1, 5, 2, key="rn_limit")
-        chosen = st.multiselect("Sponsors", names, max_selections=5, key="rn_sponsors",
-                                help="Used when 'Named sponsors' is selected.")
-        st.caption("Each pack takes about a minute. You approve every pack before it is saved; nothing is sent.")
+        if by_tier:
+            col1, col2 = st.columns(2)
+            tier = col1.selectbox("Tier", TIERS, index=1, key="rn_tier")
+            limit = col2.slider("Number of sponsors", 1, 5, 2, key="rn_limit",
+                                help="The sponsors in this tier with the lowest lead attainment, up to this many.")
+            chosen = []
+        else:
+            chosen = st.multiselect("Sponsors (up to 5)", names, max_selections=5, key="rn_sponsors")
+            tier, limit = None, max(1, len(chosen))
+        st.caption("Each pack takes about a minute or two. You approve every pack before it is saved; "
+                   "nothing is sent.")
         submitted = st.form_submit_button("Generate renewal packs", type="primary")
     if not submitted:
         return
-    if how == "Named sponsors" and not chosen:
+    if not by_tier and not chosen:
         st.warning("Pick at least one sponsor, or prepare packs for a tier.")
         return
-    payload = {**scope_request(), "limit": limit,
-               **({"sponsors": chosen} if how == "Named sponsors" else {"tier": tier})}
+    payload = {**scope_request(), "limit": limit, **({"tier": tier} if by_tier else {"sponsors": chosen})}
     try:
         run = call(client.renewal_start, payload, reraise=True)
     except client.ApiError as exc:
@@ -118,13 +124,28 @@ def _plan_and_activity(run: dict) -> None:
         steps = f"{len(run['events'])} step{'' if len(run['events']) == 1 else 's'}"
         timing = "" if run["running"] else f", {run['seconds']:.0f} s"
         st.markdown(f"**Agent activity** ({steps}{timing})")
-        lines = []
-        for event in run["events"][-12:]:
-            who = _AGENTS.get(event["agent"], event["agent"])
-            step = _STEP.get(event["tool"], event["tool"])
-            target = event["detail"] if event["tool"] == "task" else event["sponsor"]
-            lines.append(f"- **{who}** {step}{' ' + target if target else ''}")
-        st.markdown("\n".join(lines) or "Starting...")
+        st.markdown("\n".join(_activity_lines(run["events"][-12:])) or "Starting...")
+
+
+def _activity_lines(events: list[dict]) -> list[str]:
+    """One line per step, naming what was searched; identical steps in a row become one line with a count."""
+    lines, counts = [], []
+    for event in events:
+        who = _AGENTS.get(event["agent"], event["agent"])
+        step = _STEP.get(event["tool"], event["tool"])
+        if event["tool"] == "task":
+            target = event["detail"]
+        elif event["tool"].startswith("search_") and event["detail"]:
+            target = f"“{event['detail']}”"  # several searches differ only by their query
+        else:
+            target = event["sponsor"]
+        line = f"- **{who}** {step}{' ' + target if target else ''}"
+        if lines and lines[-1] == line:
+            counts[-1] += 1
+        else:
+            lines.append(line)
+            counts.append(1)
+    return [line if n == 1 else f"{line} (×{n})" for line, n in zip(lines, counts)]
 
 
 def _checks(pack: dict) -> None:
