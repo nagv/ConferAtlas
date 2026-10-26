@@ -5,7 +5,7 @@
   "answer_model": "nebius:deepseek-ai/DeepSeek-V4-Flash-0731",
   "judge_model": "zai-org/GLM-5.3",
   "langsmith_dataset": "conferatlas-golden-20q-e394c55f",
-  "merged_at": "2026-10-25T22:55:11",
+  "merged_at": "2026-10-25T23:32:27",
   "results": [
     {
       "setting": "fixed \u00b7 dense",
@@ -112,24 +112,24 @@
       "questions": 20,
       "judged": 19,
       "context_recall": 1.0,
-      "correctness": 0.9974,
+      "correctness": 0.9947,
       "faithfulness": 0.9842,
       "hit_rate": 1.0,
       "mrr": 1.0,
       "refusal_accuracy": 0.95,
-      "relevance": 1.0,
+      "relevance": 0.9947,
       "routing_accuracy": 1.0,
       "withheld_rate": 0.0,
-      "within_8s": 0.9,
-      "latency_median_s": 3.57,
-      "latency_p90_s": 9.2,
-      "tokens_per_question": 6558,
+      "within_8s": 0.75,
+      "latency_median_s": 3.33,
+      "latency_p90_s": 17.56,
+      "tokens_per_question": 7113,
       "stage_graded": 17,
       "stage_both_ok": 17,
       "stage_answer_problem": 0,
       "stage_retrieval_problem": 0,
       "stage_rescued": 0,
-      "correct_given_hit": 0.9971
+      "correct_given_hit": 0.9941
     },
     {
       "setting": "agent \u00b7 structure \u00b7 dense",
@@ -137,49 +137,49 @@
       "questions": 20,
       "judged": 19,
       "context_recall": 1.0,
-      "correctness": 1.0,
-      "faithfulness": 0.9737,
+      "correctness": 0.9947,
+      "faithfulness": 0.9658,
+      "hit_rate": 1.0,
+      "mrr": 1.0,
+      "refusal_accuracy": 0.95,
+      "relevance": 0.9974,
+      "routing_accuracy": 1.0,
+      "withheld_rate": 0.0,
+      "within_8s": 0.9,
+      "latency_median_s": 2.02,
+      "latency_p90_s": 10.23,
+      "tokens_per_question": 7515,
+      "stage_graded": 17,
+      "stage_both_ok": 17,
+      "stage_answer_problem": 0,
+      "stage_retrieval_problem": 0,
+      "stage_rescued": 0,
+      "correct_given_hit": 0.9941
+    },
+    {
+      "setting": "agent \u00b7 fixed \u00b7 hybrid + rerank",
+      "kind": "agent",
+      "questions": 20,
+      "judged": 18,
+      "context_recall": 1.0,
+      "correctness": 0.9972,
+      "faithfulness": 0.9583,
       "hit_rate": 1.0,
       "mrr": 1.0,
       "refusal_accuracy": 0.95,
       "relevance": 1.0,
       "routing_accuracy": 1.0,
       "withheld_rate": 0.0,
-      "within_8s": 1.0,
-      "latency_median_s": 2.24,
-      "latency_p90_s": 3.53,
-      "tokens_per_question": 6774,
-      "stage_graded": 17,
-      "stage_both_ok": 17,
+      "within_8s": 0.45,
+      "latency_median_s": 8.32,
+      "latency_p90_s": 24.36,
+      "tokens_per_question": 7902,
+      "stage_graded": 16,
+      "stage_both_ok": 16,
       "stage_answer_problem": 0,
       "stage_retrieval_problem": 0,
       "stage_rescued": 0,
       "correct_given_hit": 1.0
-    },
-    {
-      "setting": "agent \u00b7 fixed \u00b7 hybrid + rerank",
-      "kind": "agent",
-      "questions": 20,
-      "judged": 17,
-      "context_recall": 1.0,
-      "correctness": 0.8235,
-      "faithfulness": 0.9412,
-      "hit_rate": 1.0,
-      "mrr": 1.0,
-      "refusal_accuracy": 0.7,
-      "relevance": 0.8235,
-      "routing_accuracy": 1.0,
-      "withheld_rate": 0.0,
-      "within_8s": 0.55,
-      "latency_median_s": 7.04,
-      "latency_p90_s": 31.23,
-      "tokens_per_question": 14844,
-      "stage_graded": 15,
-      "stage_both_ok": 12,
-      "stage_answer_problem": 3,
-      "stage_retrieval_problem": 0,
-      "stage_rescued": 0,
-      "correct_given_hit": 0.8
     },
     {
       "setting": "agent \u00b7 semantic \u00b7 hybrid + rerank",
@@ -187,24 +187,24 @@
       "questions": 20,
       "judged": 19,
       "context_recall": 1.0,
-      "correctness": 0.9895,
-      "faithfulness": 0.9763,
+      "correctness": 0.9921,
+      "faithfulness": 0.9816,
       "hit_rate": 1.0,
       "mrr": 1.0,
       "refusal_accuracy": 0.95,
-      "relevance": 1.0,
+      "relevance": 0.9947,
       "routing_accuracy": 1.0,
       "withheld_rate": 0.0,
       "within_8s": 0.95,
-      "latency_median_s": 3.12,
-      "latency_p90_s": 5.73,
-      "tokens_per_question": 6695,
+      "latency_median_s": 3.62,
+      "latency_p90_s": 6.0,
+      "tokens_per_question": 6684,
       "stage_graded": 17,
       "stage_both_ok": 17,
       "stage_answer_problem": 0,
       "stage_retrieval_problem": 0,
       "stage_rescued": 0,
-      "correct_given_hit": 0.9941
+      "correct_given_hit": 0.9912
     }
   ],
   "per_question": {
@@ -3641,16 +3641,16 @@
           "within_8s": 1.0,
           "withheld_rate": 0.0,
           "faithfulness": 1.0,
-          "relevance": 1.0,
+          "relevance": 0.9,
           "correctness": 1.0
         },
-        "answer": "The main operational issue at the Chicago DevSecOps Forum 2024 was that the registration queue peaked at 25 minutes on the first morning. It was handled by opening two extra badge printers and adding a walk-in lane [S1].",
+        "answer": "The main operational issue at the Chicago DevSecOps Forum 2024 was that the registration queue peaked at 25 minutes on the first morning. In response, two extra badge printers were opened and a walk-in lane was added [S1].\n\n- The event ran April 2\u20134, 2024 at the Lakeshore Conference Center, with 769 attendees out of 959 confirmed registrations (80% show-up) [S4].\n- 10 sponsors took part; 9 met their lead target, and sponsors collected 1,567 leads against a combined target of 1,270 [S4].\n- The event cost $335,500 against a $326,000 budget (+2.9%) [S4].",
         "doc_ids": [
           "report_EV001",
-          "report_EV004",
-          "report_EV008"
+          "report_EV008",
+          "report_EV004"
         ],
-        "seconds": 3.64
+        "seconds": 3.44
       },
       {
         "id": "Q02",
@@ -3671,7 +3671,7 @@
         "doc_ids": [
           "report_EV004"
         ],
-        "seconds": 3.5
+        "seconds": 3.22
       },
       {
         "id": "Q03",
@@ -3694,7 +3694,7 @@
           "report_EV007",
           "report_EV009"
         ],
-        "seconds": 4.31
+        "seconds": 3.7
       },
       {
         "id": "Q04",
@@ -3711,14 +3711,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "Quillon Security asked for attendee job titles in the lead export at the San Francisco DevSecOps Forum 2025 [S1].\n\n- Quillon Security was the Title Sponsor, collecting 413 leads against a 360 target (115% attainment) [S1].\n- The standard lead export already includes job title (name, company, job title, source, notes), so the request was for that field to be included in their export [S5].",
+        "answer": "Quillon Security asked for attendee job titles in the lead export at the San Francisco DevSecOps Forum 2025 [S1].\n\n- Quillon Security was the Title Sponsor, collecting 413 leads against a target of 360 (115% attainment) [S1].",
         "doc_ids": [
           "report_EV008",
-          "report_EV005",
-          "sop_booth_logistics",
-          "sop_virtual_streaming"
+          "report_EV005"
         ],
-        "seconds": 4.92
+        "seconds": 3.92
       },
       {
         "id": "Q05",
@@ -3735,12 +3733,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "A Premier Booth for 2026 events costs **$51,000** [S1].\n\n- It's an in-person/hybrid package with a 10 x 20 ft booth, a lead target of 140 per 1,000 attendees, logo in the event app, 6 full passes, lead retrieval for 3 staff, and one demo theater slot [S1].\n- New for 2026: Premier Booth sponsors whose leads reach less than 70% of target receive a credit of 15% of the package price toward the following year [S2].\n- For reference, the 2025 Premier Booth was $48,000 [S3].",
+        "answer": "A Premier Booth for 2026 events costs **$51,000** [S1].\n\n- It's an in-person/hybrid package with a 10 x 20 ft booth, a lead target of 140 per 1,000 attendees, and includes logo in the event app, 6 full passes, lead retrieval for 3 staff, and one demo theater slot [S1].\n- New for 2026: Premier Booth sponsors whose leads fall below 70% of target receive a credit of 15% of the package price toward the following year [S2].\n- For comparison, the 2025 Premier Booth was $48,000 [S3].",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 2.62
+        "seconds": 3.03
       },
       {
         "id": "Q06",
@@ -3755,14 +3753,14 @@
           "withheld_rate": 0.0,
           "faithfulness": 1.0,
           "relevance": 1.0,
-          "correctness": 1.0
+          "correctness": 0.9
         },
-        "answer": "The Title Sponsor package includes: **keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff**, with a 20\u00d720 ft island booth and a lead target of 220 per 1,000 attendees [S2][S3].\n\n- Price: $95,000 in 2025, rising to $100,500 in 2026 [S2][S3].\n- New for 2026: if leads reach less than 70% of target, the sponsor receives a credit of 15% of the package price toward the following year [S1].",
+        "answer": "The Title Sponsor package includes a keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff, with a 20\u00d720 ft island booth and a lead target of 220 per 1,000 attendees [S2][S3].\n\n- In 2025 it costs $95,000; in 2026 it rises to $100,500 [S2][S3].\n- New for 2026: Title Sponsor (and Premier Booth) sponsors whose leads fall below 70% of target receive a credit of 15% of the package price toward the following year [S1].",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 2.7
+        "seconds": 2.75
       },
       {
         "id": "Q07",
@@ -3779,12 +3777,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "A cancellation 60 days before the event falls in the 30\u201390 day window, so **25% of fees paid is refunded** [S1][S2].\n\n- Cancellations more than 90 days out receive a 75% refund; within 30 days, nothing is refunded [S1][S2].\n- The balance is due 60 days before the event, so a 60-day cancellation would be just after the final payment is made [S1][S2].",
+        "answer": "A cancellation 60 days before the event falls in the 30\u201390 day window, so **25% of fees paid is refunded** [S1][S2].\n\n- Cancellations more than 90 days out receive a 75% refund; within 30 days, nothing is refunded [S1][S2].\n- The balance is due 60 days before the event, so a cancellation at that point would be after the final payment [S1][S2].",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 3.28
+        "seconds": 3.08
       },
       {
         "id": "Q08",
@@ -3797,16 +3795,16 @@
           "routing_accuracy": 1.0,
           "within_8s": 1.0,
           "withheld_rate": 0.0,
-          "faithfulness": 0.9,
+          "faithfulness": 1.0,
           "relevance": 1.0,
-          "correctness": 0.95
+          "correctness": 1.0
         },
-        "answer": "Under the 2026 lead guarantee, a Premier Booth sponsor whose leads reach less than 70% of their lead target receives a credit of 15% of their package price toward the following year [S1][S5].\n\n- This guarantee is new for 2026 and applies to both Title Sponsor and Premier Booth sponsors [S1][S5].\n- Note: the 2025 brochure has no such lead guarantee \u2014 it only covers payment and cancellation terms [S2][S4].",
+        "answer": "Under the 2026 lead guarantee, a Premier Booth sponsor whose leads reach less than 70% of their lead target receives a credit of 15% of their package price toward the following year [S1][S5]. This guarantee is new for 2026 and also applies to Title Sponsors [S1][S5].\n\n- The 2026 Premier Booth package is $51,000 (10 x 20 ft booth, 140 lead target per 1,000 attendees) [S2].\n- The 2025 brochure has no such lead guarantee, so this credit did not apply in 2025 [S3][S6].",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 4.28
+        "seconds": 3.52
       },
       {
         "id": "Q09",
@@ -3828,7 +3826,7 @@
           "sop_booth_logistics",
           "sop_registration_desk"
         ],
-        "seconds": 2.22
+        "seconds": 1.5
       },
       {
         "id": "Q10",
@@ -3845,13 +3843,13 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "Sponsors receive their lead export within 48 hours of the event closing [S1]. The export is a CSV containing name, company, job title, source, and notes [S1].",
+        "answer": "Sponsors receive their lead export within **48 hours** of the event closing [S1].\n\nThe export is a **CSV** containing: **name, company, job title, source, and notes** [S1].",
         "doc_ids": [
           "sop_booth_logistics",
           "sop_virtual_streaming",
           "sop_venue_setup"
         ],
-        "seconds": 2.0
+        "seconds": 1.91
       },
       {
         "id": "Q11",
@@ -3873,7 +3871,7 @@
           "sop_virtual_streaming",
           "sop_registration_desk"
         ],
-        "seconds": 1.91
+        "seconds": 2.19
       },
       {
         "id": "Q12",
@@ -3890,12 +3888,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "We proposed keeping Quillon Security's current packages and adding a sponsored breakout session at each event [S1]. This was the main ask of the renewal meeting [S1].\n\nFor context, their results through 2025: 1,558 leads against a 1,455 target (107%), a $159 cost per lead, with their best event being San Francisco DevSecOps Forum 2025 (413 leads), and targets met at 5 of 6 events [S3].",
+        "answer": "We proposed keeping Quillon Security's current packages and adding a sponsored breakout session at each event [S1].",
         "doc_ids": [
           "deck_SP016",
           "deck_SP014"
         ],
-        "seconds": 2.86
+        "seconds": 1.92
       },
       {
         "id": "Q13",
@@ -3918,7 +3916,7 @@
           "abstracts_EV002",
           "abstracts_EV012"
         ],
-        "seconds": 2.23
+        "seconds": 2.08
       },
       {
         "id": "Q14",
@@ -3935,12 +3933,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "The session \"Research myths, busted\" was in the **Research** track at the Austin Clinical Innovation Congress 2026 [S1].",
+        "answer": "The session \"Research myths, busted\" at the Austin Clinical Innovation Congress 2026 was in the **Research** track, presented by Maya Thompson in a hybrid format [S1].",
         "doc_ids": [
           "abstracts_EV012",
           "abstracts_EV003"
         ],
-        "seconds": 2.25
+        "seconds": 2.81
       },
       {
         "id": "Q15",
@@ -3951,13 +3949,13 @@
           "context_recall": 1.0,
           "refusal_accuracy": 1.0,
           "routing_accuracy": 1.0,
-          "within_8s": 1.0,
+          "within_8s": 0.0,
           "withheld_rate": 0.0,
           "faithfulness": 1.0,
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "**Chicago DevSecOps Forum 2024** (Lakeshore Conference Center): the main operational issue was the registration queue peaking at 25 minutes on the first morning; in response, two extra badge printers were opened and a walk-in lane was added [S1].\n\n**Austin Clinical Innovation Congress 2026** (Lone Star Convention Center): the main operational issue was catering running out of vegetarian lunches on day 1; in response, the caterer increased vegetarian portions by 40% for the remaining days [S5].\n\nBoth were resolved on-site during the event, but they were quite different in nature \u2014 one was a registration/check-in bottleneck, the other a catering shortfall.",
+        "answer": "**Chicago DevSecOps Forum 2024** (Lakeshore Conference Center): the main operational issue was the registration queue peaking at 25 minutes on the first morning; they opened two extra badge printers and added a walk-in lane [S1].\n\n**Austin Clinical Innovation Congress 2026** (Lone Star Convention Center): the main operational issue was catering running out of vegetarian lunches on day 1; the caterer increased vegetarian portions by 40% for the remaining days [S5].\n\n- Chicago was an in-person tech event (April 2\u20134, 2024); Austin was a hybrid medical event (May 28\u201330, 2026) [S2][S6].\n- Chicago ran over budget ($335.5K vs $326K); Austin came in under ($256K vs $260K) [S2][S6].\n- Chicago's show-up rate was 80% (769/959) vs Austin's 78% (777/999) [S2][S6].",
         "doc_ids": [
           "report_EV001",
           "report_EV004",
@@ -3966,7 +3964,7 @@
           "report_EV002",
           "report_EV003"
         ],
-        "seconds": 4.94
+        "seconds": 16.62
       },
       {
         "id": "Q16",
@@ -3977,19 +3975,19 @@
           "context_recall": 1.0,
           "refusal_accuracy": 1.0,
           "routing_accuracy": 1.0,
-          "within_8s": 1.0,
+          "within_8s": 0.0,
           "withheld_rate": 0.0,
           "faithfulness": 1.0,
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "Brightpath Security bought the **Title Sponsor** package at the Austin Clinical Innovation Congress 2026 [S1], which costs **$100,500** in 2026 [S6].\n\n- The Title Sponsor package includes a 20\u00d720 ft island booth, keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff [S6].\n- Brightpath collected 232 leads against a target of 240 (97% attainment) [S1].",
+        "answer": "Brightpath Security bought the **Title Sponsor** package at the Austin Clinical Innovation Congress 2026 [S1], which costs **$100,500** in 2026 [S6].\n\n- The Title Sponsor package includes a 20\u00d720 ft island booth, keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff [S6].\n- Brightpath collected 232 leads against a target of 240 (97% attainment) [S1].\n- They asked to move their demo slot to the morning [S1].",
         "doc_ids": [
           "report_EV012",
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 4.66
+        "seconds": 11.81
       },
       {
         "id": "Q17",
@@ -4006,11 +4004,11 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "The show-up rate at the Chicago DevSecOps Forum 2024 was **80%** (769 attendees out of 959 confirmed registrations) [S1][T1].\n\nThe report recommended sending a **reminder email 48 hours before the event, with the agenda and a calendar invite**, to reduce the number of confirmed registrants who did not show up [S3].\n\n- The event drew 769 attendees out of 1,030 total registrations, and cost $335,500 against a $326,000 budget (+2.9%) [S1].\n- 9 of 10 sponsors met their lead target; sponsors collected 1,567 leads against a combined target of 1,270 [S1].",
+        "answer": "The show-up rate at the Chicago DevSecOps Forum 2024 was **80%** (769 attendees out of 959 confirmed registrations) [S1][T1].\n\nThe report recommended sending a **reminder email 48 hours before the event, with the agenda and a calendar invite**, to reduce the number of confirmed registrants who did not show up [S3].\n\n- The event drew 769 attendees from 1,030 total registrations, and cost $335,500 against a $326,000 budget (+2.9%) [S1].\n- 9 of 10 sponsors met their lead target; sponsors collected 1,567 leads against a combined target of 1,270 [S1].",
         "doc_ids": [
           "report_EV001"
         ],
-        "seconds": 3.8
+        "seconds": 7.75
       },
       {
         "id": "Q18",
@@ -4021,17 +4019,17 @@
           "context_recall": null,
           "refusal_accuracy": 1.0,
           "routing_accuracy": null,
-          "within_8s": 1.0,
+          "within_8s": 0.0,
           "withheld_rate": 0.0,
           "faithfulness": 0.9,
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "I couldn't find the hotel room rate for speakers at the Chicago EdTech Leaders Summit 2025 in our documents.\n\nThe post-event report for that event covers the executive summary, audience, program highlights, and sponsor results, but it does not mention a speaker hotel room rate [S1]. The operations SOPs also returned nothing relevant [T2]. If you have a speaker logistics or hotel block document, I could look there.",
+        "answer": "I couldn't find the hotel room rate for speakers at the Chicago EdTech Leaders Summit 2025 in our documents.\n\nThe post-event report for that event covers the executive summary, audience, program highlights, and sponsor results, but it does not mention a speaker hotel room rate [S1]. The operations SOPs also returned nothing relevant [T2]. If you have a speaker hotel rate sheet or accommodation policy, I could look for it there.",
         "doc_ids": [
           "report_EV004"
         ],
-        "seconds": 4.52
+        "seconds": 10.17
       },
       {
         "id": "Q19",
@@ -4044,15 +4042,15 @@
           "routing_accuracy": null,
           "within_8s": 0.0,
           "withheld_rate": 0.0,
-          "faithfulness": 1.0,
+          "faithfulness": 0.9,
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "I couldn't find the catering company or its charge in our documents.\n\nThe New York Revenue Ops Conference 2025 post-event report covers the venue (Empire Pier Conference Hall), an AC failure in Hall B, program highlights, and sponsor results, but it does not mention a catering company or catering cost [S1][S4]. The operations documents also returned nothing on catering for this event.",
+        "answer": "I couldn't find this in our documents. The New York Revenue Ops Conference 2025 post-event report covers the venue (Empire Pier Conference Hall), attendance, program, and sponsor results, but it does not mention a catering company or any catering charge [S1]. The operations documents also returned nothing on catering for this event.",
         "doc_ids": [
           "report_EV006"
         ],
-        "seconds": 9.2
+        "seconds": 17.56
       },
       {
         "id": "Q20",
@@ -4069,12 +4067,15 @@
           "relevance": null,
           "correctness": null
         },
-        "answer": "In the current selection, next year's (2026) events are:\n\n- **Toronto Higher Ed Futures Conference 2026** \u2014 March 21, 2026 (virtual) [T3]\n- **Boston Cloud Native Conference 2026** \u2014 May 2, 2026 (virtual) [T3]\n- **Austin Clinical Innovation Congress 2026** \u2014 May 28, 2026 (hybrid) [T3]\n\nThe rest of the portfolio is 2024\u20132025 events.",
+        "answer": "The 2026 events in the current selection are:\n\n- **Toronto Higher Ed Futures Conference 2026** \u2014 March 21, 2026 (virtual) [S7]\n- **Boston Cloud Native Conference 2026** \u2014 May 2\u20133, 2026 (virtual) [S6]\n- **Austin Clinical Innovation Congress 2026** \u2014 May 28\u201330, 2026 (hybrid) [S5]\n\nThese are the only 2026-dated events in the portfolio; the rest of the selection is 2024\u20132025 events [T4].",
         "doc_ids": [
           "pricing_2026",
-          "pricing_2025"
+          "pricing_2025",
+          "report_EV012",
+          "report_EV011",
+          "report_EV010"
         ],
-        "seconds": 10.83
+        "seconds": 21.17
       }
     ],
     "agent \u00b7 structure \u00b7 dense": [
@@ -4087,7 +4088,7 @@
           "context_recall": 1.0,
           "refusal_accuracy": 1.0,
           "routing_accuracy": 1.0,
-          "within_8s": 1.0,
+          "within_8s": 0.0,
           "withheld_rate": 0.0,
           "faithfulness": 1.0,
           "relevance": 1.0,
@@ -4099,7 +4100,7 @@
           "report_EV008",
           "report_EV004"
         ],
-        "seconds": 2.59
+        "seconds": 14.44
       },
       {
         "id": "Q02",
@@ -4120,7 +4121,7 @@
         "doc_ids": [
           "report_EV004"
         ],
-        "seconds": 1.94
+        "seconds": 1.97
       },
       {
         "id": "Q03",
@@ -4137,14 +4138,14 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "At the New York Revenue Ops Conference 2025, Harborview Software collected **317 leads** against a target of **145**, reaching 219% attainment [S5].",
+        "answer": "Harborview Software collected **317 leads** at the New York Revenue Ops Conference 2025, against a target of **145** (219% attainment) [S5].",
         "doc_ids": [
           "report_EV006",
           "report_EV007",
           "report_EV001",
           "report_EV009"
         ],
-        "seconds": 3.53
+        "seconds": 2.48
       },
       {
         "id": "Q04",
@@ -4161,13 +4162,13 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "Quillon Security asked for attendee job titles in the lead export at the San Francisco DevSecOps Forum 2025 [S3].\n\n- Quillon was the Title Sponsor, collecting 413 leads against a 360 target (115% attainment) [S3].\n- The standard lead export already includes job title (name, company, job title, source, notes) per the booth logistics SOP [S5].",
+        "answer": "Quillon Security asked for attendee job titles in the lead export at the San Francisco DevSecOps Forum 2025 [S3].\n\n- Quillon was the Title Sponsor, collecting 413 leads against a 360 target (115% attainment) [S3].\n- The standard lead export already includes job title per the booth logistics SOP [S5], so this was a specific request from Quillon.",
         "doc_ids": [
           "report_EV008",
           "sop_booth_logistics",
           "sop_registration_desk"
         ],
-        "seconds": 1.98
+        "seconds": 2.05
       },
       {
         "id": "Q05",
@@ -4184,12 +4185,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "A Premier Booth for 2026 events costs **$51,000** [S1].\n\n- It's an in-person/hybrid package with a 10 x 20 ft booth and a lead target of 140 per 1,000 attendees [S1].\n- Includes logo in the event app, 6 full passes, lead retrieval for 3 staff, and one demo theater slot [S1].\n- New for 2026: Premier Booth sponsors whose leads fall below 70% of target receive a 15% credit toward the following year [S4].\n- For reference, the 2025 price was $48,000 [S3].",
+        "answer": "A Premier Booth for 2026 events costs **$51,000** (in-person/hybrid format) [S1].\n\n- It includes a 10 x 20 ft booth, logo in the event app, 6 full passes, lead retrieval for 3 staff, and one demo theater slot [S1].\n- Lead target is 140 per 1,000 attendees [S1].\n- New for 2026: Premier Booth sponsors whose leads fall below 70% of target receive a 15% credit toward the following year [S4].\n- For comparison, the 2025 Premier Booth was $48,000 [S3].",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 2.16
+        "seconds": 2.23
       },
       {
         "id": "Q06",
@@ -4206,12 +4207,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "The Title Sponsor package includes a **20 x 20 ft island booth**, **keynote introduction**, **logo on all signage and the event app**, **10 full passes**, and **lead retrieval for 4 staff**, with a lead target of 220 per 1,000 attendees [S1].\n\n- In 2025 it costs **$95,000**; in 2026 it rises to **$100,500** [S1][S3].\n- It is available for in-person or hybrid formats [S1].",
+        "answer": "The Title Sponsor package includes: **keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff**, with a **20 x 20 ft island booth** and a lead target of **220 per 1,000 attendees** [S1].\n\n- **2025 price:** $95,000 [S1]\n- **2026 price:** $100,500 [S3]\n- It's available in in-person or hybrid format [S1].",
         "doc_ids": [
           "pricing_2025",
           "pricing_2026"
         ],
-        "seconds": 1.73
+        "seconds": 1.97
       },
       {
         "id": "Q07",
@@ -4224,16 +4225,16 @@
           "routing_accuracy": 1.0,
           "within_8s": 1.0,
           "withheld_rate": 0.0,
-          "faithfulness": 0.9,
+          "faithfulness": 1.0,
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "A sponsor cancelling 60 days before the event falls in the 30\u201390 day window, so they receive a **25% refund** of fees paid [S1][S2].\n\n- Cancellations more than 90 days out get a 75% refund; within 30 days, nothing is refunded [S1][S2].\n- The balance is due 60 days before the event, so a cancellation at that point would be after the final payment [S1][S2].",
+        "answer": "A cancellation 60 days before the event falls in the 30\u201390 day window, so **25% of fees paid is refunded** [S1][S2].\n\n- Cancellations more than 90 days out receive 75%; within 30 days, nothing is refunded [S1][S2].\n- The 50% deposit is due at signing and the balance 60 days before the event [S1][S2].",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 2.73
+        "seconds": 1.92
       },
       {
         "id": "Q08",
@@ -4246,16 +4247,16 @@
           "routing_accuracy": 1.0,
           "within_8s": 1.0,
           "withheld_rate": 0.0,
-          "faithfulness": 0.9,
+          "faithfulness": 1.0,
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "Under the 2026 lead guarantee, a Premier Booth sponsor whose leads reach less than 70% of its lead target receives a credit of 15% of its package price toward the following year [S1][S5].\n\n- This guarantee is new for 2026 and applies to both Title Sponsor and Premier Booth sponsors [S1][S5].\n- Lead targets are scaled to each event's expected attendance and confirmed in the sponsorship agreement [S4][S8].\n- Note: the 2025 brochure does not mention this guarantee, so it applies only to 2026 contracts.",
+        "answer": "Under the 2026 lead guarantee, a Premier Booth sponsor whose leads reach less than 70% of its lead target receives a credit of 15% of its package price toward the following year [S1][S5]. This guarantee is new for 2026 and applies to Title Sponsor and Premier Booth sponsors [S1][S5].\n\n- The 2026 Premier Booth package is $51,000 with a lead target of 140 per 1,000 attendees [S3].\n- Lead targets are scaled to each event's expected attendance and confirmed in the sponsorship agreement [S4].\n- Note: this guarantee is not in the 2025 pricing brochure, so it applies to 2026 contracts only [S2].",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 2.39
+        "seconds": 2.08
       },
       {
         "id": "Q09",
@@ -4278,7 +4279,7 @@
           "sop_registration_desk",
           "sop_virtual_streaming"
         ],
-        "seconds": 1.77
+        "seconds": 1.55
       },
       {
         "id": "Q10",
@@ -4295,12 +4296,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "Sponsors receive their lead export within 48 hours of the event closing [S1].\n\nThe export is a CSV containing name, company, job title, source, and notes [S1].",
+        "answer": "Sponsors receive their lead export within 48 hours of the event closing [S1].\n\n- The export is a CSV containing name, company, job title, source, and notes [S1].\n- Badge scanners must be charged and tested by 7:00 AM each event day to support lead capture [S1].",
         "doc_ids": [
           "sop_booth_logistics",
           "sop_virtual_streaming"
         ],
-        "seconds": 2.25
+        "seconds": 1.8
       },
       {
         "id": "Q11",
@@ -4317,11 +4318,11 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "If a stream is down for more than 5 minutes, the producer switches to the backup encoder and escalates to the platform vendor's on-call engineer [S1].",
+        "answer": "If a stream is down for more than 5 minutes, the producer switches to the backup encoder and escalates to the platform vendor's on-call engineer [S1].\n\n- Target stream latency is under 15 seconds [S1].\n- A backup encoder must already be running in parallel for the keynote stream [S4].",
         "doc_ids": [
           "sop_virtual_streaming"
         ],
-        "seconds": 1.89
+        "seconds": 1.58
       },
       {
         "id": "Q12",
@@ -4334,16 +4335,16 @@
           "routing_accuracy": 1.0,
           "within_8s": 1.0,
           "withheld_rate": 0.0,
-          "faithfulness": 1.0,
-          "relevance": 1.0,
-          "correctness": 1.0
+          "faithfulness": 0.85,
+          "relevance": 0.95,
+          "correctness": 0.9
         },
-        "answer": "We proposed keeping Quillon Security's current packages and adding a sponsored breakout session at each event [S1]. This was presented as the main ask of the renewal meeting [S1].\n\n- Quillon sponsored six events through 2025, including Title Sponsor at Chicago DevSecOps Forum 2024, Boston Clinical Innovation Congress 2024, New York Revenue Ops Conference 2025, San Francisco DevSecOps Forum 2025, and New York Future of Work Forum 2025, plus Digital Premier at Toronto Clinical Innovation Congress 2024 [S3].",
+        "answer": "We proposed keeping Quillon Security's current packages and adding a sponsored breakout session at each event [S1].\n\n- This was framed as the main ask of the renewal meeting [S1].\n- Quillon sponsored six events through 2025, including Title Sponsor at Chicago DevSecOps Forum 2024, Boston Clinical Innovation Congress 2024, New York Revenue Ops Conference 2025, San Francisco DevSecOps Forum 2025, and New York Future of Work Forum 2025, plus Digital Premier at Toronto Clinical Innovation Congress 2024 [S3].",
         "doc_ids": [
           "deck_SP016",
           "deck_SP014"
         ],
-        "seconds": 2.09
+        "seconds": 2.0
       },
       {
         "id": "Q13",
@@ -4365,7 +4366,7 @@
           "abstracts_EV010",
           "abstracts_EV005"
         ],
-        "seconds": 1.92
+        "seconds": 1.59
       },
       {
         "id": "Q14",
@@ -4387,7 +4388,7 @@
           "abstracts_EV012",
           "abstracts_EV003"
         ],
-        "seconds": 1.95
+        "seconds": 1.56
       },
       {
         "id": "Q15",
@@ -4404,14 +4405,14 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "**Chicago DevSecOps Forum 2024** (Lakeshore Conference Center): the main operational issue was the registration queue peaking at 25 minutes on the first morning; in response, two extra badge printers were opened and a walk-in lane was added [S1].\n\n**Austin Clinical Innovation Congress 2026** (Lone Star Convention Center): the main operational issue was catering running out of vegetarian lunches on day 1; in response, the caterer increased vegetarian portions by 40% for the remaining days [S5]. A separate lesson noted that technical problems were only found on the first morning, with a recommendation to run a full technical rehearsal the day before the next edition [S7].\n\n- Chicago was an in-person tech event (769 attendees, 80% show-up) [S2]; Austin was a hybrid medical event (777 attendees, 78% show-up) [S6].\n- Chicago's issue was attendee-facing (registration flow); Austin's was catering plus technical readiness.",
+        "answer": "**Chicago DevSecOps Forum 2024** (Lakeshore Conference Center): the main operational issue was the registration queue peaking at 25 minutes on the first morning; in response, two extra badge printers were opened and a walk-in lane was added [S1].\n\n**Austin Clinical Innovation Congress 2026** (Lone Star Convention Center): the main operational issue was catering running out of vegetarian lunches on day 1; in response, the caterer increased vegetarian portions by 40% for the remaining days [S5]. A separate lesson noted that technical problems were only found on the first morning, with a recommendation to run a full technical rehearsal the day before the next edition [S7].\n\n- Chicago was an in-person tech event (769 attendees, 80% show-up) [S2]; Austin was a hybrid medical event (777 attendees, 78% show-up) [S6].\n- Chicago's issue was attendee-facing registration flow; Austin's was catering plus a technical-rehearsal gap.",
         "doc_ids": [
           "report_EV001",
           "report_EV008",
           "report_EV004",
           "report_EV012"
         ],
-        "seconds": 2.72
+        "seconds": 2.78
       },
       {
         "id": "Q16",
@@ -4428,13 +4429,13 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "Brightpath Security bought the **Title Sponsor** package at the Austin Clinical Innovation Congress 2026 [S2], which costs **$100,500** in 2026 [S5].\n\n- The Title Sponsor package includes a 20\u00d720 ft island booth, keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff [S5].\n- At the event, Brightpath collected 232 leads against a target of 240 (97% attainment) [S2].\n- Brightpath asked to move their demo slot to the morning [S2].",
+        "answer": "Brightpath Security bought the **Title Sponsor** package at the Austin Clinical Innovation Congress 2026 [S2], which costs **$100,500** in 2026 [S5].\n\n- The Title Sponsor package includes a 20\u00d720 ft island booth, keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff [S5].\n- At the event, Brightpath collected 232 leads against a target of 240 (97% attainment) [S2].",
         "doc_ids": [
           "report_EV012",
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 2.39
+        "seconds": 2.14
       },
       {
         "id": "Q17",
@@ -4455,7 +4456,7 @@
         "doc_ids": [
           "report_EV001"
         ],
-        "seconds": 2.55
+        "seconds": 1.97
       },
       {
         "id": "Q18",
@@ -4468,15 +4469,15 @@
           "routing_accuracy": null,
           "within_8s": 1.0,
           "withheld_rate": 0.0,
-          "faithfulness": 0.8,
+          "faithfulness": 0.75,
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "I couldn't find the speaker hotel room rate for the Chicago EdTech Leaders Summit 2025 in our documents.\n\nThe post-event report for that event covers the executive summary, audience, program highlights, and sponsor results, but it does not mention a speaker hotel room rate. The operations SOPs also returned nothing on this. If you have a specific hotel contract or speaker logistics document, I could look there.",
+        "answer": "I couldn't find the hotel room rate for speakers at the Chicago EdTech Leaders Summit 2025 in our documents.\n\nThe post-event report for that event covers the executive summary, audience, program highlights, and sponsor results, but it does not mention a speaker hotel room rate [S1]. The operations SOPs also returned nothing relevant [T2]. If you have a speaker logistics or hotel block document, I could look there.",
         "doc_ids": [
           "report_EV004"
         ],
-        "seconds": 2.77
+        "seconds": 2.08
       },
       {
         "id": "Q19",
@@ -4489,16 +4490,16 @@
           "routing_accuracy": null,
           "within_8s": 1.0,
           "withheld_rate": 0.0,
-          "faithfulness": 0.9,
+          "faithfulness": 0.75,
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "I couldn't find the catering company or its charge in our documents. The New York Revenue Ops Conference 2025 post-event report covers the venue (Empire Pier Conference Hall), attendance, program, sponsors, and budget, but it does not name a catering provider or a catering cost [S1]. The operations documents also returned nothing on catering for this event.",
+        "answer": "I couldn't find this in our documents. The New York Revenue Ops Conference 2025 post-event report covers attendance, program highlights, and sponsor results, but it does not mention a catering company or its charge. The operations SOPs also contain nothing about catering for this event.",
         "doc_ids": [
           "report_EV006",
           "report_EV007"
         ],
-        "seconds": 2.22
+        "seconds": 2.14
       },
       {
         "id": "Q20",
@@ -4509,18 +4510,21 @@
           "context_recall": null,
           "refusal_accuracy": 0.0,
           "routing_accuracy": null,
-          "within_8s": 1.0,
+          "within_8s": 0.0,
           "withheld_rate": 0.0,
           "faithfulness": null,
           "relevance": null,
           "correctness": null
         },
-        "answer": "In the current selection, there are three 2026 events:\n\n- **Toronto Higher Ed Futures Conference 2026** \u2014 March 21, 2026 (virtual) [T3]\n- **Boston Cloud Native Conference 2026** \u2014 May 2, 2026 (virtual) [T3]\n- **Austin Clinical Innovation Congress 2026** \u2014 May 28, 2026 (hybrid) [T3]\n\nNote: the pricing brochure lists packages and terms but not a full 2026 calendar, so these are the only 2026 dates present in the data.",
+        "answer": "Next year's (2026) events in the current selection are:\n\n- **Toronto Higher Ed Futures Conference 2026** \u2014 March 21, 2026 (virtual) [S7]\n- **Boston Cloud Native Conference 2026** \u2014 May 2\u20133, 2026 (virtual) [S6]\n- **Austin Clinical Innovation Congress 2026** \u2014 May 28\u201330, 2026 (hybrid) [S5]\n\nThese are the only 2026 events in the portfolio; the rest of the selection is 2024\u20132025 events [T5].",
         "doc_ids": [
           "pricing_2026",
-          "pricing_2025"
+          "pricing_2025",
+          "report_EV012",
+          "report_EV011",
+          "report_EV010"
         ],
-        "seconds": 4.81
+        "seconds": 10.23
       }
     ],
     "agent \u00b7 fixed \u00b7 hybrid + rerank": [
@@ -4531,21 +4535,21 @@
           "hit_rate": 1.0,
           "mrr": 1.0,
           "context_recall": 1.0,
-          "refusal_accuracy": 0.0,
+          "refusal_accuracy": 1.0,
           "routing_accuracy": 1.0,
           "within_8s": 0.0,
           "withheld_rate": 0.0,
           "faithfulness": 1.0,
-          "relevance": 0.0,
-          "correctness": 0.0
+          "relevance": 1.0,
+          "correctness": 1.0
         },
-        "answer": "I couldn't find the specific operational problem in the Chicago DevSecOps Forum 2024 report. The report's \"Venue and operations\" section (section 4) is where such an issue would be described, but that section is truncated in every search result I retrieved, so its content wasn't available to me.\n\nWhat the retrieved portions of the report do cover:\n- The event ran at the Lakeshore Conference Center, April 2\u20134, 2024, with 769 attendees out of 959 confirmed registrations (80% show-up) [S1].\n- The only operational-related item surfaced was a \"lessons learned\": too many confirmed registrants did not show up, with a recommendation to send a reminder email 48 hours before the event with the agenda and a calendar invite [S3].\n- Sponsor feedback noted Harborview Software asked for a larger booth near the coffee station [S3].\n\nIf you'd like, I can look specifically at the venue/operations section of that report again, or check the operations SOPs for how a particular issue (e.g., registration, booth logistics, AV) is normally handled.",
+        "answer": "The main operational problem at the Chicago DevSecOps Forum 2024 was that the registration queue peaked at 25 minutes on the first morning. In response, two extra badge printers were opened and a walk-in lane was added [S1].\n\n- The event ran April 2\u20134, 2024 at Lakeshore Conference Center, welcoming 769 attendees (80% show-up rate) [S1].\n- A separate lesson learned was that too many confirmed registrants did not show up; the recommendation was to send a reminder email 48 hours before the event with the agenda and a calendar invite [S3].",
         "doc_ids": [
           "report_EV001",
           "report_EV008",
           "report_EV004"
         ],
-        "seconds": 29.75
+        "seconds": 8.08
       },
       {
         "id": "Q02",
@@ -4568,7 +4572,7 @@
           "report_EV005",
           "report_EV001"
         ],
-        "seconds": 6.22
+        "seconds": 6.81
       },
       {
         "id": "Q03",
@@ -4577,22 +4581,21 @@
           "hit_rate": 1.0,
           "mrr": 1.0,
           "context_recall": 1.0,
-          "refusal_accuracy": 0.0,
+          "refusal_accuracy": 1.0,
           "routing_accuracy": 1.0,
           "within_8s": 0.0,
           "withheld_rate": 0.0,
-          "faithfulness": null,
-          "relevance": null,
-          "correctness": null
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
         },
-        "answer": "I couldn't find Harborview Software's leads or target for the New York Revenue Ops Conference 2025 in our documents. The sponsor results table for that event (which lists Larkspur Capital, Orchidia Cloud, Summitry Security, Vertexa Cloud, Bluefin Software, and Quillon Security) does not include Harborview Software [S4][S7][S10][S14][S18].\n\nWhat the documents do show for Harborview Software:\n- At the **New York Future of Work Forum 2025**, it collected **204 leads against a target of 185** (110%) as a Digital Premier sponsor [S5][S11][S16].\n- Across all 7 events in the current selection, it collected **1,518 leads against a combined target of 1,215** (125% attainment) [T4].",
+        "answer": "At the New York Revenue Ops Conference 2025, Harborview Software collected **317 leads** against a target of **145**, reaching 219% attainment [S1].",
         "doc_ids": [
           "report_EV006",
           "report_EV009",
-          "report_EV007",
-          "report_EV001"
+          "report_EV007"
         ],
-        "seconds": 31.23
+        "seconds": 8.72
       },
       {
         "id": "Q04",
@@ -4603,13 +4606,13 @@
           "context_recall": 1.0,
           "refusal_accuracy": 1.0,
           "routing_accuracy": 1.0,
-          "within_8s": 1.0,
+          "within_8s": 0.0,
           "withheld_rate": 0.0,
           "faithfulness": 1.0,
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "**Quillon Security** asked for attendee job titles in the lead export at the San Francisco DevSecOps Forum 2025 [S1].\n\n- The request appears in the sponsor feedback section of that event's post-event report [S1].\n- Note: the standard lead export already includes job title (name, company, job title, source, notes) per the booth logistics SOP [S5].",
+        "answer": "**Quillon Security** asked for attendee job titles in the lead export at the San Francisco DevSecOps Forum 2025 [S1].\n\n- Quillon was the Title Sponsor at that event, collecting 413 leads against a target of 360 (115% attainment) [S2].\n- Note: the standard lead export already includes job title as a column (name, company, job title, source, notes) per the booth logistics SOP [S5].",
         "doc_ids": [
           "report_EV008",
           "report_EV003",
@@ -4619,7 +4622,7 @@
           "sop_virtual_streaming",
           "sop_venue_setup"
         ],
-        "seconds": 7.38
+        "seconds": 9.2
       },
       {
         "id": "Q05",
@@ -4636,7 +4639,7 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "A Premier Booth for 2026 events costs **$51,000** [S1].\n\n- It's an in-person/hybrid package with a 10 x 20 ft booth, a lead target of 140 per 1,000 attendees, logo in the event app, 6 full passes, lead retrieval for 3 staff, and one demo theater slot [S1].\n- For comparison, the 2025 Premier Booth was $48,000 [S2].",
+        "answer": "A Premier Booth for 2026 events costs **$51,000** [S1].\n\n- It's an in-person/hybrid package with a 10 x 20 ft booth, a lead target of 140 per 1,000 attendees, logo in the event app, 6 full passes, lead retrieval for 3 staff, and one demo theater slot [S1].\n- For comparison, it was $48,000 in 2025 [S2].\n- Under the new 2026 lead guarantee, Premier Booth sponsors whose leads fall below 70% of target receive a credit of 15% of the package price toward the following year [S1].",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
@@ -4658,12 +4661,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "The Title Sponsor package (in-person/hybrid) includes: **keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff**, with a 20\u00d720 ft island booth and a lead target of 220 per 1,000 attendees [S1].\n\n- 2026 price: **$100,500** [S1]; 2025 price was **$95,000** [S2].\n- Payment terms: a portion is due at signing and the balance 60 days before the event; cancellations more than 90 days out get a 75% refund, 30\u201390 days get 25%, within 30 days none [S3].",
+        "answer": "The Title Sponsor package includes a **20 x 20 ft island booth**, **keynote introduction**, **logo on all signage and the event app**, **10 full passes**, and **lead retrieval for 4 staff** [S1].\n\n- **2026 price:** $100,500; **2025 price:** $95,000 [S1][S2].\n- **Lead target:** 220 per 1,000 attendees [S1].\n- **Format:** in-person / hybrid [S1].\n- **2026 lead guarantee:** if leads fall below 70% of target, the sponsor receives a credit of 15% of the package price toward the following year [S1].",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 4.72
+        "seconds": 2.52
       },
       {
         "id": "Q07",
@@ -4680,12 +4683,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "A cancellation 60 days before the event falls in the 30\u201390 day window, so the sponsor receives a **25% refund** of fees paid [S1]. Cancellations more than 90 days out get 75%, and cancellations within 30 days are not refunded [S1].",
+        "answer": "A cancellation 60 days before the event falls in the 30\u201390 day window, so **25% of the fees paid is refunded** [S1][S2].\n\n- Cancellations more than 90 days out receive a 75% refund; within 30 days, nothing is refunded [S1][S2].\n- This applies to the 2026 terms; the 2025 brochure has the same schedule [S3].",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 2.48
+        "seconds": 2.19
       },
       {
         "id": "Q08",
@@ -4694,20 +4697,20 @@
           "hit_rate": 1.0,
           "mrr": 1.0,
           "context_recall": 1.0,
-          "refusal_accuracy": 0.0,
+          "refusal_accuracy": 1.0,
           "routing_accuracy": 1.0,
-          "within_8s": 0.0,
+          "within_8s": 1.0,
           "withheld_rate": 0.0,
-          "faithfulness": 0.85,
-          "relevance": 0.0,
-          "correctness": 0.1
+          "faithfulness": 1.0,
+          "relevance": 1.0,
+          "correctness": 1.0
         },
-        "answer": "I couldn't find this in our documents. The pricing brochures describe the Premier Booth package (10 x 20 ft booth, $51,000 in 2026, lead target of 140 per 1,000 attendees, lead retrieval for 3 staff) and note that lead targets are scaled to each event's expected attendance and confirmed in the sponsorship agreement [S1][S5], but they do not state any specific consequence for reaching less than 70% of a lead target.\n\nThe documents do cover package prices and inclusions, payment and cancellation terms, and the existence of a 2026 lead guarantee, but not the terms of that guarantee. To answer this, I'd need the sponsorship agreement or the lead-guarantee clause itself.",
+        "answer": "Under the 2026 lead guarantee, a Premier Booth sponsor whose leads reach less than 70% of its lead target receives a credit of 15% of its package price toward the following year [S1][S4].\n\n- This guarantee is new for 2026 and applies to both Title Sponsor and Premier Booth packages [S1][S4].\n- The 2025 brochure has no such guarantee; it only states that lead targets are scaled to each event's expected attendance and confirmed in the sponsorship agreement [S2][S5].",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 12.36
+        "seconds": 2.83
       },
       {
         "id": "Q09",
@@ -4724,14 +4727,14 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "Badge scanners must be charged and tested by **7:00 AM on each event day** [S1].",
+        "answer": "Badge scanners must be charged and tested by **7:00 AM on each event day** [S1].\n\n- This is part of the sponsor booth logistics / lead retrieval procedure [S1].\n- Each sponsor receives a lead export (CSV with name, company, job title, source, notes) within 48 hours of the event closing [S1].",
         "doc_ids": [
           "sop_booth_logistics",
           "sop_registration_desk",
           "sop_venue_setup",
           "sop_virtual_streaming"
         ],
-        "seconds": 3.45
+        "seconds": 1.98
       },
       {
         "id": "Q10",
@@ -4748,14 +4751,14 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "Sponsors receive their lead export within 48 hours of the event closing [S1]. The export is a CSV containing name, company, job title, source, and notes [S1].",
+        "answer": "Sponsors receive their lead export within 48 hours of the event closing [S1]. It is a CSV containing name, company, job title, source, and notes [S1].",
         "doc_ids": [
           "sop_booth_logistics",
           "sop_venue_setup",
           "sop_virtual_streaming",
           "sop_registration_desk"
         ],
-        "seconds": 1.92
+        "seconds": 1.64
       },
       {
         "id": "Q11",
@@ -4779,7 +4782,7 @@
           "sop_booth_logistics",
           "sop_venue_setup"
         ],
-        "seconds": 2.12
+        "seconds": 2.17
       },
       {
         "id": "Q12",
@@ -4788,23 +4791,22 @@
           "hit_rate": 1.0,
           "mrr": 1.0,
           "context_recall": 1.0,
-          "refusal_accuracy": 0.0,
+          "refusal_accuracy": 1.0,
           "routing_accuracy": 1.0,
-          "within_8s": 0.0,
+          "within_8s": 1.0,
           "withheld_rate": 0.0,
           "faithfulness": 1.0,
-          "relevance": 0.0,
-          "correctness": 0.0
+          "relevance": 1.0,
+          "correctness": 1.0
         },
-        "answer": "I couldn't find the proposal for Quillon Security in our documents. The Quillon Security partnership-review deck I retrieved only covers the opening slide: their goals (brand awareness), the six events they sponsored, and their results (1,558 leads vs. 1,455 target, 107%, at $159 cost per lead) [S1][S5][S9][S13][S17]. The \"Proposal for next year\" section appears in other sponsors' decks (e.g., Brightpath Security) but not in the Quillon deck results returned [S2][S6][S10][S14][S18].",
+        "answer": "We proposed keeping Quillon Security's current packages and adding a sponsored breakout session at each event [S1].\n\n- Quillon is a platinum cybersecurity sponsor with a $248,400 contract value, focused on brand awareness [S1].\n- Across 6 events they delivered 1,558 leads vs a 1,455 target (107%), at $159 cost per lead, meeting targets at 5 of 6 events [S1].\n- Their best event was San Francisco DevSecOps Forum 2025 with 413 leads [S1].",
         "doc_ids": [
           "deck_SP016",
           "deck_SP014",
           "deck_SP024",
-          "deck_SP023",
-          "deck_SP009"
+          "deck_SP023"
         ],
-        "seconds": 12.59
+        "seconds": 5.45
       },
       {
         "id": "Q13",
@@ -4815,7 +4817,7 @@
           "context_recall": 1.0,
           "refusal_accuracy": 1.0,
           "routing_accuracy": 1.0,
-          "within_8s": 1.0,
+          "within_8s": 0.0,
           "withheld_rate": 0.0,
           "faithfulness": 1.0,
           "relevance": 1.0,
@@ -4828,7 +4830,7 @@
           "abstracts_EV005",
           "abstracts_EV001"
         ],
-        "seconds": 6.7
+        "seconds": 8.56
       },
       {
         "id": "Q14",
@@ -4839,19 +4841,19 @@
           "context_recall": 1.0,
           "refusal_accuracy": 1.0,
           "routing_accuracy": 1.0,
-          "within_8s": 1.0,
+          "within_8s": 0.0,
           "withheld_rate": 0.0,
           "faithfulness": 1.0,
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "The session \"Research myths, busted\" was in the **Research** track at the Austin Clinical Innovation Congress 2026 [S1].",
+        "answer": "The session \"Research myths, busted\" was in the **Research** track at the Austin Clinical Innovation Congress 2026, presented by Maya Thompson in a hybrid format [S1].",
         "doc_ids": [
           "abstracts_EV012",
           "abstracts_EV003",
           "abstracts_EV007"
         ],
-        "seconds": 4.92
+        "seconds": 10.11
       },
       {
         "id": "Q15",
@@ -4860,7 +4862,7 @@
           "hit_rate": 1.0,
           "mrr": 1.0,
           "context_recall": 1.0,
-          "refusal_accuracy": 0.0,
+          "refusal_accuracy": 1.0,
           "routing_accuracy": 1.0,
           "within_8s": 0.0,
           "withheld_rate": 0.0,
@@ -4868,7 +4870,7 @@
           "relevance": null,
           "correctness": null
         },
-        "answer": "I couldn't find detailed operational/venue issue sections in the returned excerpts for either event. Here's what the reports do state about each:\n\n**Chicago DevSecOps Forum 2024** (Lakeshore Conference Center) [S1]:\n- **Lesson learned:** too many confirmed registrants did not show up (80% show-up rate); recommendation was to send a reminder email 48 hours before with the agenda and calendar invite [S3].\n- **Sponsor feedback:** Harborview Software asked for a larger booth near the coffee station [S3].\n\n**Austin Clinical Innovation Congress 2026** (Lone Star Convention Center) [S5]:\n- **Lesson learned:** technical problems were found only on the first morning; recommendation was to run a full technical rehearsal the day before the event [S6].\n- **Sponsor feedback:** Brightpath Security asked to move their demo slot to the morning [S6].\n\nThe excerpts cut off at the \"Venue and\u2026\" section for both events, so I don't have the full operational/venue issue details (e.g., what the technical problems were, or any venue-specific issues). If you want, I can search the reports for more specific operational details on either event.",
+        "answer": "**Chicago DevSecOps Forum 2024** (Lakeshore Conference Center): the main operational issue was the registration queue peaking at 25 minutes on the first morning; they opened two extra badge printers and added a walk-in lane [S1].\n\n**Austin Clinical Innovation Congress 2026** (Lone Star Convention Center): the main operational issue was catering running out of vegetarian lunches on day 1; the caterer increased vegetarian portions by 40% for the remaining days [S5].\n\n- Chicago's issue was attendee-facing at check-in (registration throughput); Austin's was catering/meal supply.\n- Chicago's response was adding badge printers and a walk-in lane [S1]; Austin's was adjusting catering portions [S5].\n- Chicago's lesson learned was about no-shows (reminder email 48h before) [S3]; Austin's was about technical problems found only on the first morning (run a full technical rehearsal the day before) [S6].",
         "doc_ids": [
           "report_EV001",
           "report_EV008",
@@ -4877,7 +4879,7 @@
           "report_EV002",
           "report_EV003"
         ],
-        "seconds": 12.38
+        "seconds": 24.36
       },
       {
         "id": "Q16",
@@ -4892,23 +4894,17 @@
           "withheld_rate": 0.0,
           "faithfulness": 0.5,
           "relevance": 1.0,
-          "correctness": 0.9
+          "correctness": 1.0
         },
-        "answer": "Brightpath Security bought the **Title Sponsor** package at the Austin Clinical Innovation Congress 2026 [S12]. In 2026, the Title Sponsor package costs **$100,500** [S5].\n\n- At that event they collected 232 leads against a target of 240 [S12].\n- Their feedback at the event was a request to move their demo slot to the morning [S16].",
+        "answer": "Brightpath Security bought the **Title Sponsor** package at the Austin Clinical Innovation Congress 2026 [S2], which costs **$100,500** in 2026 [S5].\n\n- At that event, Brightpath collected 232 leads against a target of 240 (97% attainment) [S2].\n- The Title Sponsor package includes a 20\u00d720 ft island booth, keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff [S5].",
         "doc_ids": [
           "report_EV012",
           "report_EV002",
           "report_EV003",
           "pricing_2026",
-          "pricing_2025",
-          "report_EV001",
-          "report_EV007",
-          "deck_SP014",
-          "deck_SP016",
-          "deck_SP024",
-          "deck_SP023"
+          "pricing_2025"
         ],
-        "seconds": 28.64
+        "seconds": 21.67
       },
       {
         "id": "Q17",
@@ -4919,19 +4915,19 @@
           "context_recall": 1.0,
           "refusal_accuracy": 1.0,
           "routing_accuracy": 1.0,
-          "within_8s": 1.0,
+          "within_8s": 0.0,
           "withheld_rate": 0.0,
           "faithfulness": 1.0,
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "The show-up rate at the Chicago DevSecOps Forum 2024 was **80%** (769 attendees out of 959 confirmed registrations) [S1].\n\nThe report's recommendation to improve it: **send a reminder email 48 hours before the event, with the agenda and a calendar invite** [S2].\n\n- The report's lesson learned was that \"too many confirmed registrants did not show up\" [S2].\n- The event welcomed 769 attendees out of 959 confirmed registrations (1,030 total registrations) [S1].",
+        "answer": "The show-up rate at the Chicago DevSecOps Forum 2024 was **80%** (769 attendees out of 959 confirmed registrations) [S1].\n\nThe report's recommendation to improve it: **send a reminder email 48 hours before the event, with the agenda and a calendar invite**, since too many confirmed registrants did not show up [S2].\n\n- The event welcomed 769 attendees out of 959 confirmed registrations (1,030 total registrations) [S1].\n- The main operational issue was a registration queue peaking at 25 minutes on the first morning, handled by adding two extra badge printers and a walk-in lane [S1].",
         "doc_ids": [
           "report_EV001",
           "report_EV008",
           "report_EV004"
         ],
-        "seconds": 5.42
+        "seconds": 14.48
       },
       {
         "id": "Q18",
@@ -4948,13 +4944,13 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "I couldn't find this in our documents. The Chicago EdTech Leaders Summit 2025 post-event report covers attendance, program highlights, sponsor results, and lessons learned, but it does not state a hotel room rate for speakers, and the operations documents contain no accommodation rate information either.",
+        "answer": "I couldn't find the hotel room rate for speakers at the Chicago EdTech Leaders Summit 2025 in our documents.\n\nThe post-event report for that event covers audience, program highlights, venue/operations (signage issue), sponsor results, and lessons learned, but it does not mention a speaker hotel room rate [S1]. The operations documents also returned nothing relevant.",
         "doc_ids": [
           "report_EV004",
           "report_EV001",
           "report_EV008"
         ],
-        "seconds": 17.48
+        "seconds": 19.16
       },
       {
         "id": "Q19",
@@ -4967,17 +4963,18 @@
           "routing_accuracy": null,
           "within_8s": 0.0,
           "withheld_rate": 0.0,
-          "faithfulness": 0.75,
+          "faithfulness": 0.85,
           "relevance": 1.0,
-          "correctness": 1.0
+          "correctness": 0.95
         },
-        "answer": "I couldn't find this in our documents. The New York Revenue Ops Conference 2025 post-event report covers the venue (Empire Pier Conference Hall), attendance, program, sponsors, and budget, but it does not name a catering company or list a catering charge [S1][S5][S9]. The operations SOPs also contain no catering vendor information.",
+        "answer": "I couldn't find the catering company or its charge in the documents.\n\nThe New York Revenue Ops Conference 2025 post-event report covers the venue (Empire Pier Conference Hall), the AC failure in Hall B, sponsor results, and lessons learned, but it does not name a catering vendor or list a catering cost [S1][S5]. The operations SOPs also contain no catering vendor or pricing information. If you have a catering contract or invoice document, I could look it up there.",
         "doc_ids": [
           "report_EV006",
           "report_EV007",
-          "report_EV009"
+          "report_EV001",
+          "report_EV003"
         ],
-        "seconds": 35.52
+        "seconds": 36.39
       },
       {
         "id": "Q20",
@@ -4994,16 +4991,12 @@
           "relevance": null,
           "correctness": null
         },
-        "answer": "In the current selection, the 2026 events are:\n\n- **Toronto Higher Ed Futures Conference 2026** \u2014 March 21, 2026 (virtual) [S5]\n- **Boston Cloud Native Conference 2026** \u2014 May 2\u20133, 2026 (virtual) [S6]\n- **Austin Clinical Innovation Congress 2026** \u2014 May 28\u201330, 2026 (hybrid) [S4]\n\nThese are the only 2026 events in the current selection; the rest of the portfolio is 2024\u20132025 events.",
+        "answer": "The 2026 events in the current selection are:\n\n- **Toronto Higher Ed Futures Conference 2026** \u2014 March 21, 2026 (virtual) [T3]\n- **Boston Cloud Native Conference 2026** \u2014 May 2, 2026 (virtual) [T3]\n- **Austin Clinical Innovation Congress 2026** \u2014 May 28, 2026 (hybrid) [T3]\n\nThe rest of the portfolio (9 events) are 2024\u20132025 events, so these three are the only ones dated next year.",
         "doc_ids": [
           "pricing_2026",
-          "pricing_2025",
-          "report_EV012",
-          "report_EV010",
-          "report_EV011",
-          "report_EV006"
+          "pricing_2025"
         ],
-        "seconds": 14.88
+        "seconds": 10.06
       }
     ],
     "agent \u00b7 semantic \u00b7 hybrid + rerank": [
@@ -5019,16 +5012,15 @@
           "within_8s": 0.0,
           "withheld_rate": 0.0,
           "faithfulness": 1.0,
-          "relevance": 1.0,
-          "correctness": 1.0
+          "relevance": 0.9,
+          "correctness": 0.95
         },
-        "answer": "The main operational issue at the Chicago DevSecOps Forum 2024 was that the registration queue peaked at 25 minutes on the first morning. It was handled by opening two extra badge printers and adding a walk-in lane [S1].",
+        "answer": "The main operational issue at the Chicago DevSecOps Forum 2024 was that the registration queue peaked at 25 minutes on the first morning. It was handled by opening two extra badge printers and adding a walk-in lane [S1].\n\n- The event drew 769 attendees out of 959 confirmed registrations (1,030 total), an 80% show-up rate, with an average program rating of 3.90 and an NPS of -1 [S3].\n- 10 sponsors took part; 9 met their lead target, collecting 1,567 leads against a combined target of 1,270 [S3].\n- The event cost $335,500 against a $326,000 budget (+2.9%) [S3].",
         "doc_ids": [
           "report_EV001",
-          "report_EV008",
-          "report_EV004"
+          "report_EV008"
         ],
-        "seconds": 8.31
+        "seconds": 8.41
       },
       {
         "id": "Q02",
@@ -5049,7 +5041,7 @@
         "doc_ids": [
           "report_EV004"
         ],
-        "seconds": 4.36
+        "seconds": 2.84
       },
       {
         "id": "Q03",
@@ -5066,13 +5058,13 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "At the New York Revenue Ops Conference 2025, Harborview Software collected **317 leads** against a target of **145**, reaching 219% attainment [S1].",
+        "answer": "Harborview Software collected **317 leads** at the New York Revenue Ops Conference 2025, against a target of **145** (219% attainment) [S1].",
         "doc_ids": [
           "report_EV006",
           "report_EV007",
           "report_EV009"
         ],
-        "seconds": 3.08
+        "seconds": 3.64
       },
       {
         "id": "Q04",
@@ -5089,14 +5081,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "Quillon Security asked for attendee job titles in the lead export at the San Francisco DevSecOps Forum 2025 [S1].\n\n- Quillon was the Title Sponsor, collecting 413 leads against a 360 target (115% attainment) [S1].\n- The standard lead export already includes job title (name, company, job title, source, notes), so the request was for that field to be included [S5].",
+        "answer": "Quillon Security asked for attendee job titles in the lead export at the San Francisco DevSecOps Forum 2025 [S1].\n\n- Quillon Security was the Title Sponsor, collecting 413 leads against a target of 360 (115% attainment) [S1].",
         "doc_ids": [
           "report_EV008",
-          "report_EV005",
-          "sop_booth_logistics",
-          "sop_virtual_streaming"
+          "report_EV005"
         ],
-        "seconds": 4.34
+        "seconds": 4.3
       },
       {
         "id": "Q05",
@@ -5118,7 +5108,7 @@
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 2.41
+        "seconds": 2.61
       },
       {
         "id": "Q06",
@@ -5135,12 +5125,12 @@
           "relevance": 1.0,
           "correctness": 0.9
         },
-        "answer": "The Title Sponsor package includes: **keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff** [S1].\n\n- It's an in-person/hybrid package with a 20\u00d720 ft island booth, priced at **$100,500** in 2026 (up from $95,000 in 2025) [S1][S2].\n- Lead target is **220 per 1,000 attendees** [S1].\n- New for 2026: if leads reach less than 70% of target, the sponsor receives a credit of 15% of the package price toward the following year [S3].",
+        "answer": "The Title Sponsor package includes: **keynote introduction, logo on all signage and the event app, 10 full passes, and lead retrieval for 4 staff** [S1].\n\n- In-person/hybrid format, 20\u00d720 ft island booth, lead target of 220 per 1,000 attendees [S1].\n- Price is $100,500 in 2026 (up from $95,000 in 2025) [S1][S2].\n- New for 2026: if leads reach less than 70% of target, the sponsor receives a credit of 15% of the package price toward the following year [S3].",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 2.69
+        "seconds": 5.08
       },
       {
         "id": "Q07",
@@ -5157,12 +5147,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "A cancellation 60 days before the event falls in the 30\u201390 day window, so **25% of fees paid is refunded** [S1][S2].\n\n- Cancellations more than 90 days out receive a 75% refund; within 30 days, nothing is refunded [S1][S2].\n- The 50% deposit is due at signing and the balance 60 days before the event [S1][S2].",
+        "answer": "A cancellation 60 days before the event falls in the 30\u201390 day window, so the sponsor receives a **25% refund of fees paid** [S1][S2].\n\n- Cancellations more than 90 days out get a 75% refund; within 30 days, nothing is refunded [S1][S2].\n- Note the balance is due 60 days before the event, so at that point the full fee would already be paid [S1][S2].",
         "doc_ids": [
           "pricing_2025",
           "pricing_2026"
         ],
-        "seconds": 2.98
+        "seconds": 2.89
       },
       {
         "id": "Q08",
@@ -5179,12 +5169,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "Under the 2026 lead guarantee, a Premier Booth sponsor whose leads reach less than 70% of its lead target receives a credit of 15% of its package price toward the following year [S1][S5]. This guarantee is new for 2026 and applies to Title Sponsor and Premier Booth sponsors [S1][S5].\n\n- The Premier Booth package is $51,000 in 2026 [S7].\n- Note this guarantee is only in the 2026 brochure; the 2025 pricing does not include it [S3][S6].",
+        "answer": "Under the 2026 lead guarantee, a Premier Booth sponsor whose leads reach less than 70% of their lead target receives a credit of 15% of their package price toward the following year [S1][S5]. This guarantee is new for 2026 and also applies to Title Sponsor packages [S1][S5].\n\n- The Premier Booth package is $51,000 in 2026 [S2].\n- Note this guarantee is only in the 2026 brochure; the 2025 pricing does not mention it [S3][S6].",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 4.69
+        "seconds": 5.7
       },
       {
         "id": "Q09",
@@ -5206,7 +5196,7 @@
           "sop_booth_logistics",
           "sop_registration_desk"
         ],
-        "seconds": 1.92
+        "seconds": 1.88
       },
       {
         "id": "Q10",
@@ -5229,7 +5219,7 @@
           "sop_virtual_streaming",
           "sop_venue_setup"
         ],
-        "seconds": 1.95
+        "seconds": 1.94
       },
       {
         "id": "Q11",
@@ -5251,7 +5241,7 @@
           "sop_virtual_streaming",
           "sop_registration_desk"
         ],
-        "seconds": 1.86
+        "seconds": 1.78
       },
       {
         "id": "Q12",
@@ -5268,12 +5258,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "We proposed keeping Quillon Security's current packages and adding a sponsored breakout session at each event [S1]. This was the main ask of the renewal meeting [S1].\n\nSupporting context from the review deck:\n- Quillon delivered 1,558 total leads against a target of 1,455 (107%), at a cost per lead of $159 [S3].\n- Its best event was San Francisco DevSecOps Forum 2025 with 413 leads, and it met targets at 5 of 6 events [S3].",
+        "answer": "We proposed keeping Quillon Security's current packages and adding a sponsored breakout session at each event [S1].",
         "doc_ids": [
           "deck_SP016",
           "deck_SP014"
         ],
-        "seconds": 2.47
+        "seconds": 2.2
       },
       {
         "id": "Q13",
@@ -5297,7 +5287,7 @@
           "abstracts_EV005",
           "abstracts_EV012"
         ],
-        "seconds": 2.08
+        "seconds": 2.3
       },
       {
         "id": "Q14",
@@ -5319,7 +5309,7 @@
           "abstracts_EV012",
           "abstracts_EV003"
         ],
-        "seconds": 2.14
+        "seconds": 2.0
       },
       {
         "id": "Q15",
@@ -5336,7 +5326,7 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "**Chicago DevSecOps Forum 2024** (Lakeshore Conference Center, in-person): the registration queue peaked at 25 minutes on the first morning; two extra badge printers were opened and a walk-in lane was added [S1].\n\n**Austin Clinical Innovation Congress 2026** (Lone Star Convention Center, hybrid): catering ran out of vegetarian lunches on day 1; the caterer increased vegetarian portions by 40% for the remaining days [S5].\n\nThe two events had unrelated operational issues \u2014 one was a registration/badge bottleneck, the other a catering shortfall.",
+        "answer": "**Chicago DevSecOps Forum 2024** (Lakeshore Conference Center): the registration queue peaked at 25 minutes on the first morning; two extra badge printers were opened and a walk-in lane was added [S1].\n\n**Austin Clinical Innovation Congress 2026** (Lone Star Convention Center): catering ran out of vegetarian lunches on day 1; the caterer increased vegetarian portions by 40% for the remaining days [S5].\n\n- Both were resolved mid-event with operational adjustments (extra printers/walk-in lane vs. increased catering portions).\n- Chicago was an in-person tech event (Apr 2\u20134, 2024); Austin was a hybrid medical event (May 28\u201330, 2026) [S2][S6].",
         "doc_ids": [
           "report_EV001",
           "report_EV004",
@@ -5345,7 +5335,7 @@
           "report_EV002",
           "report_EV003"
         ],
-        "seconds": 3.97
+        "seconds": 6.0
       },
       {
         "id": "Q16",
@@ -5368,7 +5358,7 @@
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 4.56
+        "seconds": 5.38
       },
       {
         "id": "Q17",
@@ -5385,12 +5375,12 @@
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "The show-up rate at the Chicago DevSecOps Forum 2024 was **80%** (769 attendees out of 959 confirmed registrations; 1,030 total registrations) [S1].\n\n- The report's recommendation to improve it: send a reminder email **48 hours before the event**, with the agenda and a calendar invite, since too many confirmed registrants did not show up [S4].\n- The event ran slightly over budget at $335,500 vs. $326,000 (+2.9%), and 9 of 10 sponsors met their lead target [S1].",
+        "answer": "The show-up rate at the Chicago DevSecOps Forum 2024 was **80%** (769 attendees out of 959 confirmed registrations; 1,030 total registrations) [S1].\n\nThe report recommended sending a **reminder email 48 hours before the event, with the agenda and a calendar invite**, to reduce the number of confirmed registrants who didn't show up [S4].\n\n- The event cost $335,500 against a $326,000 budget (+2.9%) [S1].\n- 9 of 10 sponsors met their lead target; sponsors collected 1,567 leads against a combined target of 1,270 [S1].",
         "doc_ids": [
           "report_EV001",
           "report_EV008"
         ],
-        "seconds": 3.17
+        "seconds": 3.78
       },
       {
         "id": "Q18",
@@ -5403,15 +5393,15 @@
           "routing_accuracy": null,
           "within_8s": 1.0,
           "withheld_rate": 0.0,
-          "faithfulness": 0.8,
+          "faithfulness": 0.9,
           "relevance": 1.0,
           "correctness": 1.0
         },
-        "answer": "I couldn't find the hotel room rate for speakers at the Chicago EdTech Leaders Summit 2025 in our documents.\n\nThe post-event report for that event covers the executive summary, audience breakdown, program highlights, and sponsor results, but it does not mention speaker hotel room rates. The operations SOPs also returned nothing relevant. I'd suggest checking the event's speaker logistics or hotel contract documents, which aren't in the available sources.",
+        "answer": "I couldn't find the hotel room rate for speakers at the Chicago EdTech Leaders Summit 2025 in our documents.\n\nThe post-event report for that event covers the executive summary, audience breakdown, program highlights, and sponsor results, but it does not mention a speaker hotel room rate. The operations SOPs also returned nothing relevant. If you have a speaker logistics or hotel contract document, I could look there.",
         "doc_ids": [
           "report_EV004"
         ],
-        "seconds": 3.73
+        "seconds": 5.66
       },
       {
         "id": "Q19",
@@ -5426,13 +5416,13 @@
           "withheld_rate": 0.0,
           "faithfulness": 0.75,
           "relevance": 1.0,
-          "correctness": 0.9
+          "correctness": 1.0
         },
-        "answer": "I couldn't find this in our documents. The New York Revenue Ops Conference 2025 post-event report covers the audience, program highlights, and financials (the event cost $329,700 against a $324,000 budget) [S2], but it does not name a catering company or a catering charge. The operations SOPs also contain nothing about catering for this event.",
+        "answer": "I couldn't find this in our documents. The New York Revenue Ops Conference 2025 post-event report covers the audience, program highlights, and financials (the event cost $329,700 against a $324,000 budget) [S2], but it does not name the catering company or its charge. The operations SOPs also contain no catering information for this event.",
         "doc_ids": [
           "report_EV006"
         ],
-        "seconds": 4.12
+        "seconds": 3.59
       },
       {
         "id": "Q20",
@@ -5449,12 +5439,12 @@
           "relevance": null,
           "correctness": null
         },
-        "answer": "In the current selection, the 2026 events are:\n\n- **Toronto Higher Ed Futures Conference 2026** \u2014 March 21, 2026 [T3]\n- **Boston Cloud Native Conference 2026** \u2014 May 2, 2026 [T3]\n- **Austin Clinical Innovation Congress 2026** \u2014 May 28, 2026 [T3]\n\nThe rest of the portfolio (9 events) are 2024\u20132025 events. The pricing documents confirm the 2026 sponsorship packages but don't list a full 2026 schedule [S2].",
+        "answer": "In the current selection, next year's (2026) events are:\n\n- **Toronto Higher Ed Futures Conference 2026** \u2014 March 21, 2026 [T3]\n- **Boston Cloud Native Conference 2026** \u2014 May 2, 2026 [T3]\n- **Austin Clinical Innovation Congress 2026** \u2014 May 28, 2026 [T3]\n\nThe other nine events in the selection are 2024\u20132025 events.",
         "doc_ids": [
           "pricing_2026",
           "pricing_2025"
         ],
-        "seconds": 5.73
+        "seconds": 4.97
       }
     ]
   }

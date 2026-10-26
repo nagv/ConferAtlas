@@ -135,3 +135,12 @@ def test_search_payloads_hold_no_record_ids(kit):
     payload = kit.run("search_event_reports", {"query": "sponsor results leads target"})
     text = json.dumps(payload)
     assert not pa._RAW_ID_PATTERN.search(text)
+
+
+def test_a_whole_package_table_reaches_the_model(kit):
+    """The 2026 table is about 1,300 characters; a 1,200 cap cut off its last row, the Virtual Booth price."""
+    from core.rag.agent_tools import MAX_SOURCE_CHARS
+    result = kit.run("search_pricing", {"query": "Virtual Booth package price 2026 table"})
+    texts = [s["text"] for s in result["sources"]]
+    assert any("$12,500" in t for t in texts), "the Virtual Booth 2026 price was cut off"
+    assert all(len(t) <= MAX_SOURCE_CHARS for t in texts)

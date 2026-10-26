@@ -1,6 +1,6 @@
 # Week 3 evaluation results: Sponsor Renewal Desk
 
-Generated 2026-10-25T15:00:02 on 6 golden sponsors (`data/synthetic/eval/renewal_golden.json`). Desk model: `nebius:deepseek-ai/DeepSeek-V4-Flash-0731`; judge: `zai-org/GLM-5.3`. LangSmith dataset: `conferatlas-renewal-golden-6`.
+Generated 2026-10-25T23:43:00 on 6 golden sponsors (`data/synthetic/eval/renewal_golden.json`). Desk model: `nebius:deepseek-ai/DeepSeek-V4-Flash-0731`; judge: `zai-org/GLM-5.3`. LangSmith dataset: `conferatlas-renewal-golden-6`.
 
 ## Summary
 
@@ -15,23 +15,23 @@ Generated 2026-10-25T15:00:02 on 6 golden sponsors (`data/synthetic/eval/renewal
 | Events below 80% named | 100% |
 | Deck cited (sponsors with a deck) | 100% |
 | Recommendation in the sensible range | 100% |
-| Judge: usefulness | 80% |
-| Judge: grounding | 81% |
-| Judge: tone | 91% |
+| Judge: usefulness | 79% |
+| Judge: grounding | 83% |
+| Judge: tone | 92% |
 | Reviewer catch rate (broken packs rejected) | 100% of 36 |
-| Median time per pack | 110.5 s |
-| Mean tool calls / model calls per pack | 14.667 / 30.167 |
+| Median time per pack | 43.7 s |
+| Mean tool calls / model calls per pack | 12.833 / 30.5 |
 
 ## Per sponsor
 
 | Sponsor | Status | Draft attempts | Figures | Recommended | Move | Checklist | Judge (use/ground/tone) | Time |
 |---|---|---|---|---|---|---|---|---|
-| Polarion Partners | approved | 2 | 100% | Premier Booth | keep | pass | 0.80/0.65/0.85 | 124.0 s |
-| Larkspur Capital | approved | 1 | 100% | Title Sponsor | upgrade | pass | 0.90/0.80/0.95 | 110.5 s |
-| Ironwood Cloud | approved | 1 | 100% | Standard Booth | keep | pass | 0.90/0.80/0.95 | 105.9 s |
-| Orchidia Cloud | approved | 1 | 100% | Premier Booth | keep | pass | 0.55/0.85/0.85 | 109.1 s |
-| Quillon Security | approved | 1 | 100% | Title Sponsor | upgrade | pass | 0.80/0.85/0.90 | 96.5 s |
-| Meridian Capital | approved | 1 | 100% | Title Sponsor | upgrade | pass | 0.85/0.90/0.95 | 159.3 s |
+| Polarion Partners | approved | 2 | 100% | Premier Booth | keep | pass | 0.95/0.90/1.00 | 58.1 s |
+| Larkspur Capital | approved | 1 | 100% | Title Sponsor | upgrade | pass | 0.90/0.90/0.95 | 37.9 s |
+| Ironwood Cloud | approved | 1 | 100% | Standard Booth | keep | pass | 0.90/0.95/0.95 | 39.1 s |
+| Orchidia Cloud | approved | 1 | 100% | Premier Booth | keep | pass | 0.50/0.70/0.80 | 43.7 s |
+| Quillon Security | approved | 1 | 100% | Title Sponsor | upgrade | pass | 0.65/0.70/0.90 | 37.6 s |
+| Meridian Capital | approved | 1 | 100% | Title Sponsor | upgrade | pass | 0.85/0.85/0.90 | 62.6 s |
 
 ## Reviewer catch rate by fault
 
@@ -46,11 +46,11 @@ Generated 2026-10-25T15:00:02 on 6 golden sponsors (`data/synthetic/eval/renewal
 
 ## Notes
 
-- Polarion Partners (judge): The recommendation's rationale misstates the evidence — it claims all in-person/hybrid Premier Booth events "met or beat target" when Chicago EdTech hit only 77% and Austin Revenue Ops 98%, and it calls the in-person Chicago event a "virtual" event — even though the event-by-event figures and the named weak events are otherwise accurate.
-- Larkspur Capital (judge): All lead, attainment, cost-per-lead and pricing figures match the evidence and the required "no record found" disclosure is present, but the pack asserts the talent-recruiting goal "was met" when the evidence only shows lead targets were exceeded, not that the recruiting goal itself was achieved.
-- Ironwood Cloud (judge): Grounding is the weakest: the figures are all accurate and the keep-Standard-Booth recommendation is well supported, but the advice to shift toward virtual attributes the shortfall to format based on a single virtual event (and despite S2 showing the DevSecOps event overall beat its combined sponsor target), and calling 98% "performing at target" slightly overstates the just-under-target result.
-- Orchidia Cloud (judge): The pack is well-structured and its figures all check out, but it directly contradicts the organizer's own deck, which presents a tier upgrade plus keynote slot as the main ask of the meeting, so a sponsorship manager would need to rewrite the recommendation (or the deck) before sending.
-- Quillon Security (judge): The pack is nearly sendable — clear keep-the-package recommendation, priced 2026 offer, guarantee and next steps covering all six events — but it explicitly declines the sponsored breakout sessions that the deck [S7/S17] flags as the main ask of the meeting, a contradiction a sponsorship manager would need to edit, and it also asserts Toronto's shortfall is a "virtual-format" problem despite the sponsor's other virtual event hitting 130% of target.
-- Meridian Capital (judge): All figures and package terms are accurately cited and the keep-the-same-level recommendation is well justified by the 164% attainment with no weak event, but the pack dismisses the deck's proposed keynote add-on with a rationale about the included breakout session that doesn't actually address it, a gap a sponsorship manager would likely edit before sending.
+- Polarion Partners (judge): Grounding is the lowest score: every figure quoted is accurate and all four weak events are named, but the Premier Booth rationale cites only its two best events (111%, 114%) while omitting that Chicago, also Premier Booth, hit 77%.
+- Larkspur Capital (judge): Every figure traces cleanly to the fact sheet and cited pricing passages and the required "no record found" disclosure is present, but the pack silently picks the higher of two conflicting add-on price lists (S1 vs S3) and offers no win-back framing for a sponsor who lapsed, keeping it just short of perfect.
+- Ironwood Cloud (judge): Every figure (309/315 leads, 98%, per-event attainment and cost-per-lead, 2026 prices, deposit terms) matches the evidence and the keep-the-same-package recommendation is correctly justified, but the pack misses the chance to tie audience data to Ironwood's product-launch and recruiting goals, slightly limiting its usefulness.
+- Orchidia Cloud (judge): The pack cites the deck but recommends against the tier upgrade that the deck presents as the main ask, so a sponsorship manager would need substantial edits before sending it.
+- Quillon Security (judge): The core recommendation needs edits before sending: the claim that the shortfall is "the virtual channel, not the booth" is contradicted by the sponsor's own 130% virtual event (and other Digital Premier sponsors' 180–196% at Toronto), and the $8,500 breakout-session add-on is redundant for Digital Premier, which already includes one.
+- Meridian Capital (judge): Every cited figure checks out (950/580 leads, per-event attainment and CPLs, package and add-on prices, guarantee and payment terms) and the upgrade direction matches both the results and the prior deck proposal, but the "strong, efficient lead capture" claim has no benchmark in the evidence, the lanyard add-on and the broadening of the deck's Toronto-specific ask into "Title Sponsor across 2026" are agent additions, and the pitch never ties the offer to Meridian's stated goals of talent recruiting and brand awareness.
 
 Every approval was given automatically, so the scores measure the agents and the reviewer, not a person's edits. Generated by `scripts/run_renewal_eval.py`.
