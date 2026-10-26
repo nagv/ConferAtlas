@@ -12,7 +12,7 @@ from tests.conftest import refresh, seed_upload
 
 ROOT = Path(__file__).resolve().parent.parent
 PAGES = ["overview", "event_drilldown", "sponsor_performance", "sponsor_report", "audience", "feedback",
-         "ask", "ai_insights", "about"]
+         "ask", "ai_insights", "renewals", "about"]
 
 # Same setup as frontend/app.py, but renders a single page instead of the navigation.
 SCRIPT = """
@@ -365,6 +365,7 @@ DESCRIPTIONS = {"overview": "How every event performed", "event_drilldown": "Eve
                 "sponsor_performance": "How sponsors fared", "sponsor_report": "One sponsor's results",
                 "audience": "Who registered and attended", "feedback": "What attendees said",
                 "ask": "Ask questions in plain English", "ai_insights": "AI-written sponsor pitches",
+                "renewals": "A team of AI agents drafts a renewal pack",
                 "about": "What this app is"}
 
 

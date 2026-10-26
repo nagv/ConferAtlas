@@ -100,7 +100,7 @@ class AgentTarget:
         except FutureTimeout:
             return {"answer": "", "error": f"no answer within {QUESTION_LIMIT_S:.0f} s", "seconds": QUESTION_LIMIT_S,
                     "doc_ids": [], "corpora": [], "tools": [], "refused": True, "evidence": "",
-                    "input_tokens": 0, "output_tokens": 0}
+                    "withheld": False, "input_tokens": 0, "output_tokens": 0}
         finally:
             pool.shutdown(wait=False)
 
@@ -128,6 +128,7 @@ class AgentTarget:
                 "corpora": sorted({t.removeprefix("search_") for t in tools if t.startswith("search_")}),
                 "tools": tools, "refused": is_refusal(text),
                 "evidence": _evidence(sources, numeric),
+                "withheld": bool(answer and answer.withheld),
                 "input_tokens": recorder.total_input_tokens, "output_tokens": recorder.total_output_tokens}
 
 
@@ -152,6 +153,19 @@ def mrr(inputs, outputs, reference_outputs) -> dict:
         return {"key": "mrr", "score": None}
     rank = next((i for i, d in enumerate(outputs["doc_ids"], start=1) if d in expected), None)
     return {"key": "mrr", "score": 1.0 / rank if rank else 0.0}
+
+
+def context_recall(inputs, outputs, reference_outputs) -> dict:
+    """Share of the expected documents the agent actually retrieved (retrieval quality inside the agent)."""
+    expected = set(reference_outputs["expected_doc_ids"])
+    if not expected:
+        return {"key": "context_recall", "score": None}
+    return {"key": "context_recall", "score": len(expected & set(outputs["doc_ids"])) / len(expected)}
+
+
+def withheld(inputs, outputs, reference_outputs) -> dict:
+    """1 when the final answer gate withheld claims from this answer."""
+    return {"key": "withheld_rate", "score": float(bool(outputs.get("withheld")))}
 
 
 def refusal_accuracy(inputs, outputs, reference_outputs) -> dict:
@@ -239,7 +253,8 @@ def _grade_from_text(message) -> Grade | None:
 
 
 RETRIEVAL_EVALUATORS = [hit_rate, mrr, refusal_accuracy, within_latency]
-AGENT_EVALUATORS = [hit_rate, mrr, refusal_accuracy, routing_accuracy, within_latency]
+AGENT_EVALUATORS = [hit_rate, mrr, context_recall, refusal_accuracy, routing_accuracy, within_latency, withheld]
+ANSWER_OK = 0.75   # judge correctness at or above this counts as a good final answer
 
 
 # --- running and summarising ----------------------------------------------------------------------
@@ -279,7 +294,30 @@ def summarize(setting: str, kind: str, rows: list[dict]) -> dict:
     tokens = [r["outputs"].get("input_tokens", 0) + r["outputs"].get("output_tokens", 0) for r in rows]
     if any(tokens):
         out["tokens_per_question"] = round(statistics.mean(tokens))
+    out.update(stage_breakdown(rows))
     return out
+
+
+def stage_breakdown(rows: list[dict]) -> dict:
+    """Where the misses come from, for answerable questions the judge graded.
+
+    Retrieval is right when an expected document was retrieved (hit rate 1); the answer is right when the
+    judge's correctness is at least ANSWER_OK. A wrong answer after a hit is an answer-stage problem
+    (prompt, model or the final gate); a wrong answer after a miss is a retrieval-stage problem.
+    """
+    graded = [r for r in rows if r["scores"].get("hit_rate") is not None and r["scores"].get("correctness") is not None]
+    if not graded:
+        return {}
+    hit = [r for r in graded if r["scores"]["hit_rate"] == 1]
+    good = {id(r) for r in graded if r["scores"]["correctness"] >= ANSWER_OK}
+    return {
+        "stage_graded": len(graded),
+        "stage_both_ok": sum(id(r) in good for r in hit),
+        "stage_answer_problem": sum(id(r) not in good for r in hit),
+        "stage_retrieval_problem": sum(id(r) not in good for r in graded if r not in hit),
+        "stage_rescued": sum(id(r) in good for r in graded if r not in hit),
+        "correct_given_hit": round(statistics.mean(r["scores"]["correctness"] for r in hit), 4) if hit else None,
+    }
 
 
 def write_results(path: Path, summaries: list[dict], per_question: dict[str, list[dict]], meta: dict) -> None:
@@ -293,9 +331,11 @@ def write_results(path: Path, summaries: list[dict], per_question: dict[str, lis
 
 
 def markdown_table(summaries: list[dict]) -> str:
-    columns = [("setting", "Setting"), ("hit_rate", "Hit rate"), ("mrr", "MRR"), ("routing_accuracy", "Routing"),
+    columns = [("setting", "Setting"), ("hit_rate", "Hit rate"), ("mrr", "MRR"), ("context_recall", "Recall"),
+               ("routing_accuracy", "Routing"),
                ("refusal_accuracy", "Refusal"), ("faithfulness", "Faithfulness"), ("relevance", "Relevance"),
-               ("correctness", "Correctness"), ("judged", "Judged"), ("within_8s", "≤ 8 s"), ("latency_median_s", "Median s"),
+               ("correctness", "Correctness"), ("judged", "Judged"), ("withheld_rate", "Withheld"),
+               ("within_8s", "≤ 8 s"), ("latency_median_s", "Median s"),
                ("latency_p90_s", "p90 s")]
     present = [(k, label) for k, label in columns if any(s.get(k) is not None for s in summaries)]
 
@@ -312,6 +352,21 @@ def markdown_table(summaries: list[dict]) -> str:
 
     lines = ["| " + " | ".join(label for _, label in present) + " |", "|" + "---|" * len(present)]
     lines += ["| " + " | ".join(cell(k, s.get(k), s) for k, _ in present) + " |" for s in summaries]
+    return "\n".join(lines)
+
+
+def stage_table(summaries: list[dict]) -> str:
+    """Retrieval quality and final-answer quality side by side, per agent setting."""
+    rows = [s for s in summaries if s.get("stage_graded")]
+    if not rows:
+        return ""
+    lines = ["| Setting | Retrieval right, answer right | Retrieval right, answer wrong (answer stage) | "
+             "Retrieval missed, answer wrong (retrieval stage) | Retrieval missed, answer right | "
+             "Correctness when retrieval was right |", "|---|---|---|---|---|---|"]
+    for s in rows:
+        given = "–" if s.get("correct_given_hit") is None else f"{s['correct_given_hit']:.0%}"
+        lines.append(f"| {s['setting']} | {s['stage_both_ok']}/{s['stage_graded']} | {s['stage_answer_problem']} | "
+                     f"{s['stage_retrieval_problem']} | {s['stage_rescued']} | {given} |")
     return "\n".join(lines)
 
 

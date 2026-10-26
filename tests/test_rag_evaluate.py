@@ -163,3 +163,24 @@ def test_a_missing_grade_is_not_a_score():
     summary = ev.summarize("s", "agent", rows)
     assert summary["judged"] == 1 and summary["faithfulness"] == 0.5
     assert "| 1/2 |" in ev.markdown_table([summary])
+
+
+def test_context_recall_and_withheld_rate():
+    ref = {"expected_doc_ids": ["a", "b"], "expected_corpora": [], "answerable": True}
+    assert ev.context_recall({}, {"doc_ids": ["b", "c"]}, ref)["score"] == 0.5
+    assert ev.context_recall({}, {"doc_ids": []}, {**ref, "expected_doc_ids": []})["score"] is None
+    assert ev.withheld({}, {"withheld": True}, ref) == {"key": "withheld_rate", "score": 1.0}
+
+
+def test_stage_breakdown_separates_retrieval_and_answer_problems():
+    def row(hit, correct):
+        return {"scores": {"hit_rate": hit, "correctness": correct}, "outputs": {"seconds": 1.0}}
+
+    rows = [row(1.0, 1.0), row(1.0, 0.2), row(0.0, 0.1), row(0.0, 0.9),
+            {"scores": {"hit_rate": None, "correctness": 1.0}, "outputs": {"seconds": 1.0}}]  # unanswerable: left out
+    stages = ev.stage_breakdown(rows)
+    assert stages == {"stage_graded": 4, "stage_both_ok": 1, "stage_answer_problem": 1,
+                      "stage_retrieval_problem": 1, "stage_rescued": 1, "correct_given_hit": 0.6}
+    table = ev.stage_table([{"setting": "s", **stages}])
+    assert "| s | 1/4 | 1 | 1 | 1 | 60% |" in table
+    assert ev.stage_table([{"setting": "retrieval only"}]) == ""

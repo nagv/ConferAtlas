@@ -12,8 +12,11 @@ Guardrails
   chart a ledger table, so charts use computed results only.
 - After the model answers, every number in the text is checked against the
   ledger (allowing rounding, %, K/M/B). Untraceable numbers trigger one
-  rewrite request; if any remain, they are returned in ``unverified_numbers``
-  so the UI can flag them.
+  rewrite request. A final gate (``answer_gate``) then withholds what is still
+  unsupported instead of showing it with a warning: each sentence with a
+  figure no tool returned or a citation that was never retrieved, a
+  non-refusal when every search came back empty, and an answer that used no
+  tool even after the reminder. ``withheld`` says why.
 - Limits: tool calls per question, model turns, a per-request timeout, an
   overall deadline, and a cap on how much chat history is sent.
 - Documents (Agentic RAG, Week 2): with a ``DocumentSearch`` the agent also gets
@@ -107,6 +110,7 @@ class AgentAnswer:
     tool_calls: int = 0
     sources: list = field(default_factory=list)   # core.rag.agent_tools.Source, cited as [S1], [S2]
     trace: list[dict] = field(default_factory=list)  # plan, tool and answer steps, in order
+    withheld: list[str] = field(default_factory=list)  # why the final gate withheld claims, if it did
 
 
 class AgentError(RuntimeError):
@@ -456,6 +460,75 @@ def unverified_numbers(answer: str, allowed_sources: list[Any]) -> list[str]:
     return list(dict.fromkeys(misses))
 
 
+# --- the final answer gate ---------------------------------------------------------
+
+WITHHELD_NO_TOOLS = ("I can only answer from the portfolio data and documents, and no tool returned a result for "
+                     "this question, so I haven't answered it.")
+WITHHELD_NOT_FOUND = "I couldn't find this in our documents."
+WITHHELD_UNVERIFIED = ("I couldn't verify this answer against the calculations and documents, so I've left it out. "
+                       "The calculations below show what the tools returned.")
+_SENTENCE_END = re.compile(r"(?<=[.!?])\s+(?=[A-Z0-9\[*(\"'$])")
+_CITED = re.compile(r"\[(S\d+)\]")
+
+
+def _is_refusal(text: str) -> bool:
+    from core.rag.evaluate import is_refusal
+    return is_refusal(text)
+
+
+def _has_token(sentence: str, token: str) -> bool:
+    """``token`` as a whole number in ``sentence`` ("5,000" is not in "15,000")."""
+    return re.search(rf"(?<![\d.,]){re.escape(token)}(?![\d])", sentence) is not None
+
+
+def answer_gate(text: str, *, documents_on: bool, tool_calls: int, searches: int, found_any: bool,
+                numeric_results: int, misses: list[str], known_sources: set[str]) -> tuple[str, list[str]]:
+    """What may be shown after the reminder and the one rewrite have had their chance.
+
+    Claims that are still unsupported are withheld, not shown with a warning:
+    - an answer that used no tool at all (it can only come from general knowledge);
+    - a non-refusal when every document search came back empty and no figure was computed;
+    - each sentence holding a figure no tool returned, or citing a source that was never retrieved.
+    If what is left no longer starts with the direct answer, the whole answer is withheld.
+    Returns the text to show and one reason per withholding.
+    """
+    refusal = _is_refusal(text)
+    if documents_on and tool_calls == 0 and not refusal:
+        return WITHHELD_NO_TOOLS, ["The answer used no tool, even after a reminder."]
+    if documents_on and searches and not found_any and not numeric_results and not refusal:
+        return WITHHELD_NOT_FOUND, ["Every document search came back empty, so the answer had no evidence."]
+
+    bad_citations = sorted(set(_CITED.findall(text)) - known_sources, key=lambda s: int(s[1:]))
+    if not misses and not bad_citations:
+        return text, []
+    kept_lines, dropped, first_dropped = [], 0, False
+    content_seen = False
+    for line in text.splitlines():
+        sentences = _SENTENCE_END.split(line) if line.strip() else [line]
+        keep = [s for s in sentences if not any(_has_token(s, t) for t in misses)
+                and not any(f"[{c}]" in s for c in bad_citations)]
+        removed = len(sentences) - len(keep)
+        if not content_seen and line.strip() and not line.lstrip().startswith("#") and \
+                (not keep or keep[0] is not sentences[0]):
+            first_dropped = True  # the opening sentence, the direct answer, was unsupported
+        if line.strip() and not line.lstrip().startswith("#"):
+            content_seen = True
+        dropped += removed
+        rest = " ".join(s for s in keep if s.strip())
+        if rest.strip(" -*•") or not line.strip():
+            kept_lines.append(rest if removed else line)
+    reasons = []
+    if misses:
+        reasons.append(f"Figures not traced to a calculation or document were withheld: {', '.join(misses)}.")
+    if bad_citations:
+        reasons.append(f"Claims citing sources that were never retrieved were withheld: {', '.join(bad_citations)}.")
+    remaining = re.sub(r"\n{3,}", "\n\n", "\n".join(kept_lines)).strip()
+    if first_dropped or not re.search(r"[A-Za-z]{3}", remaining):
+        return WITHHELD_UNVERIFIED, reasons
+    note = f"\n\n_{dropped} statement{'s' if dropped != 1 else ''} withheld: not supported by the tool results._"
+    return remaining + note, reasons
+
+
 # --- the agent loop ---------------------------------------------------------------
 
 def _text(content: Any) -> str:
@@ -555,10 +628,19 @@ def ask_portfolio(
             warnings.append(f"Could not double-check the figures ({exc}).")
 
     text = final.strip() or "I could not produce an answer."
-    trace.append({"step": "answer", "text": text})
     sources = list(toolkit.documents.sources) if toolkit.documents is not None else []
+    searches = [r for r in toolkit.ledger if r.tool.startswith("search_")]
+    numeric = [r for r in toolkit.ledger if not r.tool.startswith("search_") and "error" not in r.result]
+    text, withheld = answer_gate(
+        text, documents_on=toolkit.documents is not None, tool_calls=calls, searches=len(searches),
+        found_any=any(r.result.get("found") for r in searches), numeric_results=len(numeric), misses=misses,
+        known_sources={s.id for s in sources})
+    if withheld:
+        trace.append({"step": "check", "text": "Withheld: " + " ".join(withheld)})
+    trace.append({"step": "answer", "text": text})
     return AgentAnswer(text=text, calculations=list(toolkit.ledger), charts=list(toolkit.charts),
-                       unverified_numbers=misses, warnings=warnings, tool_calls=calls, sources=sources, trace=trace)
+                       unverified_numbers=misses, warnings=warnings, tool_calls=calls, sources=sources, trace=trace,
+                       withheld=withheld)
 
 
 def _summary(payload: dict) -> str:

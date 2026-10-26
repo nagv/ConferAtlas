@@ -18,11 +18,16 @@ langchain-google-genai>=2.1,<5.0  # Google AI Studio (Gemini API, free tier)
 chromadb>=1.0,<2.0                 # local vector database, saved to data/index/chroma
 langchain-chroma>=1.0,<2.0
 langchain-text-splitters>=1.0,<2.0
-pymupdf>=1.26,<2.0                 # PDF text and tables (also writes the synthetic PDFs)
+pymupdf>=1.26,<2.0                 # PDF text and tables (also writes the synthetic PDFs and renewal-pack PDFs)
+markdown-it-py>=3.0,<5.0           # renewal packs: Markdown to HTML for the PDF
 python-docx>=1.1,<2.0              # Word documents
 python-pptx>=1.0,<2.0              # PowerPoint decks
 rank-bm25>=0.2.2,<1.0              # keyword (BM25) search for hybrid retrieval
 flashrank>=0.2.10,<1.0             # small CPU cross-encoder for re-ranking (no torch)
+
+# --- Multi-agent (Week 3) ---
+deepagents>=0.7.28,<0.8            # orchestrator + subagents, todos, skills, files, human approval
+langgraph-checkpoint-sqlite>=3.1,<4.0  # durable checkpoints, so approvals survive a restart
 
 # --- Config ---
 python-dotenv>=1.0

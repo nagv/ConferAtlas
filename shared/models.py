@@ -548,6 +548,7 @@ class AgentAnswerModel(Contract):
     sources: list[SourceModel] = Field(default_factory=list)
     trace: list[TraceStepModel] = Field(default_factory=list)
     documents_note: str = ""     # why document search was off for this answer, if it was
+    withheld: list[str] = Field(default_factory=list)   # why the final check withheld claims, if it did
 
 
 class ChatResponse(Contract):
@@ -692,3 +693,99 @@ class ExperimentsResponse(Contract):
     available: bool
     results: list[dict[str, Any]] = Field(default_factory=list)
     generated_at: str = ""
+
+
+# --- Sponsor Renewal Desk (Week 3) --------------------------------------------------------------
+
+SponsorTier = Literal["platinum", "gold", "silver", "bronze"]
+MAX_RENEWAL_SPONSORS = 5
+
+
+class RenewalStartRequest(ScopeRequest):
+    """The sponsors to prepare packs for (1 to 5, by name), each with the tier to propose next year."""
+
+    sponsors: list[str] = Field(min_length=1, max_length=MAX_RENEWAL_SPONSORS)
+    target_tiers: dict[str, SponsorTier] = Field(default_factory=dict)   # by sponsor; missing = its current tier
+
+
+class RenewalSponsorOption(Contract):
+    sponsor: str
+    tier: str
+    events: int
+    attainment: float | None = None
+    renewal_status: str = ""
+
+
+class RenewalSponsorsResponse(Contract):
+    sponsors: list[RenewalSponsorOption]
+    tiers: list[str]
+
+
+class RenewalDecision(Contract):
+    type: Literal["approve", "edit", "reject"]
+    markdown: str | None = Field(None, max_length=12_000)   # the edited pack (edit only)
+    feedback: str | None = Field(None, max_length=1_000)    # why it was rejected (reject only)
+
+
+class RenewalDecisionRequest(Contract):
+    decisions: dict[str, RenewalDecision] = Field(max_length=MAX_RENEWAL_SPONSORS)   # by sponsor name
+
+
+class RenewalCheckModel(Contract):
+    label: str
+    ok: bool
+    detail: str = ""
+
+
+class RenewalPackModel(Contract):
+    sponsor: str
+    status: str
+    attempts: int
+    draft: str
+    final: str
+    feedback: list[str]
+    checks: list[RenewalCheckModel]
+    passed: bool
+    memory: str
+
+
+class RenewalTodoModel(Contract):
+    content: str
+    status: str
+
+
+class RenewalEventModel(Contract):
+    agent: str
+    tool: str
+    sponsor: str
+    detail: str
+
+
+class RenewalRunResponse(Contract):
+    run_id: str
+    request: str
+    running: bool                 # a step is in progress in the background; poll again
+    done: bool
+    error: str
+    can_retry: bool
+    seconds: float
+    todos: list[RenewalTodoModel]
+    packs: list[RenewalPackModel]
+    pending: list[str]            # sponsors waiting for a person's decision
+    tool_calls: dict[str, int]
+    events: list[RenewalEventModel]
+    model: str
+    usage: list[CallRecordModel]
+
+
+class RenewalPdfResponse(Contract):
+    filename: str
+    content_base64: str     # the PDF, base64-encoded so it travels in JSON like every other response
+
+
+class RenewalRunSummary(Contract):
+    run_id: str
+    request: str
+    done: bool
+    pending: int
+    packs: int

@@ -16,7 +16,9 @@ from pydantic import BaseModel, Field
 
 from core.rag.retrieve import RetrievalConfig, Retriever
 
-MAX_SOURCE_CHARS = 1_200   # per source, so a few searches fit comfortably in the model's context
+# Per source. 2,000 keeps a whole structure-aware chunk (up to 400 tokens plus its header) and most fixed
+# 500-token chunks; 1,200 cut the last row off the 2026 package table, so the Virtual Booth price was never seen.
+MAX_SOURCE_CHARS = 2_000
 SOURCES_PER_SEARCH = 4
 
 CORPUS_TOOLS = {

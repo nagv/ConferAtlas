@@ -16,3 +16,6 @@ compose.override.yaml
 
 # Vector index (rebuilt by scripts/build_index.py)
 data/index/
+
+# Renewal Desk runs, checkpoints and memory (Week 3)
+data/renewals/

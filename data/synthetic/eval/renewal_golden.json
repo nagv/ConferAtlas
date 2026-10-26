@@ -1,0 +1,23 @@
+{
+  "description": "Golden set for the Sponsor Renewal Desk (Week 3): six sponsors chosen to exercise different paths. Figures are not stored here: the evaluation recomputes each fact sheet from the data, so a pack is checked against the real numbers. 'allowed_moves' is the reasonable range of recommendations given the results (upgrade, keep or downgrade the current package).",
+  "sponsors": [
+    {"id": "R1", "sponsor": "Polarion Partners", "tier": "gold", "has_deck": false,
+     "allowed_moves": ["keep", "downgrade"],
+     "why": "83% of target overall with 4 of 7 events below 80%: the pack must name the weak events and must not upsell."},
+    {"id": "R2", "sponsor": "Larkspur Capital", "tier": "gold", "has_deck": false,
+     "allowed_moves": ["upgrade", "keep", "downgrade"],
+     "why": "Did not renew last time and has no deck: the 'What we promised' section must say no record was found."},
+    {"id": "R3", "sponsor": "Ironwood Cloud", "tier": "silver", "has_deck": false,
+     "allowed_moves": ["keep", "downgrade"],
+     "why": "Just under target (98%) with one event below 80%: an upgrade would not be justified."},
+    {"id": "R4", "sponsor": "Orchidia Cloud", "tier": "gold", "has_deck": true,
+     "allowed_moves": ["upgrade", "keep"],
+     "why": "116% of target and a deck that asks to move up a tier: the pack should cite the deck."},
+    {"id": "R5", "sponsor": "Quillon Security", "tier": "platinum", "has_deck": true,
+     "allowed_moves": ["upgrade", "keep", "downgrade"],
+     "why": "Six events, one below 80%, and a deck: the longest fact sheet in the set."},
+    {"id": "R6", "sponsor": "Meridian Capital", "tier": "platinum", "has_deck": true,
+     "allowed_moves": ["upgrade", "keep"],
+     "why": "164% of target with no weak event: a downgrade would not be justified."}
+  ]
+}

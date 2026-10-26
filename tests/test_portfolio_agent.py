@@ -181,11 +181,66 @@ def test_untraceable_numbers_get_one_rewrite(toolkit):
     assert "do not appear in any tool result: 950" in model.seen[-1][-1].content
 
 
-def test_numbers_still_untraceable_are_flagged(toolkit):
+def test_numbers_still_untraceable_after_the_rewrite_are_withheld(toolkit):
     model = FakeToolModel(tool_call("portfolio_summary"), AIMessage(content="Attendance will hit 5,000."),
                           AIMessage(content="Attendance will hit 5,000 next year."))
     answer = pa.ask_portfolio("Forecast?", toolkit, model=model)
     assert answer.unverified_numbers == ["5,000"]
+    assert answer.text == pa.WITHHELD_UNVERIFIED and "5,000" not in answer.text  # never shown, not just flagged
+    assert "5,000" in answer.withheld[0] and answer.trace[-2]["text"].startswith("Withheld")
+
+
+def test_only_the_unsupported_sentence_is_withheld(toolkit):
+    model = FakeToolModel(tool_call("portfolio_summary"),
+                          AIMessage(content="There were 6 registrations. Next year will bring 950."),
+                          AIMessage(content="There were 6 registrations. Next year will bring 950."))
+    answer = pa.ask_portfolio("How many?", toolkit, model=model)
+    assert answer.text.startswith("There were 6 registrations.") and "950" not in answer.text
+    assert "1 statement withheld" in answer.text
+
+
+# --- the final answer gate (no model) ---------------------------------------------------------
+
+def _gate(text, misses=(), known=(), **kw):
+    args = dict(documents_on=True, tool_calls=1, searches=0, found_any=False, numeric_results=1)
+    args.update(kw)
+    return pa.answer_gate(text, misses=list(misses), known_sources=set(known), **args)
+
+
+def test_gate_passes_a_supported_answer_unchanged():
+    assert _gate("Leads were 412 [S1].", known={"S1"}) == ("Leads were 412 [S1].", [])
+
+
+def test_gate_withholds_an_answer_that_used_no_tool():
+    text, why = _gate("Paris.", tool_calls=0, numeric_results=0)
+    assert text == pa.WITHHELD_NO_TOOLS and "no tool" in why[0]
+    assert _gate("I couldn't find this in our documents.", tool_calls=0)[1] == []  # a refusal is allowed
+
+
+def test_gate_withholds_claims_when_every_search_was_empty():
+    text, why = _gate("The venue was the Hilton.", searches=2, found_any=False, numeric_results=0)
+    assert text == pa.WITHHELD_NOT_FOUND and "empty" in why[0]
+    assert _gate("The venue was the Hilton.", searches=2, found_any=True, numeric_results=0)[1] == []
+
+
+def test_gate_matches_whole_numbers_only():
+    text, why = _gate("Leads were 15,000. A target of 5,000 was set.", misses=["5,000"])
+    assert text.startswith("Leads were 15,000.") and "5,000 was set" not in text and why
+
+
+def test_gate_withholds_citations_to_sources_never_retrieved():
+    text, why = _gate("The Premier Booth costs $51,000 [S1]. Parking is free [S9].", known={"S1"})
+    assert "[S9]" not in text and "$51,000 [S1]" in text and "S9" in why[0]
+
+
+def test_gate_keeps_list_structure_when_one_bullet_goes():
+    answer = "Results by event:\n- Alpha Con: 5 leads.\n- Beta Live: 90 leads.\n- Gamma: 2 leads."
+    text, _ = _gate(answer, misses=["90"])
+    assert "- Alpha Con: 5 leads." in text and "- Gamma: 2 leads." in text and "Beta Live" not in text
+
+
+def test_gate_does_nothing_new_without_documents():
+    assert _gate("Hello.", documents_on=False, tool_calls=0, numeric_results=0) == ("Hello.", [])
 
 
 def test_model_turn_limit_forces_an_answer(toolkit):
