@@ -191,6 +191,28 @@ def rag_experiments() -> dict:
     return api("GET", "/rag/experiments")
 
 
+# --- Sponsor Renewal Desk (Week 3): each step runs in the background, so these return at once ---
+
+def renewal_start(dataset_id: str, payload: dict) -> dict:
+    return api("POST", f"/datasets/{dataset_id}/renewals", json=json.loads(_key(payload)))
+
+
+def renewal_status(run_id: str) -> dict:
+    return api("GET", f"/renewals/{run_id}")
+
+
+def renewal_decide(run_id: str, decisions: dict) -> dict:
+    return api("POST", f"/renewals/{run_id}/decisions", json={"decisions": decisions})
+
+
+def renewal_retry(run_id: str) -> dict:
+    return api("POST", f"/renewals/{run_id}/retry")
+
+
+def renewal_runs() -> list[dict]:
+    return api("GET", "/renewals")
+
+
 def clear_caches() -> None:
     for fn in (dataset_info, _post, _page, about, rag_documents):
         fn.clear()

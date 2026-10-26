@@ -24,5 +24,9 @@ python-pptx>=1.0,<2.0              # PowerPoint decks
 rank-bm25>=0.2.2,<1.0              # keyword (BM25) search for hybrid retrieval
 flashrank>=0.2.10,<1.0             # small CPU cross-encoder for re-ranking (no torch)
 
+# --- Multi-agent (Week 3) ---
+deepagents>=0.7.28,<0.8            # orchestrator + subagents, todos, skills, files, human approval
+langgraph-checkpoint-sqlite>=3.1,<4.0  # durable checkpoints, so approvals survive a restart
+
 # --- Config ---
 python-dotenv>=1.0

@@ -23,6 +23,7 @@ from backend.services import (
     feedback,
     insights,
     overview,
+    renewals,
     selection,
     sponsor_report_page,
     sponsor_summary,
@@ -67,6 +68,10 @@ from shared.models import (
     OverviewResponse,
     PitchRequest,
     PitchResponse,
+    RenewalDecisionRequest,
+    RenewalRunResponse,
+    RenewalRunSummary,
+    RenewalStartRequest,
     ScopeRequest,
     ScopeSummary,
     SponsorPerformanceRequest,
@@ -315,3 +320,49 @@ def rag_search(dataset_id: str, request: RagSearchRequest):
     ds = get_dataset(dataset_id)
     _, tables = selection.scoped(ds, request)
     return _rag(lambda: documents.search(ds, tables, request))
+
+
+# --- Sponsor Renewal Desk (Week 3) ----------------------------------------------------------------
+
+def _renewal(call):
+    """Run a Renewal Desk call, turning its problems into clear HTTP errors."""
+    try:
+        return call()
+    except HTTPException:
+        raise
+    except KeyError:
+        raise HTTPException(404, "That renewal run was not found.") from None
+    except renewals.RunBusyError as exc:
+        raise HTTPException(409, str(exc)) from None
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from None
+    except Exception as exc:  # e.g. no API key configured
+        raise errors.ai_error(exc, UsageRecorder()) from None
+
+
+@app.post("/datasets/{dataset_id}/renewals", response_model=RenewalRunResponse, status_code=202,
+          dependencies=protected)
+def renewal_start(dataset_id: str, request: RenewalStartRequest):
+    ds = get_dataset(dataset_id)
+    return _renewal(lambda: renewals.start(ds, request))
+
+
+@app.get("/renewals", response_model=list[RenewalRunSummary], dependencies=protected)
+def renewal_recent():
+    return renewals.recent()
+
+
+@app.get("/renewals/{run_id}", response_model=RenewalRunResponse, dependencies=protected)
+def renewal_status(run_id: str):
+    return _renewal(lambda: renewals.status(run_id, get_dataset))
+
+
+@app.post("/renewals/{run_id}/decisions", response_model=RenewalRunResponse, status_code=202,
+          dependencies=protected)
+def renewal_decide(run_id: str, request: RenewalDecisionRequest):
+    return _renewal(lambda: renewals.decide(run_id, request, get_dataset))
+
+
+@app.post("/renewals/{run_id}/retry", response_model=RenewalRunResponse, status_code=202, dependencies=protected)
+def renewal_retry(run_id: str):
+    return _renewal(lambda: renewals.retry(run_id, get_dataset))

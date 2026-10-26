@@ -692,3 +692,82 @@ class ExperimentsResponse(Contract):
     available: bool
     results: list[dict[str, Any]] = Field(default_factory=list)
     generated_at: str = ""
+
+
+# --- Sponsor Renewal Desk (Week 3) --------------------------------------------------------------
+
+SponsorTier = Literal["platinum", "gold", "silver", "bronze"]
+MAX_RENEWAL_SPONSORS = 5
+
+
+class RenewalStartRequest(ScopeRequest):
+    """Who to prepare packs for: a tier (lowest lead attainment first), named sponsors, or both."""
+
+    tier: SponsorTier | None = None
+    sponsors: list[str] = Field(default_factory=list, max_length=MAX_RENEWAL_SPONSORS)
+    limit: int = Field(3, ge=1, le=MAX_RENEWAL_SPONSORS)
+
+
+class RenewalDecision(Contract):
+    type: Literal["approve", "edit", "reject"]
+    markdown: str | None = Field(None, max_length=12_000)   # the edited pack (edit only)
+    feedback: str | None = Field(None, max_length=1_000)    # why it was rejected (reject only)
+
+
+class RenewalDecisionRequest(Contract):
+    decisions: dict[str, RenewalDecision] = Field(max_length=MAX_RENEWAL_SPONSORS)   # by sponsor name
+
+
+class RenewalCheckModel(Contract):
+    label: str
+    ok: bool
+    detail: str = ""
+
+
+class RenewalPackModel(Contract):
+    sponsor: str
+    status: str
+    attempts: int
+    draft: str
+    final: str
+    feedback: list[str]
+    checks: list[RenewalCheckModel]
+    passed: bool
+    memory: str
+
+
+class RenewalTodoModel(Contract):
+    content: str
+    status: str
+
+
+class RenewalEventModel(Contract):
+    agent: str
+    tool: str
+    sponsor: str
+    detail: str
+
+
+class RenewalRunResponse(Contract):
+    run_id: str
+    request: str
+    running: bool                 # a step is in progress in the background; poll again
+    done: bool
+    error: str
+    can_retry: bool
+    seconds: float
+    todos: list[RenewalTodoModel]
+    packs: list[RenewalPackModel]
+    pending: list[str]            # sponsors waiting for a person's decision
+    tool_calls: dict[str, int]
+    events: list[RenewalEventModel]
+    model: str
+    usage: list[CallRecordModel]
+
+
+class RenewalRunSummary(Contract):
+    run_id: str
+    request: str
+    done: bool
+    pending: int
+    packs: int
