@@ -790,8 +790,6 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
 
 173. > run full test suite
 
-173. > run full test suite
-
      *Result: stopped by the user before it ran.*
 
 174. > Eloborate this 
@@ -839,3 +837,15 @@ Every prompt used to build ConferAtlas with Claude Code, in order and word for w
 181. > commit and push the changes to branch
 
      *Result: checked the staged changes for secrets (placeholders only; `.env` and `data/index/` stay ignored), committed the Week 2 RAG work on `week2-rag` and pushed the branch to GitHub. Not merged to main.*
+
+182. > merged to main
+
+     *Result: confirmed the user's merge on GitHub ([nagv/ConferAtlas#1](https://github.com/nagv/ConferAtlas/pull/1), merge commit e7ccb25 on main contains 5d1057b) and updated the local main to match.*
+
+183. > can you create a version of prompts for 2nd week. I dont want to have all pompts here. only keep the ones which is related to implementing week 2 goals. not the ones which I want to learn/clarify. Also, dont keep the answers in the prompt. create a sperate document(week 2-prompts)
+
+     *Result: created `docs/week2/week2-prompts.md`: 22 Week 2 build prompts word for word, without answers, grouped by step (planning, Nebius setup, Steps 2 to 11, submission doc, tokenizer fix, GitHub), each with its entry number in this log. Learning and clarification questions are left out. Also removed a duplicated entry 173 here. Not committed.*
+
+184. > show me the google doc prepared
+
+     *Answer: opened the submission Google Doc in the browser pane and gave its link.*
