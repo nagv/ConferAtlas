@@ -702,11 +702,23 @@ MAX_RENEWAL_SPONSORS = 5
 
 
 class RenewalStartRequest(ScopeRequest):
-    """Who to prepare packs for: a tier (lowest lead attainment first), named sponsors, or both."""
+    """The sponsors to prepare packs for (1 to 5, by name), each with the tier to propose next year."""
 
-    tier: SponsorTier | None = None
-    sponsors: list[str] = Field(default_factory=list, max_length=MAX_RENEWAL_SPONSORS)
-    limit: int = Field(3, ge=1, le=MAX_RENEWAL_SPONSORS)
+    sponsors: list[str] = Field(min_length=1, max_length=MAX_RENEWAL_SPONSORS)
+    target_tiers: dict[str, SponsorTier] = Field(default_factory=dict)   # by sponsor; missing = its current tier
+
+
+class RenewalSponsorOption(Contract):
+    sponsor: str
+    tier: str
+    events: int
+    attainment: float | None = None
+    renewal_status: str = ""
+
+
+class RenewalSponsorsResponse(Contract):
+    sponsors: list[RenewalSponsorOption]
+    tiers: list[str]
 
 
 class RenewalDecision(Contract):
@@ -764,6 +776,11 @@ class RenewalRunResponse(Contract):
     events: list[RenewalEventModel]
     model: str
     usage: list[CallRecordModel]
+
+
+class RenewalPdfResponse(Contract):
+    filename: str
+    content_base64: str     # the PDF, base64-encoded so it travels in JSON like every other response
 
 
 class RenewalRunSummary(Contract):

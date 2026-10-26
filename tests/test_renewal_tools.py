@@ -248,3 +248,32 @@ def test_tools_are_grouped_by_agent_and_only_the_orchestrator_can_save(ws):
     assert all("finalize_pack" not in names for agent, names in groups.items() if agent != "orchestrator")
     search = next(t for t in ws.tools()["advisor"] if t.name == "search_pricing")
     assert search.invoke({"query": "Premier Booth price"})["found"]
+
+
+
+def test_the_chosen_tier_is_in_the_fact_sheet_and_checked_in_code(tiny_tables, skill):
+    ws = RenewalWorkspace(filter_dataset(tiny_tables), history=tiny_tables, documents=FakeDocs(), skill=skill,
+                          target_tiers={"Acme": "platinum"})
+    assert ws.list_sponsors(sponsor="Acme")["sponsors"][0]["target_tier"] == "platinum"
+    target = ws.sponsor_facts("Acme")["renewal_target"]
+    assert target["move"] == "move up" and target["packages"] == {"in_person_or_hybrid": "Title Sponsor",
+                                                                    "virtual": "Digital Premier"}
+    ws.search("pricing", "2026 prices")
+    ws.search("sponsor_decks", "Acme goals")
+    review = ws.check_pack("Acme", GOOD_PACK)  # recommends the Premier Booth, a gold package
+    tier_check = review["checks"][-1]
+    assert not review["passed"] and "platinum" in tier_check["label"]
+    assert "Premier Booth is not a platinum package" in tier_check["detail"]
+
+
+def test_staying_at_the_current_tier_passes_and_no_choice_means_no_tier_check(tiny_tables, skill):
+    same = RenewalWorkspace(filter_dataset(tiny_tables), history=tiny_tables, documents=FakeDocs(), skill=skill,
+                            target_tiers={"Acme": "gold"})
+    same.list_sponsors(sponsor="Acme")
+    assert same.sponsor_facts("Acme")["renewal_target"]["move"] == "same tier"
+    same.search("pricing", "2026 prices")
+    same.search("sponsor_decks", "Acme goals")
+    assert same.check_pack("Acme", GOOD_PACK)["passed"]  # Premier Booth is the gold package
+    free = RenewalWorkspace(filter_dataset(tiny_tables), history=tiny_tables, documents=FakeDocs(), skill=skill)
+    free.list_sponsors(sponsor="Acme")
+    assert "renewal_target" not in free.sponsor_facts("Acme")

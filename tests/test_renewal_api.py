@@ -26,9 +26,9 @@ def desk(install_api, tiny_tables, tmp_path, monkeypatch):
     monkeypatch.setattr(renewals, "_runs", {})
     script = {"replies": []}
 
-    def fake_build(ds, req, recorder, max_sponsors=None, allowed=None):
+    def fake_build(ds, req, recorder, max_sponsors=None, allowed=None, target_tiers=None):
         workspace = RenewalWorkspace(ds.tables, history=ds.tables, documents=FakeDocs(), max_sponsors=max_sponsors,
-                                     allowed=allowed)
+                                     allowed=allowed, target_tiers=target_tiers)
         return workspace, ScriptedModel(replies=list(script["replies"])), "test:scripted"
 
     monkeypatch.setattr(renewals, "_build", fake_build)
@@ -57,7 +57,7 @@ def _start(api, **body) -> dict:
 def test_start_poll_approve(desk):
     desk.script["replies"] = opening() + draft_and_review() + [say("Acme: approved.")]
     started = _start(desk)
-    assert started["request"] == "Prepare renewal packs for these sponsors: Acme." and started["model"] == "test:scripted"
+    assert started["request"] == "Prepare a renewal pack for Acme." and started["model"] == "test:scripted"
 
     paused = _wait(desk, started["run_id"])
     assert paused["pending"] == ["Acme"] and not paused["done"]
@@ -68,6 +68,11 @@ def test_start_poll_approve(desk):
     done = _wait(desk, started["run_id"])
     assert done["done"] and done["packs"][0]["final"] == GOOD_PACK
     assert "pack approved" in done["packs"][0]["memory"]
+    import base64
+    pdf = desk.get(f"/renewals/{started['run_id']}/packs/Acme/pdf").json()
+    assert pdf["filename"] == "acme-renewal-pack.pdf" and base64.b64decode(pdf["content_base64"]).startswith(b"%PDF")
+    missing = desk.get(f"/renewals/{started['run_id']}/packs/Nobody/pdf")
+    assert missing.status_code == 404 and missing.json()["detail"] == "This run has no pack for Nobody."
     assert desk.get("/renewals").json()[0]["run_id"] == started["run_id"]
 
 
@@ -80,6 +85,7 @@ def test_decisions_are_validated(desk):
     assert "Not waiting" in desk.post(url, json={"decisions": {"Brio": {"type": "approve"},
                                                                "Acme": {"type": "approve"}}}).json()["detail"]
     assert "Say why" in desk.post(url, json={"decisions": {"Acme": {"type": "reject"}}}).json()["detail"]
+    assert "not approved yet" in desk.get(f"/renewals/{run_id}/packs/Acme/pdf").json()["detail"]
     assert "empty" in desk.post(url, json={"decisions": {"Acme": {"type": "edit", "markdown": " "}}}).json()["detail"]
     assert desk.post(url, json={"decisions": {"Acme": {"type": "ship"}}}).status_code == 422
 
@@ -120,5 +126,32 @@ def test_start_without_an_api_key_is_explained(install_api, tiny_tables, monkeyp
     monkeypatch.setenv("LLM_PROVIDER", "openrouter")
     monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
     dataset_id = store.put_tables(tiny_tables).id
-    response = install_api.post(f"/datasets/{dataset_id}/renewals", json={"filters": {}, "today": TODAY, "tier": "gold"})
+    response = install_api.post(f"/datasets/{dataset_id}/renewals",
+                                json={"filters": {}, "today": TODAY, "sponsors": ["Acme"]})
     assert response.status_code == 503 and response.json()["detail"]["kind"] == "not_configured"
+
+
+def test_earlier_runs_list_only_runs_the_app_can_open(desk):
+    from backend.services.renewals import RUNS_NAMESPACE
+    desk.script["replies"] = opening() + draft_and_review()
+    run_id = _start(desk)["run_id"]
+    _wait(desk, run_id)
+    _, store = renewals.storage()
+    store.put(RUNS_NAMESPACE, "script-run", {"request": "from the terminal", "workspace": {"packs": []},
+                                             "done": True, "error": "", "seconds": 1.0})  # no dataset on record
+    assert [r["run_id"] for r in desk.get("/renewals").json()] == [run_id]
+
+
+def test_the_sponsor_picker_lists_tiers_and_attainment(desk):
+    body = desk.post(f"/datasets/{desk.dataset_id}/renewals/sponsors", json={"filters": {}, "today": TODAY}).json()
+    assert body["tiers"] == ["platinum", "gold", "silver", "bronze"]
+    acme = next(s for s in body["sponsors"] if s["sponsor"] == "Acme")
+    assert acme["tier"] == "gold" and acme["events"] == 2 and acme["attainment"] == 1.0
+
+
+def test_a_request_needs_named_sponsors_and_valid_tiers(desk):
+    url = f"/datasets/{desk.dataset_id}/renewals"
+    assert desk.post(url, json={"filters": {}, "today": TODAY, "sponsors": []}).status_code == 422
+    assert desk.post(url, json={"filters": {}, "today": TODAY, "sponsors": ["Acme"],
+                                "target_tiers": {"Acme": "diamond"}}).status_code == 422
+    assert desk.post(url, json={"filters": {}, "today": TODAY, "tier": "gold", "sponsors": ["Acme"]}).status_code == 422

@@ -62,9 +62,9 @@ def desk(tmp_path, monkeypatch):
     monkeypatch.setattr(renewals, "_runs", {})
     script = {"replies": _script([say("Approved.")])}
 
-    def fake_build(ds, req, recorder, max_sponsors=None, allowed=None):
+    def fake_build(ds, req, recorder, max_sponsors=None, allowed=None, target_tiers=None):
         workspace = RenewalWorkspace(ds.tables, history=ds.tables, documents=FakeDocs(), max_sponsors=max_sponsors,
-                                     allowed=allowed)
+                                     allowed=allowed, target_tiers=target_tiers)
         return workspace, ScriptedModel(replies=list(script["replies"])), "test:scripted"
 
     monkeypatch.setattr(renewals, "_build", fake_build)
@@ -81,9 +81,10 @@ def _until(at, text: str):
     raise AssertionError(f"'{text}' never appeared; page text: {_text(at)[:400]}")
 
 
-def _start(at):
-    at.radio(key="rn_how").set_value("Named sponsors").run()  # only now is the sponsor picker shown
-    at.multiselect(key="rn_sponsors").set_value([SPONSOR])
+def _start(at, tier=None):
+    at.multiselect(key="rn_sponsors").set_value([SPONSOR]).run()  # each sponsor gets a tier row
+    if tier:
+        at.selectbox(key="rn_tier_orchidia-cloud").set_value(tier)
     _generate(at).click()
     return at.run()
 
@@ -117,7 +118,8 @@ def test_start_review_and_approve(desk):
     at = _until(at, "Renewal packs")
     _ok(at)
     assert ":green-badge[Approved]" in _text(at)
-    assert at.get("download_button")
+    button = at.get("download_button")[0]
+    assert "PDF" in button.proto.label  # the approved pack downloads as a PDF
 
 
 def test_reject_needs_feedback_then_goes_back_to_the_writer(desk):
@@ -149,21 +151,26 @@ def test_edit_is_saved_as_the_final_pack(desk):
     assert "Thank you for a great year." in _text(at)
 
 
-def test_named_sponsors_need_a_choice(desk):
+def test_only_a_sponsor_picker_until_sponsors_are_chosen(desk):
     at = _page("renewals").run()
-    at.radio(key="rn_how").set_value("Named sponsors").run()
-    _generate(at).click()
-    at.run()
-    assert "Pick at least one sponsor" in at.warning[0].value
+    _ok(at)
+    assert "rn_sponsors" in _keys(at.multiselect) and not at.radio  # no second way of choosing
+    assert not any(b.label == "Generate renewal packs" for b in at.button)
+    assert "Pick up to 5 sponsors" in _text(at)
 
 
-def test_each_way_of_choosing_shows_only_its_own_controls(desk):
+def test_each_sponsor_gets_a_tier_that_defaults_to_its_current_one(desk):
     at = _page("renewals").run()
-    assert {"rn_tier"} <= _keys(at.selectbox) and "rn_limit" in _keys(at.slider)
-    assert "rn_sponsors" not in _keys(at.multiselect)
-    at.radio(key="rn_how").set_value("Named sponsors").run()
-    assert "rn_sponsors" in _keys(at.multiselect)
-    assert "rn_tier" not in _keys(at.selectbox) and "rn_limit" not in _keys(at.slider)
+    at.multiselect(key="rn_sponsors").set_value([SPONSOR, "Brightpath Security"]).run()
+    assert at.selectbox(key="rn_tier_orchidia-cloud").value == "gold"
+    assert at.selectbox(key="rn_tier_brightpath-security").value == "platinum"
+    assert ":orange-badge[Gold]" in _text(at) and "of lead target" in _text(at)
+
+
+def test_the_chosen_tier_reaches_the_agents(desk):
+    _until(_start(_page("renewals").run(), tier="platinum"), "Waiting for your decision")
+    run = renewals.status(next(iter(renewals._runs)))
+    assert run["request"] == "Prepare a renewal pack for Orchidia Cloud (propose the platinum tier)."
 
 
 def test_activity_names_each_search_and_merges_identical_steps():

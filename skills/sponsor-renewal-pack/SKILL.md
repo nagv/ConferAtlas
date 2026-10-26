@@ -34,7 +34,7 @@ Section guidance:
 - **Summary**: 2-3 sentences. Overall leads against target, how many events, and the recommendation in one line.
 - **Your results**: one bullet per event (event name, package, leads, target, % of target, cost per lead), then the total. Name any event below 80% of target plainly.
 - **What we promised**: 2-4 bullets comparing a promise from the deck (cite it as `[S#]`) with what happened. The decks are partnership reviews **we** wrote: their proposal is *our* proposal to the sponsor ("we proposed"), never "your proposal"; only the goals and requests the deck attributes to the sponsor are theirs. If no deck passage was found, write one line saying so.
-- **Recommended package**: the package for next year and whether it is an upgrade, the same, or a downgrade, with 2-3 reasons that each point to a figure in the fact sheet. If the deck proposed a different change, say in one sentence why this recommendation differs.
+- **Recommended package**: the package for next year and whether it is an upgrade, the same, or a downgrade, with 2-3 reasons that each point to a figure in the fact sheet. If the deck proposed a different change, say in one sentence why this recommendation differs. If the fact sheet has a `renewal_target`, the sponsorship manager chose that tier: recommend only its packages, by their exact names, and name the move (for example "from gold to platinum", or "staying at gold").
 - **Your offer**: the 2026 package price and any recommended add-ons with their 2026 prices, cited as `[S#]` from the pricing passages. Mention the lead guarantee only for Title Sponsor or Premier Booth.
 - **Next steps**: 2-3 bullets: what the sponsor should confirm, and the payment terms from the pricing passages if they were provided.
 

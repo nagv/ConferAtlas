@@ -18,7 +18,7 @@ from frontend.components.layout import page_header
 RUN_KEY = "rn_run"            # the run this browser session is following
 USAGE_KEY = "rn_usage_seen"   # usage records already added to the sidebar panel, per run
 POLL_SECONDS = 3
-TIERS = ["platinum", "gold", "silver", "bronze"]
+_TIER_COLOR = {"platinum": "violet", "gold": "orange", "silver": "gray", "bronze": "red"}
 _STATUS = {
     "queued": ("Queued", "gray"), "researching": ("Researching", "blue"), "drafting": ("Drafting", "blue"),
     "in_review": ("In review", "blue"), "awaiting_approval": ("Waiting for you", "orange"),
@@ -40,6 +40,10 @@ def _badge(status: str) -> str:
     return f":{color}-badge[{label}]"
 
 
+def _tier_badge(tier: str) -> str:
+    return f":{_TIER_COLOR.get(tier, 'gray')}-badge[{tier.title()}]"
+
+
 def _slug(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-") or "sponsor"
 
@@ -54,30 +58,38 @@ def _record_new_usage(run: dict) -> None:
 
 # --- starting a run -------------------------------------------------------------------------------
 
-def _start_form(data: dict) -> None:
-    names = [name for _, name in data["options"]]
-    # Outside the form, so choosing one way shows only its own controls.
-    how = st.radio("Prepare packs for", ["A sponsor tier", "Named sponsors"], horizontal=True, key="rn_how")
-    by_tier = how == "A sponsor tier"
+def _start_form() -> None:
+    options = call(client.renewal_sponsors, scope_request())
+    if options is None:
+        return
+    by_name = {o["sponsor"]: o for o in options["sponsors"]}
+    # Outside the form, so each sponsor picked gets its own row below straight away.
+    chosen = st.multiselect("Sponsors (up to 5)", list(by_name), max_selections=5, key="rn_sponsors",
+                            placeholder="Choose the sponsors to prepare renewal packs for")
+    if not chosen:
+        st.caption("Pick up to 5 sponsors. For each one you choose the tier to propose for next year.")
+        return
     with st.form("rn_start"):
-        if by_tier:
-            col1, col2 = st.columns(2)
-            tier = col1.selectbox("Tier", TIERS, index=1, key="rn_tier")
-            limit = col2.slider("Number of sponsors", 1, 5, 2, key="rn_limit",
-                                help="The sponsors in this tier with the lowest lead attainment, up to this many.")
-            chosen = []
-        else:
-            chosen = st.multiselect("Sponsors (up to 5)", names, max_selections=5, key="rn_sponsors")
-            tier, limit = None, max(1, len(chosen))
-        st.caption("Each pack takes about a minute or two. You approve every pack before it is saved; "
-                   "nothing is sent.")
+        head = st.columns([3, 3, 2])
+        head[0].markdown("**Sponsor**")
+        head[1].markdown("**Now**")
+        head[2].markdown("**Propose for next year**")
+        targets = {}
+        for name in chosen:
+            option = by_name[name]
+            row = st.columns([3, 3, 2], vertical_alignment="center")
+            row[0].markdown(name)
+            attainment = "–" if option["attainment"] is None else f"{option['attainment']:.0%} of lead target"
+            row[1].markdown(f"{_tier_badge(option['tier'])} {attainment}")
+            targets[name] = row[2].selectbox(f"Tier for {name}", options["tiers"],
+                                             index=options["tiers"].index(option["tier"]),
+                                             key=f"rn_tier_{_slug(name)}", label_visibility="collapsed")
+        st.caption("The packs recommend the packages of the tier you choose. Each pack takes a minute or two; "
+                   "you approve every pack before it is saved, and nothing is sent.")
         submitted = st.form_submit_button("Generate renewal packs", type="primary")
     if not submitted:
         return
-    if not by_tier and not chosen:
-        st.warning("Pick at least one sponsor, or prepare packs for a tier.")
-        return
-    payload = {**scope_request(), "limit": limit, **({"tier": tier} if by_tier else {"sponsors": chosen})}
+    payload = {**scope_request(), "sponsors": chosen, "target_tiers": targets}
     try:
         run = call(client.renewal_start, payload, reraise=True)
     except client.ApiError as exc:
@@ -208,9 +220,11 @@ def _results(run: dict) -> None:
             st.markdown(f"### {pack['sponsor']} {_badge(pack['status'])}")
             text = pack["final"] or pack["draft"]
             if pack["status"] == "approved":
-                st.download_button("Download pack (.md)", pack["final"], file_name=f"{_slug(pack['sponsor'])}"
-                                   "-renewal-pack.md", mime="text/markdown", key=f"rn_dl_{_slug(pack['sponsor'])}",
-                                   icon=":material/download:")
+                pdf = _pdf(run["run_id"], pack)
+                if pdf is not None:
+                    st.download_button("Download pack (PDF)", pdf, file_name=f"{_slug(pack['sponsor'])}"
+                                       "-renewal-pack.pdf", mime="application/pdf",
+                                       key=f"rn_dl_{_slug(pack['sponsor'])}", icon=":material/picture_as_pdf:")
             elif text:
                 st.caption("Not approved: this is the last draft.")
             _checks(pack)
@@ -222,6 +236,18 @@ def _results(run: dict) -> None:
             if pack["memory"]:
                 with st.expander("What we remember about this sponsor", icon=":material/history:"):
                     st.markdown(pack["memory"])
+
+
+def _pdf(run_id: str, pack: dict) -> bytes | None:
+    """The approved pack's PDF, fetched once per approved text (kept for this browser session)."""
+    key = f"rn_pdf::{run_id}::{pack['sponsor']}::{hash(pack['final'])}"
+    if key not in st.session_state:
+        try:
+            st.session_state[key] = client.renewal_pdf(run_id, pack["sponsor"])
+        except client.ApiError as exc:
+            st.caption(f":orange[The PDF could not be made: {exc.message}]")
+            return None
+    return st.session_state[key]
 
 
 def _show_run(run: dict) -> None:
@@ -276,7 +302,7 @@ def render() -> None:
                               "sponsor summaries from the same figures, and every dashboard.")
         return
     if run_id is None:
-        _start_form(data)
+        _start_form()
         _earlier_runs()
         return
     if st.button("Start a new run", icon=":material/add:", key="rn_new"):

@@ -6,11 +6,13 @@ hit the API. AI calls and the status call are never cached.
 """
 from __future__ import annotations
 
+import base64
 import json
 import os
 import time
 from datetime import date
 from pathlib import Path
+from urllib.parse import quote
 
 import httpx
 import streamlit as st
@@ -193,6 +195,11 @@ def rag_experiments() -> dict:
 
 # --- Sponsor Renewal Desk (Week 3): each step runs in the background, so these return at once ---
 
+def renewal_sponsors(dataset_id: str, payload: dict) -> dict:
+    """The sponsors in the current selection, with their tier and attainment, for the picker."""
+    return _post(f"/datasets/{dataset_id}/renewals/sponsors", _key(payload))
+
+
 def renewal_start(dataset_id: str, payload: dict) -> dict:
     return api("POST", f"/datasets/{dataset_id}/renewals", json=json.loads(_key(payload)))
 
@@ -207,6 +214,12 @@ def renewal_decide(run_id: str, decisions: dict) -> dict:
 
 def renewal_retry(run_id: str) -> dict:
     return api("POST", f"/renewals/{run_id}/retry")
+
+
+def renewal_pdf(run_id: str, sponsor: str) -> bytes:
+    """An approved pack as PDF bytes."""
+    body = api("GET", f"/renewals/{run_id}/packs/{quote(sponsor, safe='')}/pdf")
+    return base64.b64decode(body["content_base64"])
 
 
 def renewal_runs() -> list[dict]:

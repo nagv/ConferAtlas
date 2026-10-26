@@ -86,7 +86,9 @@ def main() -> int:
     except Exception as exc:  # noqa: BLE001 - the desk still runs, it just has no documents
         print(f"Document search is off: {exc}", file=sys.stderr)
         docs = None
-    workspace = RenewalWorkspace(filter_dataset(tables), history=tables, documents=docs)
+    limit = 1 if args.sponsor else min(args.limit, 5)   # hold the run to what was asked, as the app does
+    workspace = RenewalWorkspace(filter_dataset(tables), history=tables, documents=docs, max_sponsors=limit,
+                                 allowed=[args.sponsor] if args.sponsor else None)
     model = build_chat_model(replace(settings, llm_max_output_tokens=MAX_OUTPUT_TOKENS), "Renewal desk",
                              timeout_s=TIMEOUT_S)
     checkpointer, store = open_storage(args.db or DEFAULT_DB)

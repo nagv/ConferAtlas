@@ -86,7 +86,7 @@ sponsor reporting, audience insights and feedback. Existing dashboards remain av
 | **Ask the portfolio** | Chat with a tool-calling agent over six fixed analysis tools and, when document search is on, one search tool per document collection. Every number must come from a tool result; each answer has a *View calculations* expander; charts can only use computed results; starter questions are offered. With documents, answers cite passages as [S1], [S2], and show **Sources** (cited and retrieved) and **How this was answered** (the plan, each tool call and what it returned). |
 | **AI insights** | An AI-written event pitch for sponsors, or a renewal brief for one sponsor, from computed figures (a rule-based summary without a key). |
 | **RAG Lab** | **Chunks:** one document cut by two chunking settings side by side, chunk by chunk, plus the size of every chunk in the corpus. **Search:** a tuning panel (index, dense / BM25 / hybrid, hybrid weight, candidates, top-k, re-ranking, refusal threshold) and an inspector showing every candidate's scores, how re-ranking moved it and the refusal line; unindexed chunk sizes can be built on the spot. **Embedding map:** every chunk in 2D with a question placed among them. **Experiments:** the evaluation results. |
-| **Sponsor renewals** | Pick a tier (lowest lead attainment first) or up to 5 sponsors and press **Generate renewal packs**. While the agents work, the page shows the orchestrator's **plan** (its todo list, with a status per sponsor) and the **agent activity** (who did what). Each pack that waits for you shows its 7 checks, the draft and what we remember about the sponsor: **Approve**, **Approve with my edits** or **Reject with feedback** (the writer redrafts it). Approved packs can be downloaded; earlier runs can be reopened, even after a restart. |
+| **Sponsor renewals** | Pick up to 5 sponsors; each gets a row with its current tier and lead attainment and a **Propose for next year** tier (its current tier by default). Press **Generate renewal packs**. While the agents work, the page shows the orchestrator's **plan** (its todo list, with a status per sponsor) and the **agent activity** (who did what). Each pack that waits for you shows its 7 checks, the draft and what we remember about the sponsor: **Approve**, **Approve with my edits** or **Reject with feedback** (the writer redrafts it). Approved packs download as a branded **PDF**; earlier runs can be reopened, even after a restart. |
 | **About** | Explains that the demo data is synthetic, how every metric is calculated, and what the AI can see. |
 
 ## Document search (RAG)
@@ -176,27 +176,27 @@ End to end (all 20 questions; hit rate and MRR over the 17 answerable ones):
 
 | Setting | Hit rate | MRR | Routing | Refusal | Faithfulness | Relevance | Correctness | Judged | Withheld | ≤ 8 s | Median s |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| **structure · hybrid + re-rank (production)** | 100% | 1.00 | 100% | 95% | 98% | 100% | 100% | 19/20 | 0% | 90% | 3.57 |
-| structure · dense | 100% | 1.00 | 100% | 95% | 97% | 100% | 100% | 19/20 | 0% | 100% | 2.24 |
-| semantic · hybrid + re-rank | 100% | 1.00 | 100% | 95% | 98% | 100% | 99% | 19/20 | 0% | 95% | 3.12 |
-| fixed · hybrid + re-rank | 100% | 1.00 | 100% | 70% | 94% | 82% | 82% | 17/20 | 0% | 55% | 7.04 |
+| **structure · hybrid + re-rank (production)** | 100% | 1.00 | 100% | 95% | 98% | 99% | 99% | 19/20 | 0% | 75% | 3.33 |
+| structure · dense | 100% | 1.00 | 100% | 95% | 97% | 100% | 99% | 19/20 | 0% | 90% | 2.02 |
+| semantic · hybrid + re-rank | 100% | 1.00 | 100% | 95% | 98% | 99% | 99% | 19/20 | 0% | 95% | 3.62 |
+| fixed · hybrid + re-rank | 100% | 1.00 | 100% | 95% | 96% | 100% | 100% | 18/20 | 0% | 45% | 8.32 |
 
-These are from the rerun with the final answer check. Withheld is how often the check withheld claims; it removed none of these answers, and the scores match the run before it (production then: 100% faithfulness, 99% correctness, median 2.53 s; the latency difference is the provider on the day).
+These are from the latest run: the final answer check is on, and each source given to the model is up to 2,000 characters (it was 1,200). Withheld is how often the check withheld claims; it removed none of these answers. With 1,200-character sources the fixed setting scored 70% refusal and 82% correctness; the others scored the same as now. Longer sources mean more text to read, so fewer answers come within 8 seconds.
 
 **Where the misses come from** (retrieval and final-answer quality measured separately, on the answerable questions the judge graded; an answer counts as right at 75% correctness or more):
 
 | Setting | Retrieval right, answer right | Retrieval right, answer wrong (answer stage) | Retrieval missed, answer wrong (retrieval stage) | Correctness when retrieval was right |
 |---|---|---|---|---|
-| structure · hybrid + re-rank (production) | 17/17 | 0 | 0 | 100% |
-| structure · dense | 17/17 | 0 | 0 | 100% |
+| structure · hybrid + re-rank (production) | 17/17 | 0 | 0 | 99% |
+| structure · dense | 17/17 | 0 | 0 | 99% |
 | semantic · hybrid + re-rank | 17/17 | 0 | 0 | 99% |
-| fixed · hybrid + re-rank | 12/15 | 3 | 0 | 80% |
+| fixed · hybrid + re-rank | 16/16 (was 12/15, with 3 answer-stage misses, at 1,200 characters) | 0 | 0 | 100% |
 
 Retrieval only: MRR rises from 0.87 (fixed, dense) and 0.93 (structure-aware, hybrid) to 1.00 with re-ranking, at about 1 s per search. What the numbers taught us:
 
 - **Re-ranking puts the answer first.** For "which sponsor asked for attendee job titles", dense search ranked the answer chunk third; hybrid search and re-ranking put it first.
 - **A correct tokenizer fix lowered hybrid search alone.** BM25 kept punctuation on words, so "2024:" in a heading never matched "2024" in a question. Fixing it made the headers count, but every chunk of a report repeats the same header words, so sibling chunks now tie: hybrid MRR without re-ranking fell from 0.96 to 0.93 (structure-aware) and 0.92 to 0.83 (semantic). Re-ranking reads the question and chunk together and absorbs it (still 1.00), which is one more reason it stays on.
-- **Chunk size has to fit the context per source.** Fixed 500-token chunks were cut by the 1,200-character limit on each source given to the model, so the answer was often missing and the agent refused. The stage breakdown confirms it: all 3 fixed-chunk misses happened after the right document was retrieved, so the problem is in the answer stage (what the model is given), not in search.
+- **Chunk size has to fit the context per source.** With a 1,200-character limit on each source given to the model, fixed 500-token chunks were cut before the answer and the agent refused. The stage breakdown located it: all 3 fixed-chunk misses happened after the right document was retrieved, in the answer stage, not in search. Raising the limit to 2,000 characters (a whole structure-aware chunk) took the fixed setting from 82% to 100% correctness and from 70% to 95% refusal accuracy. The same cut also hid the last row of the 2026 price list (the Virtual Booth price) from the Week 3 agents.
 - **Withhold, don't warn.** After the tool reminder and the one rewrite, the final check withholds an answer that used no tool, claims made when every search came back empty, and each sentence with an untraced figure or a citation that was never retrieved. On the golden set it withheld nothing, so it cost no correct answers; its tests cover each case it acts on.
 - **Retrieval scores can't detect an unanswerable question about a real event** (a related chunk always scores well), so the agent also checks that the evidence actually answers; that took refusal accuracy from 85-90% (retrieval alone) to 95%.
 - **One golden question was ambiguous:** "the dates of next year's events" was meant to be unanswerable, but the data has 2026 events, which the agent listed with citations.
@@ -204,7 +204,7 @@ Retrieval only: MRR rises from 0.87 (fixed, dense) and 0.93 (structure-aware, hy
 
 ## Sponsor Renewal Desk (multi-agent)
 
-Week 3 turns the roadmap's multi-agent idea into a working desk. A sponsorship manager asks for renewal packs ("the 3 gold sponsors with the lowest lead attainment"); a team of agents researches each sponsor, recommends next year's package from the 2026 pricing, writes the pack and checks it; the manager approves each one. It is built with [Deep Agents](https://github.com/langchain-ai/deepagents) (LangChain's planning, sub-agent, file and human-approval layer on LangGraph), in the style of the course's GTM Deep Agent, with ConferAtlas's own tools, checks and data.
+Week 3 turns the roadmap's multi-agent idea into a working desk. A sponsorship manager picks up to five sponsors and the tier to propose to each for next year (for example Orchidia Cloud: gold to platinum); a team of agents researches each sponsor, recommends the packages of that tier from the 2026 pricing, writes the pack and checks it; the manager approves each one and downloads it as a PDF. It is built with [Deep Agents](https://github.com/langchain-ai/deepagents) (LangChain's planning, sub-agent, file and human-approval layer on LangGraph), in the style of the course's GTM Deep Agent, with ConferAtlas's own tools, checks and data.
 
 ```
 manager ─▶ Sponsor renewals page ─▶ POST /renewals (background thread) ─▶ orchestrator (Deep Agent)
@@ -223,14 +223,16 @@ manager ─▶ Sponsor renewals page ─▶ POST /renewals (background thread) �
 |---|---|---|
 | **Orchestrator** | `list_sponsors`, `write_todos`, `task`, `finalize_pack` | The plan, the hand-offs and the approval requests |
 | **Analyst** | `sponsor_facts`, `search_sponsor_decks`, `search_event_reports` | `/sponsors/<name>/notes.md`: figures, goals, deck promises with [S#] |
-| **Package advisor** | `sponsor_facts`, `search_pricing` | `recommendation.md`: upgrade, keep or downgrade, with 2026 prices and reasons |
+| **Package advisor** | `sponsor_facts`, `search_pricing` | `recommendation.md`: the packages of the chosen tier (move up, same or down), with 2026 prices and reasons |
 | **Writer** | the [`sponsor-renewal-pack`](skills/sponsor-renewal-pack/SKILL.md) skill, `sponsor_facts`, `save_draft` | The pack: Summary, Your results, What we promised, Recommended package, Your offer, Next steps |
 | **Reviewer** | `check_pack` | PASSED or FAILED with every problem (one redraft, then "needs your edit") |
 
 - **Plan, delegate, files:** the orchestrator keeps a visible todo list; each specialist runs in its own context with only its tools, so ten sponsors never crowd one prompt; notes and recommendations pass between them as files in the run's state. The skills folder is mounted read-only.
-- **Checks in code, not in a prompt:** `check_pack` verifies the six skill checklist items (sections; every number traced to the fact sheet or a cited passage; every event named; events below 80% named; the package named as in the pricing passages; no placeholders) plus that every [S#] points to a retrieved passage. Figures come from the tool's own fact sheet, so a number the agent copied wrong still fails.
+- **Checks in code, not in a prompt:** `check_pack` verifies the six skill checklist items (sections; every number traced to the fact sheet or a cited passage; every event named; events below 80% named; the package named as in the pricing passages; no placeholders) plus that every [S#] points to a retrieved passage and that the recommended package belongs to the tier the manager chose (platinum: Title Sponsor or Digital Premier; gold: Premier Booth or Digital Premier; silver: Standard Booth or Virtual Booth; bronze: Exhibitor Table or Virtual Booth). Figures come from the tool's own fact sheet, so a number the agent copied wrong still fails.
+- **The request is held in code:** the run can only take on the sponsors the manager named, however the model calls `list_sponsors`, and their chosen tiers travel in each fact sheet; both are saved with the run.
 - **Human in the loop:** `finalize_pack` is the only write and is always interrupted (`interrupt_on`). The API needs a decision for every waiting pack (nothing is approved by default) and feedback for every rejection. No tool can send, email, post or delete.
 - **State and memory:** LangGraph checkpoints and a store in one SQLite file (`data/renewals/renewal_desk.sqlite`, ignored by Git): a run paused for approval survives an API restart and resumes where it stopped. Code adds one dated line per outcome to each sponsor's memory note (rejections with the feedback, approvals with the package), which the analyst reads on the next run.
+- **PDF:** an approved pack is rendered to a branded Letter PDF in code (Markdown to HTML with markdown-it, laid out with PyMuPDF, header and numbered footer). No model is involved, so the approved words are never changed; only approved packs can be downloaded.
 - **When something breaks:** model calls retry 3 times with backoff; a network, timeout, rate-limit or overload stop can be retried from the last checkpoint (**Retry** on the page), while a bad key or missing credit gets a specific fix instead. A tool that crashes fails that sponsor only. Each specialist has 12 model calls per task (it stopped one that kept listing files), the orchestrator 60 per step, the run 120 tool calls and a step limit. Text in documents is data: even if the model obeyed an instruction hidden in a deck, the save still waits for a person (tested).
 
 ### Run it
@@ -241,10 +243,10 @@ From the app: **AI assistants → Sponsor renewals**. From the terminal:
 .venv\Scripts\python.exe scripts\run_renewal_desk.py --sponsor "Orchidia Cloud"     # stops at the approval
 .venv\Scripts\python.exe scripts\run_renewal_desk.py --resume <run id> --reject "Keep the Premier Booth"
 .venv\Scripts\python.exe scripts\run_renewal_desk.py --resume <run id> --approve
-.venv\Scripts\python.exe scripts\run_renewal_desk.py --tier platinum --limit 2 --approve
+.venv\Scripts\python.exe scripts\run_renewal_desk.py --tier platinum --limit 2 --approve   # terminal only
 ```
 
-It uses the same `backend/.env` as Week 2 (Nebius DeepSeek-V4-Flash for the agents; LangSmith traces every agent, tool call and approval). A pack takes about 1 to 2 minutes and 30 model calls. To start a demo with no memory, delete `data/renewals/renewal_desk.sqlite`.
+It uses the same `backend/.env` as Week 2 (Nebius DeepSeek-V4-Flash for the agents; LangSmith traces every agent, tool call and approval). A pack takes about a minute and 30 model calls. To start a demo with no memory, delete `data/renewals/renewal_desk.sqlite`.
 
 ### Evaluation
 
@@ -253,15 +255,15 @@ It uses the same `backend/.env` as Week 2 (Nebius DeepSeek-V4-Flash for the agen
 .venv\Scripts\python.exe scripts\run_renewal_eval.py --sponsors 2 --no-judge
 ```
 
-Six golden sponsors (`data/synthetic/eval/renewal_golden.json`) chosen to stress different paths: one at 83% with 4 of 7 events below 80% (must not be upsold), one that did not renew, one just under target, one whose deck asks for an upgrade, one with six events, and one at 164% (must not be downgraded). Each runs end to end with every approval given automatically, in a fresh database. Results: [`docs/week3/eval_results.md`](docs/week3/eval_results.md) (run 1: [`eval_results_run1.md`](docs/week3/eval_results_run1.md)); approved packs: [`docs/week3/samples/`](docs/week3/samples/).
+Six golden sponsors (`data/synthetic/eval/renewal_golden.json`) chosen to stress different paths: one at 83% with 4 of 7 events below 80% (must not be upsold), one that did not renew, one just under target, one whose deck asks for an upgrade, one with six events, and one at 164% (must not be downgraded). Each runs end to end with every approval given automatically, in a fresh database. Results: [`docs/week3/eval_results.md`](docs/week3/eval_results.md) (earlier runs: [`eval_results_run1.md`](docs/week3/eval_results_run1.md), [`eval_results_run2.md`](docs/week3/eval_results_run2.md)); approved packs: [`docs/week3/samples/`](docs/week3/samples/). The golden runs do not set a target tier, so the agents choose the move themselves there.
 
-| Metric | Run 1 | Run 2 (after the prompt fixes) |
-|---|---|---|
-| Packs approved, figure accuracy, real package, correct 2026 price, weak events named, deck cited, sensible recommendation | 100% | 100% |
-| Checklist passed on the first draft | 100% | 83% (one redraft, then passed) |
-| Reviewer catch rate: 36 broken packs (wrong price, dropped event, invented number, missing section, fake citation, placeholder) | 100% | 100% |
-| Judge (GLM-5.3): usefulness / grounding / tone | 67% / 68% / 85% | **80% / 81% / 91%** |
-| Median time per pack | 96 s | 111 s |
+| Metric | Run 1 | Run 2 (prompt fixes) | Run 3 (2,000-character sources) |
+|---|---|---|---|
+| Packs approved, figure accuracy, real package, correct 2026 price, weak events named, deck cited, sensible recommendation | 100% | 100% | 100% |
+| Checklist passed on the first draft | 100% | 83% (one redraft, then passed) | 83% (one redraft, then passed) |
+| Reviewer catch rate: 36 broken packs (wrong price, dropped event, invented number, missing section, fake citation, placeholder) | 100% | 100% | 100% |
+| Judge (GLM-5.3): usefulness / grounding / tone | 67% / 68% / 85% | 80% / 81% / 91% | **79% / 83% / 92%** |
+| Median time per pack | 96 s | 111 s | **44 s** |
 
 What the runs taught us:
 
@@ -271,6 +273,8 @@ What the runs taught us:
 - **The checklist caught a copied scope line:** the writer once copied the example's "1 Jan 2025 - 31 Dec 2025"; the number check flagged the invented "31", and the skill now requires the fact sheet's scope word for word.
 - **Evaluate the evaluator (again):** the reasoning judge first returned no grades (2,000 output tokens were spent thinking), then called real citations "nonexistent" because it saw only the first 6,000 characters of passages. It now gets 8,000 tokens and every cited passage.
 - **The judge found three real writing problems** that code checks can't: "your proposal" for what the organizer proposed, "strong" for a mixed record plus a paid add-on for a struggling sponsor, and silence when the pack disagreed with the deck. Fixing the prompts raised usefulness from 67% to 80% and grounding from 68% to 81%. It still flags occasional unsupported explanations (blaming a shortfall on the virtual format), which is why a person approves every pack.
+- **A cut-off price looked like an agent that couldn't search.** The advisor searched for the Virtual Booth price six times: the package table is 1,307 characters and its last row (the Virtual Booth, $12,500) started at character 1,176, past the 1,200-character limit per source. Raising the limit to 2,000 fixed it and more than halved the time per pack (111 s to 44 s), because the advisor stopped repeating searches.
+- **Hold the request in code.** Asked for "the 1 silver sponsor", the orchestrator called `list_sponsors` without a count and got five, which then showed as failed. The run now accepts only the sponsors the manager named, and a failed pack always says why.
 
 ## Setup and run
 
@@ -473,7 +477,7 @@ ConferAtlas/
 | All AI calls (`llm.py`) | Request timeout, output-token cap, retry with exponential backoff and jitter (honours `Retry-After`; the provider's own retries are off), friendly error messages, per-call usage records |
 | Feedback analysis | Common contact details redacted before batching; real comments require review before sending; duplicate comments sent once with counts; token-budgeted batches sized to the output cap; Pydantic schema via tool calling for OpenRouter/OpenAI or `json_schema` for Anthropic; one repair retry for invalid output; theme counts computed from tags; invented quotes replaced; partial results kept if a later batch fails |
 | Ask the portfolio | 6 fixed tools on filtered data; aggregates only, at most 15 rows, with a guard that rejects record IDs; signed numbers and units checked against successful tool results only (questions and arguments are not evidence; one rewrite, then flagged); charts only from ledger results; 6 tool calls and 5 turns per question, a 120 s deadline, history capped at 6 messages |
-| Document search | Retrieved text marked as quoted data, never instructions; answers cite [S#] sources and must refuse when the evidence doesn't answer (one reminder if the model answers without any tool); numbers quoted from documents count as traced; a refusal threshold on the re-rank score; documents only for the built-in dataset and narrowed to the selected events; at most 4 sources of 1,200 characters per search |
+| Document search | Retrieved text marked as quoted data, never instructions; answers cite [S#] sources and must refuse when the evidence doesn't answer (one reminder if the model answers without any tool); numbers quoted from documents count as traced; a refusal threshold on the re-rank score; documents only for the built-in dataset and narrowed to the selected events; at most 4 sources of 2,000 characters per search (enough for a whole structure-aware chunk) |
 | AI insights | Signed numbers and units checked against the supplied metrics; one rewrite, then reject an unverified draft; drafts hidden when data, filters, model, audience or tone change |
 | Sponsor reports | Skill-defined structure and checklist enforced in code (sections, traceable numbers, every event named, events below 80% named, booth visits framed as event-wide, no placeholders); one revision; template fallback |
 

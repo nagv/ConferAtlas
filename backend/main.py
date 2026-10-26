@@ -69,8 +69,10 @@ from shared.models import (
     PitchRequest,
     PitchResponse,
     RenewalDecisionRequest,
+    RenewalPdfResponse,
     RenewalRunResponse,
     RenewalRunSummary,
+    RenewalSponsorsResponse,
     RenewalStartRequest,
     ScopeRequest,
     ScopeSummary,
@@ -330,6 +332,8 @@ def _renewal(call):
         return call()
     except HTTPException:
         raise
+    except renewals.PackNotFoundError as exc:
+        raise HTTPException(404, str(exc)) from None
     except KeyError:
         raise HTTPException(404, "That renewal run was not found.") from None
     except renewals.RunBusyError as exc:
@@ -338,6 +342,12 @@ def _renewal(call):
         raise HTTPException(422, str(exc)) from None
     except Exception as exc:  # e.g. no API key configured
         raise errors.ai_error(exc, UsageRecorder()) from None
+
+
+@app.post("/datasets/{dataset_id}/renewals/sponsors", response_model=RenewalSponsorsResponse,
+          dependencies=protected)
+def renewal_sponsors(dataset_id: str, request: ScopeRequest):
+    return renewals.sponsor_options(get_dataset(dataset_id), request)
 
 
 @app.post("/datasets/{dataset_id}/renewals", response_model=RenewalRunResponse, status_code=202,
@@ -366,3 +376,8 @@ def renewal_decide(run_id: str, request: RenewalDecisionRequest):
 @app.post("/renewals/{run_id}/retry", response_model=RenewalRunResponse, status_code=202, dependencies=protected)
 def renewal_retry(run_id: str):
     return _renewal(lambda: renewals.retry(run_id, get_dataset))
+
+
+@app.get("/renewals/{run_id}/packs/{sponsor}/pdf", response_model=RenewalPdfResponse, dependencies=protected)
+def renewal_pack_pdf(run_id: str, sponsor: str):
+    return _renewal(lambda: renewals.pack_pdf(run_id, sponsor, get_dataset))

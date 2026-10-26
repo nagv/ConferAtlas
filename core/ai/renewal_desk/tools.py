@@ -23,6 +23,7 @@ from core.ai.renewal_desk.schemas import (FinalizeArgs, ListSponsorsArgs, PackAr
                                           Review, SponsorArgs)
 from core.ai.skills import Skill, load_skill
 from core.ai.sponsor_report import _PLACEHOLDERS, _section_text, build_sponsor_facts
+from core.generator import TIER_PACKAGES
 
 SKILL_NAME = "sponsor-renewal-pack"
 MAX_SPONSORS = 5           # sponsors per run
@@ -30,6 +31,8 @@ MAX_TOOL_CALLS = 120       # all tools together, across every subagent in a run
 MAX_DRAFT_ATTEMPTS = 2     # check_pack calls per sponsor before the pack goes to a person as "needs edit"
 
 _CITATION = re.compile(r"\[(S\d+)\]")
+TIERS = ("bronze", "silver", "gold", "platinum")   # lowest to highest
+ALL_PACKAGES = {name for pair in TIER_PACKAGES.values() for name in pair}
 _BOLD = re.compile(r"\*\*(.+?)\*\*")
 
 
@@ -55,12 +58,13 @@ class RenewalWorkspace:
 
     def __init__(self, tables: an.Tables, history: an.Tables | None = None, scope: str = "all data",
                  documents=None, skill: Skill | None = None, max_sponsors: int | None = None,
-                 allowed: list[str] | None = None):
+                 allowed: list[str] | None = None, target_tiers: dict[str, str] | None = None):
         """``max_sponsors`` and ``allowed`` hold the person's request in code: how many sponsors the run may
         take on, and (when sponsors were named) exactly which ones, whatever the model asks for."""
         self.t = tables
         self.max_sponsors = min(max_sponsors or MAX_SPONSORS, MAX_SPONSORS)
         self.allowed = sorted(allowed) if allowed else None
+        self.target_tiers = {k.lower(): v for k, v in (target_tiers or {}).items()}  # the person's tier per sponsor
         self.history = history if history is not None else tables
         self.scope = scope
         self.documents = documents
@@ -109,7 +113,8 @@ class RenewalWorkspace:
         cards = cards.sort_values("attainment", na_position="last").head(max(0, min(top_n, room)))
         for row in cards.itertuples(index=False):
             self.packs.setdefault(row.sponsor, SponsorPack(row.sponsor_id, row.sponsor))
-        rows = cards[["sponsor", "tier", "events", "leads", "leads_target", "attainment", "renewal_status"]]
+        rows = cards[["sponsor", "tier", "events", "leads", "leads_target", "attainment", "renewal_status"]].copy()
+        rows["target_tier"] = [self.target_tiers.get(n.lower(), t) for n, t in zip(rows["sponsor"], rows["tier"])]
         result = _clean({"scope": self.scope, "sponsors": rows.to_dict("records"),
                          "note": f"This run is limited to {self.max_sponsors} sponsor"
                                  f"{'' if self.max_sponsors == 1 else 's'}"
@@ -130,8 +135,23 @@ class RenewalWorkspace:
         except KeyError as exc:
             pack.status = "failed"
             return {"error": str(exc).strip("'\"")}
+        if target := self.renewal_target(pack.name, pack.facts["sponsor"]["tier"]):
+            pack.facts["renewal_target"] = target
         assert_no_raw_records(pack.facts)
         return pack.facts
+
+    def renewal_target(self, sponsor: str, current: str) -> dict | None:
+        """The tier the person chose to propose, and the only packages that fit it."""
+        target = self.target_tiers.get(sponsor.lower())
+        if not target or target not in TIER_PACKAGES:
+            return None
+        move = ("same tier" if target == current else
+                "move up" if TIERS.index(target) > TIERS.index(current) else "move down")
+        in_person, virtual = TIER_PACKAGES[target]
+        return {"current_tier": current, "target_tier": target, "move": move,
+                "packages": {"in_person_or_hybrid": in_person, "virtual": virtual},
+                "rule": f"Recommend only {in_person} (in-person or hybrid events) and/or {virtual} (virtual "
+                        f"events): the {target} tier the sponsorship manager chose. Explain the tier move."}
 
     def search(self, corpus: str, query: str) -> dict:
         self._count(f"search_{corpus}")
@@ -204,7 +224,8 @@ class RenewalWorkspace:
         packs = [{**{k: v for k, v in vars(p).items() if k != "review"},
                   "review": p.review.model_dump() if p.review else None} for p in self.packs.values()]
         return _clean({"packs": packs, "sources": [vars(s) for s in self.sources()], "calls": dict(self.calls),
-                       "max_sponsors": self.max_sponsors, "allowed": self.allowed})
+                       "max_sponsors": self.max_sponsors, "allowed": self.allowed,
+                       "target_tiers": self.target_tiers})
 
     def restore(self, snapshot: dict) -> None:
         from core.rag.agent_tools import Source
@@ -218,6 +239,7 @@ class RenewalWorkspace:
         self.calls = Counter(snapshot.get("calls", {}))
         self.max_sponsors = snapshot.get("max_sponsors", self.max_sponsors)
         self.allowed = snapshot.get("allowed", self.allowed)
+        self.target_tiers = snapshot.get("target_tiers", self.target_tiers)
 
     def _isolated(self, func):
         """An unexpected error in one tool fails that sponsor only: the agent gets the error and moves on.
@@ -330,4 +352,13 @@ def review_pack(markdown: str, facts: dict, sources: list, skill: Skill, sponsor
     checks = [PackCheck(label=label, ok=ok, detail=detail) for label, (ok, detail) in zip(labels, results)]
     checks.append(PackCheck(label="Citations point to retrieved passages", ok=not bad_citations,
                             detail=f"Unknown: {', '.join(bad_citations)}" if bad_citations else ""))
+    if target := facts.get("renewal_target"):
+        fits = set(target["packages"].values())
+        offered = [n for n in named if n in ALL_PACKAGES]
+        wrong = [n for n in offered if n not in fits]
+        ok = bool(offered) and not wrong
+        detail = ("" if ok else f"{', '.join(wrong)} is not a {target['target_tier']} package (use "
+                  f"{' or '.join(sorted(fits))})" if wrong else "No package is named in bold under Recommended package")
+        checks.append(PackCheck(label=f"Recommended package fits the chosen {target['target_tier']} tier", ok=ok,
+                                detail=detail))
     return Review(sponsor=sponsor, passed=all(c.ok for c in checks), checks=checks)

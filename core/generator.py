@@ -90,6 +90,8 @@ _PACKAGE = {"platinum": "Title Sponsor", "gold": "Premier Booth",
             "silver": "Standard Booth", "bronze": "Exhibitor Table"}
 _VIRTUAL_PACKAGE = {"platinum": "Digital Premier", "gold": "Digital Premier",
                     "silver": "Virtual Booth", "bronze": "Virtual Booth"}
+# The packages each sponsor tier buys: (in-person or hybrid, virtual). The renewal desk proposes tier moves with it.
+TIER_PACKAGES = {tier: (_PACKAGE[tier], _VIRTUAL_PACKAGE[tier]) for tier in _PACKAGE}
 _PACKAGE_LEADS = {"Title Sponsor": 220, "Premier Booth": 140, "Standard Booth": 80,
                   "Exhibitor Table": 40, "Digital Premier": 160, "Virtual Booth": 70}
 _LEAD_SOURCES = {"in-person": (("booth", "demo"), (0.65, 0.35)),
